@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 202c1603e0ac8c3438f72e44cc9dbcf5, type: 3}
   m_Name: MovementConfig
   m_EditorClassIdentifier: 
-  moveSpeedMin: 5
-  moveSpeedMax: 10
-  acceleration: 2
-  deceleration: 2
-  jumpForce: 5
+  moveSpeedMin: 3
+  moveSpeedMax: 6
+  acceleration: 3
+  jumpHeight: 2.9
+  gravityForce: 32.9
+  jumpMovementScale: 0.768
