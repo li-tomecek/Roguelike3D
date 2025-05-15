@@ -7,73 +7,85 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController _controller;
     [SerializeField] private MovementConfig _movementConfig;
-
     [SerializeField] Follower _follower;
 
     private float _speed;
+    private bool _isGrounded;
     private Vector3 _directionalInput;
     private Vector3 _movementVector;
-    private bool _isGrounded;
 
-    void Start()
+    void Awake()
     {
         _controller = gameObject.GetComponent<CharacterController>();
         IsGrounded();
         
-        if(_follower)
-            _follower.SetFollowPoint(transform.Find("FollowerPoint"));
+        _follower?.SetFollowPoint(transform.Find("FollowerPoint"));
+    }
 
+    private void OnEnable()
+    {
+        if (InputController.Instance != null)
+        {
+            InputController.Instance.MoveEvent += HandleMoveInput;
+            InputController.Instance.JumpEvent += HandleJump;
+        }
+    }
+
+    private void HandleMoveInput(Vector2 input)
+    {
+        _directionalInput.x = input.x;
+        _directionalInput.z = input.y;      //need the z just to avoid having to use a whole new vector for rotations
+
+        _directionalInput.Normalize();
+    }
+
+    private void HandleJump()
+    {
+        if (IsGrounded())
+        {
+            _movementVector.y = Mathf.Sqrt(_movementConfig.jumpHeight * 2f * _movementConfig.gravityForce);   //v_0 = sqrt(2 * gravity * height)
+            _isGrounded = false;
+        }
     }
 
     void Update()
     {
-        //TODO: look into global input handler and imput maps when you regain access to D2L (instead of handling player input in this script)
-        _directionalInput.x = Input.GetAxis("Horizontal");
-        _directionalInput.z = Input.GetAxis("Vertical");
-
-        //Look in the direction of the _directionalAxis vector and adjust the movement speed
+        //1. Set Movement Speed and Direction
         if (_directionalInput == Vector3.zero) 
         {
             _speed = 0f;
         }
         else
         {
-            transform.rotation = Quaternion.LookRotation(_directionalInput.normalized, Vector3.up); 
+            transform.rotation = Quaternion.LookRotation(_directionalInput.normalized, Vector3.up);     //rotate player
 
             if (_speed == 0)
             {
                 _speed = _movementConfig.moveSpeedMin;
-
-                if (_follower)
-                    _follower.StartCoroutine(_follower.StartFollowing());
+                
+                _follower?.StartCoroutine(_follower.StartFollowing());      //follower starts moving after you do
             }
             else
                 _speed = Mathf.Min(_speed + (_movementConfig.acceleration * Time.deltaTime), _movementConfig.moveSpeedMax);
-
-            _directionalInput *= _speed;
         }
+        
+        _movementVector.x = _directionalInput.x * _speed;
+        _movementVector.z = _directionalInput.z * _speed;
     
 
-        // Check for Jump
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
-            _movementVector.y = Mathf.Sqrt(_movementConfig.jumpHeight * 2f * _movementConfig.gravityForce);   //v_0 = sqrt(2 * gravity * height)
-            _isGrounded = false;
-        }
-
+        //2. Handle Jump
         if (!_isGrounded)
         {
-            _directionalInput *= _movementConfig.jumpMovementScale;
-            _movementVector.y -= _movementConfig.gravityForce * Time.deltaTime;   // continuously add to gravitational acceleration until unit is grounded
+            _movementVector.x *= _movementConfig.jumpMovementScale;                 //damp directional movement
+            _movementVector.z *= _movementConfig.jumpMovementScale;
+           
+            _movementVector.y -= _movementConfig.gravityForce * Time.deltaTime;     // continuously add to gravitational acceleration until unit is grounded
             
-            if (_movementVector.y < 0 && IsGrounded())  // only check for grounded condition after player starts falling again
+            if (_movementVector.y < 0 && IsGrounded())                              // Ground check after player starts falling again
                 _movementVector.y = 0f;
         } 
 
-        //Move in desired direction
-        _movementVector.x = _directionalInput.x;
-        _movementVector.z = _directionalInput.z;
-
+        //3. Move Character
         _controller.Move(_movementVector * Time.deltaTime);
     }
 
@@ -81,10 +93,5 @@ public class PlayerMovement : MonoBehaviour
     {
         _isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
         return _isGrounded;
-    }
-
-    public Vector3 getMovementVector()
-    {
-        return _movementVector;
     }
 }

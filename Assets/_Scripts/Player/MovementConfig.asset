@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MovementConfig
   m_EditorClassIdentifier: 
   moveSpeedMin: 3
-  moveSpeedMax: 7.1
-  acceleration: 2.1
-  jumpHeight: 3.4
+  moveSpeedMax: 7
+  acceleration: 3
+  jumpHeight: 4.3
   gravityForce: 32.9
-  jumpMovementScale: 0.779
+  jumpMovementScale: 0.658
