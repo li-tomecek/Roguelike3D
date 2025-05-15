@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _controller;
     [SerializeField] private MovementConfig _movementConfig;
     [SerializeField] Follower _follower;
-
+    [SerializeField] private bool _isControllable;              //is this the 
     private float _speed;
     private bool _isGrounded;
     private Vector3 _directionalInput;
@@ -24,22 +24,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        if (InputController.Instance != null)
+        if (_isControllable && InputController.Instance != null)
         {
-            InputController.Instance.MoveEvent += HandleMoveInput;
-            InputController.Instance.JumpEvent += HandleJump;
+            //InputController.Instance.MoveEvent += HandleMoveInput;
+            //InputController.Instance.JumpEvent += HandleJump;
         }
     }
 
-    private void HandleMoveInput(Vector2 input)
-    {
-        _directionalInput.x = input.x;
-        _directionalInput.z = input.y;      //need the z just to avoid having to use a whole new vector for rotations
+    // private void HandleMoveInput(Vector2 input)
+            // {
+            //     _directionalInput.x = input.x;
+            //     _directionalInput.z = input.y;      //need the z just to avoid having to use a whole new vector for rotations
+            //
+            //     _directionalInput.Normalize();
+            // }
 
-        _directionalInput.Normalize();
-    }
-
-    private void HandleJump()
+    public void HandleJump()
     {
         if (IsGrounded())
         {
@@ -93,5 +93,19 @@ public class PlayerMovement : MonoBehaviour
     {
         _isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
         return _isGrounded;
+    }
+
+    public void SetDirectionalInput(Vector2 directionalInput)
+    {
+        _directionalInput.x = directionalInput.x;
+        _directionalInput.z = directionalInput.y;
+        
+        _directionalInput.Normalize();
+    }
+
+    public void SetDirectionalInput(Vector3 directionalInput)
+    {
+        _directionalInput = directionalInput.normalized;
+        _directionalInput.y = 0f;
     }
 }

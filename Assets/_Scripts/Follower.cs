@@ -42,6 +42,8 @@ public class Follower : MonoBehaviour
             //face the unit in front
             _followRotation.x = (_followPoint.position.x - transform.position.x);
             _followRotation.z = (_followPoint.position.z - transform.position.z);
+            
+            _followPoint.position = new Vector3(_followPoint.position.x, transform.position.y, _followPoint.position.z); //temporary, to avoid having the follower jump.
 
             if(_followRotation != Vector3.zero)
                 transform.rotation = Quaternion.LookRotation(_followRotation);
