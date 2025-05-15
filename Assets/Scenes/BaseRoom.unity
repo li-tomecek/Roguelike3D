@@ -3013,7 +3013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _follower: {fileID: 0}
-  _followDelay: 0.25
+  _followDelay: 0
 --- !u!1001 &1332755837
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3834,7 +3834,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _follower: {fileID: 1308390296}
-  _followDelay: 0.25
+  _followDelay: 0
 --- !u!1001 &1677973527
 PrefabInstance:
   m_ObjectHideFlags: 0

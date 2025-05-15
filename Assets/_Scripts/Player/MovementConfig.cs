@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MovementConfig", menuName = "Scriptable Objects/Player/MovementConfig")]
 public class MovementConfig : ScriptableObject
 {
-    [Header("Movement")]
+    //[Header("Movement")]
     [Range(0.0f, 50.0f)]
     public float
         moveSpeedMin,  //base movement speed
@@ -11,7 +11,7 @@ public class MovementConfig : ScriptableObject
         acceleration;  //how much the speed increases per second
 
 
-    [Header("Jumping")]
+    //[Header("Jumping")]
     [Range(0.0f, 50.0f)]
     public float
        jumpHeight,
