@@ -22,23 +22,6 @@ public class PlayerMovement : MonoBehaviour
         _follower?.SetFollowPoint(transform.Find("FollowerPoint"));
     }
 
-    private void OnEnable()
-    {
-        if (_isControllable && InputController.Instance != null)
-        {
-            //InputController.Instance.MoveEvent += HandleMoveInput;
-            //InputController.Instance.JumpEvent += HandleJump;
-        }
-    }
-
-    // private void HandleMoveInput(Vector2 input)
-            // {
-            //     _directionalInput.x = input.x;
-            //     _directionalInput.z = input.y;      //need the z just to avoid having to use a whole new vector for rotations
-            //
-            //     _directionalInput.Normalize();
-            // }
-
     public void HandleJump()
     {
         if (IsGrounded())
