@@ -18,3 +18,4 @@ MonoBehaviour:
   jumpHeight: 2.9
   gravityForce: 32.9
   jumpMovementScale: 0.768
+  followerSpeed: 21.2

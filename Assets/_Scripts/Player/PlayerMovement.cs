@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _controller;
     [SerializeField] private MovementConfig _movementConfig;
 
+    [SerializeField] Follower _follower;
+
     private float _speed;
     private Vector3 _directionalInput;
     private Vector3 _movementVector;
@@ -17,11 +19,14 @@ public class PlayerMovement : MonoBehaviour
     {
         _controller = gameObject.GetComponent<CharacterController>();
         IsGrounded();
+        
+        if(_follower)
+            _follower.SetFollowPoint(transform.Find("FollowerPoint"));
+
     }
 
     void Update()
     {
-
         //TODO: look into global input handler and imput maps when you regain access to D2L (instead of handling player input in this script)
         _directionalInput.x = Input.GetAxis("Horizontal");
         _directionalInput.z = Input.GetAxis("Vertical");
@@ -36,7 +41,12 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(_directionalInput.normalized, Vector3.up); 
 
             if (_speed == 0)
+            {
                 _speed = _movementConfig.moveSpeedMin;
+
+                if (_follower)
+                    _follower.StartCoroutine(_follower.StartFollowing());
+            }
             else
                 _speed = Mathf.Min(_speed + (_movementConfig.acceleration * Time.deltaTime), _movementConfig.moveSpeedMax);
 
@@ -71,5 +81,10 @@ public class PlayerMovement : MonoBehaviour
     {
         _isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
         return _isGrounded;
+    }
+
+    public Vector3 getMovementVector()
+    {
+        return _movementVector;
     }
 }
