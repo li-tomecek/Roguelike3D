@@ -6,7 +6,6 @@ public class PartyManager : MonoBehaviour
 {
     [SerializeField] private List<PlayerMovement> _partyMovement = new List<PlayerMovement>();
     [SerializeField] private float _jumpDelay;
-
     private bool _following = false;
     private void OnEnable()
     {
