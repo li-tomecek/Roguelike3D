@@ -7,8 +7,6 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController _controller;
     [SerializeField] private MovementConfig _movementConfig;
-    [SerializeField] Follower _follower;
-    [SerializeField] private bool _isControllable;              //is this the 
     private float _speed;
     private bool _isGrounded;
     private Vector3 _directionalInput;
@@ -18,8 +16,6 @@ public class PlayerMovement : MonoBehaviour
     {
         _controller = gameObject.GetComponent<CharacterController>();
         IsGrounded();
-        
-        _follower?.SetFollowPoint(transform.Find("FollowerPoint"));
     }
 
     public void HandleJump()
@@ -46,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 _speed = _movementConfig.moveSpeedMin;
                 
-                _follower?.StartCoroutine(_follower.StartFollowing());      //follower starts moving after you do
             }
             else
                 _speed = Mathf.Min(_speed + (_movementConfig.acceleration * Time.deltaTime), _movementConfig.moveSpeedMax);
