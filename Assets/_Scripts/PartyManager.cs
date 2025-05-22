@@ -13,6 +13,8 @@ public class PartyManager : MonoBehaviour
         {   
             gameObject.GetComponent<InputController>().MoveEvent += HandleMoveInput;
             gameObject.GetComponent<InputController>().JumpEvent += HandleJump;
+            
+            gameObject.GetComponent<InputController>().AttackEvent += FireProjectile;
         }
     }
 
@@ -58,6 +60,13 @@ public class PartyManager : MonoBehaviour
             yield return new WaitForSeconds(_jumpDelay);
 
         }
+    }
+
+    private void FireProjectile()
+    {
+        // (temp) fire a projectile
+        //Debug.Log("Cast a fireball");
+
     }
     
     

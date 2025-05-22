@@ -10,6 +10,7 @@ public class InputController : MonoBehaviour
     //PLAYER CONTROLS
     public event Action<Vector2> MoveEvent;
     public event Action JumpEvent;
+    public event Action AttackEvent;
     void Awake()
     {
         if (Instance == null)
@@ -30,9 +31,10 @@ public class InputController : MonoBehaviour
         _gameControls.Player.Move.performed += OnMovePerformed;
         _gameControls.Player.Move.canceled += OnMoveCancelled;
         _gameControls.Player.Jump.performed += OnJumpPerformed;
+        _gameControls.Player.Attack.performed += OnAttackPerformed;
     }
 
-    // PLAYER CONTROLS
+    // PLAYER OVERWORLD CONTROLS
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
         MoveEvent?.Invoke(context.ReadValue<Vector2>());
@@ -45,5 +47,9 @@ public class InputController : MonoBehaviour
     private void OnJumpPerformed(InputAction.CallbackContext context)
     {
         JumpEvent?.Invoke();
+    }
+    private void OnAttackPerformed(InputAction.CallbackContext context)
+    {
+        AttackEvent?.Invoke();
     }
 }

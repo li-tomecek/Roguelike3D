@@ -5,7 +5,7 @@ public abstract class TurnManager : MonoBehaviour
 {
     protected virtual void StartTurn()
     {
-        // resolve and active effects
+        // resolve any active effects
     }
 
     protected virtual void EndTurn()
