@@ -10,18 +10,15 @@ public enum TargetMode
 [CreateAssetMenu(fileName = "Skill", menuName = "Scriptable Objects/Skill")]
 public class Skill : ScriptableObject
 {
-    public string name;
-    public string description;
+    protected string name;
+    protected string description;
     
-    public int cost;
-    public TargetMode targetMode;
-
-    public int strength;            //how "effective" this skill is
-    public float accuracy;          // btwn 0 and 1
+    protected int cost;
+    protected TargetMode targetMode;
     
     //public List<Skill> upgrades = new List<Skill> ();
     //public Effect effect
-    private void Perform(UnitStatus target)
+     protected virtual void UseSkill(UnitStatus target)
     {
         //check accuracy
 

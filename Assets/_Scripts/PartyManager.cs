@@ -66,7 +66,6 @@ public class PartyManager : MonoBehaviour
     {
         // (temp) fire a projectile
         //Debug.Log("Cast a fireball");
-
     }
     
     
