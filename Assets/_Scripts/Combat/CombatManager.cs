@@ -47,7 +47,14 @@ public class CombatManager : MonoBehaviour
 
         public void NextTurn()
         {
-                _turnIndex++;
+                if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
+                {
+                        Debug.Log("Combat Finished.");
+                        CameraController.Instance.ToggleCombatCamera();
+                        return;
+                }
+                _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
+                Debug.Log("Turn: " + _turnIndex);
                 _combatSequence[_turnIndex].GetTurnManager().StartTurn();
         }
         
@@ -57,13 +64,30 @@ public class CombatManager : MonoBehaviour
                 
                 for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
                 {
-                        _playerUnits[i].gameObject.transform.position = _playerCombatPositions[i].position;
+                        _playerUnits[i].gameObject.transform.position = _playerCombatPositions[i].transform.position;
                 }
                 
                 for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
                 {
-                        _enemyUnits[i].gameObject.transform.position = _enemyCombatPositions[i].position;
+                        _enemyUnits[i].gameObject.transform.position = _enemyCombatPositions[i].transform.position;
                 }
         }
-        
+
+        public Unit GetRandomPlayerUnit()
+        {
+                return _playerUnits[Random.Range( 0, _playerUnits.Count)];
+        }
+
+        public Unit GetRandomEnemyUnit()
+        {
+                return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
+        }
+
+        public void RemoveFromCombat(Unit unit)
+        {
+                if(_playerUnits.Contains(unit))
+                        _playerUnits.Remove(unit);
+                else if (_enemyUnits.Contains(unit))
+                        _enemyUnits.Remove(unit);
+        }
 }

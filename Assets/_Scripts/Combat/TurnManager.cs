@@ -13,7 +13,7 @@ public class TurnManager
     public void StartTurn()
     {
         // resolve any active effects
-        _unit.UseDefaultSkill();        //temporary
+        _unit.UseDefaultSkill(CombatManager.Instance.GetRandomPlayerUnit());        //temporary!!
         EndTurn();
     }
 

@@ -12,7 +12,7 @@ public class CombatTrigger : MonoBehaviour
             CameraController.Instance.ToggleCombatCamera();
             _triggered = true;      //alternatively, just delete the trigger
 
-            gameObject.GetComponent<CombatManager>().BeginBattle();
+           CombatManager.Instance.BeginBattle();
         }
     }
 }
