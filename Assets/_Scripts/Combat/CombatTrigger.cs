@@ -1,13 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatTrigger : MonoBehaviour
 {
+    private bool _triggered;
+    
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (!_triggered && other.gameObject.tag == "Player")
         {
             CameraController.Instance.ToggleCombatCamera();
-            //Debug.Log("Battle Start");
+            _triggered = true;      //alternatively, just delete the trigger
+
+            gameObject.GetComponent<CombatManager>().BeginBattle();
         }
     }
 }

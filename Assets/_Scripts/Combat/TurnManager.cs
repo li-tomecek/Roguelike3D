@@ -1,15 +1,25 @@
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public abstract class TurnManager : MonoBehaviour
+public class TurnManager
 {
-    protected virtual void StartTurn()
+    private Unit _unit;
+
+    public TurnManager(Unit unit)
     {
-        // resolve any active effects
+        _unit = unit;
     }
 
-    protected virtual void EndTurn()
+    public void StartTurn()
     {
-        // go to next turn in sequence
+        // resolve any active effects
+        _unit.UseDefaultSkill();        //temporary
+        EndTurn();
     }
+
+    public void EndTurn()
+    {
+        CombatManager.Instance.NextTurn();
+    }
+    
 }

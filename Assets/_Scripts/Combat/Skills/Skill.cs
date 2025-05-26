@@ -18,7 +18,7 @@ public class Skill : ScriptableObject
     
     //public List<Skill> upgrades = new List<Skill> ();
     //public Effect effect
-     protected virtual void UseSkill(UnitStatus target)
+    public virtual void UseSkill(Unit target)
     {
         //check accuracy
 

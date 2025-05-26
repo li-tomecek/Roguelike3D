@@ -34,4 +34,18 @@ public class CameraController : MonoBehaviour
             _combatCamera.enabled = false;
         }
     }
+    
+    public void EnableCombatCamera()
+    {
+        _topDownCamera.enabled = false;
+        _combatCamera.enabled = true;
+        Debug.Log("combat on");
+    }
+    
+    public void DisableCombatCamera()
+    {
+        Debug.Log("combat off"); 
+        _topDownCamera.enabled = true; 
+        _combatCamera.enabled = false;
+    }
 }

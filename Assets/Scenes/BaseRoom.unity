@@ -6210,7 +6210,6 @@ GameObject:
   - component: {fileID: 6752532343671852620}
   - component: {fileID: 8514151261874640215}
   - component: {fileID: 9136037261554832184}
-  - component: {fileID: 9136037261554832186}
   - component: {fileID: 9136037261554832185}
   m_Layer: 7
   m_Name: Enemy
@@ -6357,18 +6356,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9136037261554832186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8747403398042530484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79dcea70f720ad74e8d6344fb50bbc8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
