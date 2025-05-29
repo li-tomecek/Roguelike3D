@@ -4157,6 +4157,7 @@ MonoBehaviour:
   - {fileID: 576914380}
   - {fileID: 1796797571}
   - {fileID: 286855451}
+  _travelSpeed: 4
   _playerUnits:
   - {fileID: 6550382094367805458}
   - {fileID: 1322328538}
@@ -6035,9 +6036,9 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 407850022}
   - {fileID: 1348580576}
+  - {fileID: 1429029263}
   - {fileID: 4226294300961792155}
   - {fileID: 482292097}
   - {fileID: 1391629001}
   - {fileID: 963499475}
   - {fileID: 259351255}
-  - {fileID: 1429029263}

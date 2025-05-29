@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class CombatManager : MonoBehaviour
         
         [SerializeField] private List<Transform> _playerCombatPositions;
         [SerializeField] private List<Transform> _enemyCombatPositions;
+        [SerializeField] private float _travelSpeed = 4f;
         
         [SerializeField] private List<Unit> _playerUnits;
         [SerializeField] private List<Unit> _enemyUnits;
@@ -39,7 +41,7 @@ public class CombatManager : MonoBehaviour
             _inCombat = true;
             InputController.Instance.ActivateMenuMap();
 
-            SendUnitsToPosition();      //ToDo: make this into a coroutine so the units actually "walk" there
+            StartCoroutine(SendUnitsToPosition());      //ToDo: make this into a coroutine so the units actually "walk" there
                 
                 _combatSequence.Clear();
                 _combatSequence.AddRange(_playerUnits);
@@ -48,7 +50,7 @@ public class CombatManager : MonoBehaviour
                 _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();           //.ToList();
 
                 _turnIndex = -1;
-                NextTurn();
+                //NextTurn();
         }
 
         public void NextTurn()
@@ -67,19 +69,37 @@ public class CombatManager : MonoBehaviour
                 _combatSequence[_turnIndex].GetTurnManager().StartTurn();
         }
         
-        private void SendUnitsToPosition()
+        private IEnumerator SendUnitsToPosition()
         {
-                //TODO: change to some kind of translation so it looks like the units are walking into position
-                
-                for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
+                bool finished = false;
+                while (!finished)
                 {
-                    _playerUnits[i].gameObject.transform.position =  _playerCombatPositions[i].position;
-                }
+                        finished = true;
+                        for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
+                        { 
+                                if (_playerUnits[i].gameObject.transform.position != _playerCombatPositions[i].position)
+                                {
+                                        _playerUnits[i].gameObject.transform.position = Vector3.MoveTowards(_playerUnits[i].transform.position,_playerCombatPositions[i].position,_travelSpeed * Time.deltaTime);
+                                        _playerUnits[i].transform.LookAt(_playerCombatPositions[i].position);
+                                        finished = false;
+                                } else
+                                        _playerUnits[i].transform.LookAt(_enemyCombatPositions[1].position);    //may want to change the look target
+                        }
                 
-                for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
-                {
-                     _enemyUnits[i].gameObject.transform.position = _enemyCombatPositions[i].position;
-                }
+                        for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
+                        {
+                                if (_enemyUnits[i].gameObject.transform.position != _enemyCombatPositions[i].position)
+                                {
+                                        _enemyUnits[i].gameObject.transform.position = Vector3.MoveTowards(_enemyUnits[i].transform.position,_enemyCombatPositions[i].position,_travelSpeed * Time.deltaTime);
+                                        _enemyUnits[i].transform.LookAt(_enemyCombatPositions[i].position);
+                                        finished = false;
+                                } else
+                                        _enemyUnits[i].transform.LookAt(_playerCombatPositions[1].position);    //may want to change the look target
+                        } 
+                        
+                        yield return 0;
+                }   
+                NextTurn();
         }
 
         public Unit GetRandomPlayerUnit()
