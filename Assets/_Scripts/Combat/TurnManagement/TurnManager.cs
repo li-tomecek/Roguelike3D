@@ -1,0 +1,19 @@
+public class TurnManager
+{
+    protected Unit unit;
+    public TurnManager(Unit unit)
+    {
+        this.unit = unit;
+    }
+
+    public virtual void StartTurn()
+    {
+        //ToDo: resolve any active effects
+    }
+
+    public virtual void EndTurn()
+    {
+        CombatManager.Instance.NextTurn();
+    }
+
+}

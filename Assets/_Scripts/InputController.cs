@@ -18,8 +18,10 @@ public class InputController : MonoBehaviour
 
     //MENU CONTROLS
     public event Action<Vector2> NavigateEvent;     //menu selections
-    public event Action SubmitEvent;
-    public event Action CancelEvent;
+    //public event Action SubmitEvent;
+    //public event Action CancelEvent;
+    public UnityEvent SubmitEvent;        //If I want to use listeners instead
+    public UnityEvent CancelEvent;
 
     void Awake()
     {
@@ -70,7 +72,8 @@ public class InputController : MonoBehaviour
 
 
     // MENU NAVIGATION CONTROLS
-    public void ReAssignSubmitEvent(Action newFunction)
+    
+    /*public void ReAssignSubmitEvent(Action newFunction)
     {
         SubmitEvent = newFunction;
     }
@@ -82,7 +85,7 @@ public class InputController : MonoBehaviour
     {
         SubmitEvent = confirm;
         CancelEvent = back;
-    }
+    }*/
 
     private void OnSubmitPerformed(InputAction.CallbackContext context) { SubmitEvent?.Invoke(); }
     private void OnCancelPerformed(InputAction.CallbackContext context) { CancelEvent?.Invoke(); }

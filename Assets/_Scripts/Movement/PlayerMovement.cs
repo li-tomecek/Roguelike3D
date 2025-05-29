@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (CombatManager.Instance._inCombat)
+        if (CombatManager.Instance.InCombat())
             return;
 
         //1. Set Movement Speed and Direction

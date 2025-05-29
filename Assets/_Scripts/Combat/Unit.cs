@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public struct Stats
@@ -10,36 +11,35 @@ public struct Stats
 
 public class Unit : MonoBehaviour
 {
+    [FormerlySerializedAs("_stats")]
     [Header("Combat")]
     //Stats
-    [SerializeField] protected Stats _stats; 
-    [SerializeField] protected Stats _modifiers; 
+    [SerializeField] protected Stats stats; 
+    [SerializeField] protected Stats modifiers; 
     protected int _health;
 
     //Skills
-    [SerializeField] protected List<Skill> _skills = new List<Skill>();
-    [SerializeField] protected Skill _defaultSkill;
+    [SerializeField] protected List<Skill> skills = new List<Skill>();
+    [SerializeField] protected Skill defaultSkill;
     
     //Effects
     //private List<Effect> _activeEffects = new List<Effect>();
     
-    private TurnManager _turnManager;
+    protected TurnManager turnManager;
     
     //----------------------------------------------------
     //---------------------------------------------------
 
-    private void Start()
+    protected virtual void Start()
     {
-        _turnManager = new TurnManager(this);
-        _health = _stats.maxHealth;
+        _health = stats.maxHealth;
     }
-    
     
     
     // --- Combat Methods ---
     public void UseDefaultSkill(Unit target)
     {
-        _defaultSkill.UseSkill(target);
+        defaultSkill.UseSkill(target);
     }
 
     public void TakeDamage(int damage)
@@ -51,13 +51,14 @@ public class Unit : MonoBehaviour
         {
             Debug.Log($"{name} is Dead.");
             CombatManager.Instance.RemoveFromCombat(this);
+            //Destroy(this.gameObject);   //temp
         }
     }
     
     
     
     // --- Getters / Setters ---
-    public Stats GetStats() { return _stats; }
-    public TurnManager GetTurnManager() { return _turnManager; }
+    public Stats GetStats() { return stats; }
+    public virtual TurnManager GetTurnManager() { return turnManager; }
 
 }

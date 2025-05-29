@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class CombatManager : MonoBehaviour
@@ -13,11 +14,10 @@ public class CombatManager : MonoBehaviour
         [SerializeField] private List<Unit> _playerUnits;
         [SerializeField] private List<Unit> _enemyUnits;
         
-        //LinkedList for combat sequence?
         private List<Unit> _combatSequence = new List<Unit>();
+        
         private int _turnIndex;
-
-        public bool _inCombat = false;
+        private bool _inCombat = false;
         //---------------------------------------------------
         //---------------------------------------------------
     
@@ -84,7 +84,7 @@ public class CombatManager : MonoBehaviour
 
         public Unit GetRandomPlayerUnit()
         {
-                return _playerUnits[Random.Range( 0, _playerUnits.Count)];
+                return _playerUnits[Random.Range(0, _playerUnits.Count)];
         }
 
         public Unit GetRandomEnemyUnit()
@@ -94,9 +94,17 @@ public class CombatManager : MonoBehaviour
 
         public void RemoveFromCombat(Unit unit)
         {
-                if(_playerUnits.Contains(unit))
+                if (_playerUnits.Contains(unit))
+                {
                         _playerUnits.Remove(unit);
+                        _combatSequence.Remove(unit);
+                }
                 else if (_enemyUnits.Contains(unit))
+                {
                         _enemyUnits.Remove(unit);
+                        _combatSequence.Remove(unit);
+                }
         }
+
+        public bool InCombat() { return _inCombat; }
 }
