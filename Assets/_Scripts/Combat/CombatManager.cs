@@ -45,7 +45,7 @@ public class CombatManager : MonoBehaviour
                 _combatSequence.AddRange(_playerUnits);
                 _combatSequence.AddRange(_enemyUnits);
 
-                _combatSequence.OrderByDescending(x => x.GetStats().agility);           //.ToList();
+                _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();           //.ToList();
 
                 _turnIndex = -1;
                 NextTurn();
@@ -63,7 +63,7 @@ public class CombatManager : MonoBehaviour
                     return;
                 }
                 _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
-                Debug.Log("Turn: " + _turnIndex);
+                Debug.Log($"--- {_combatSequence[_turnIndex].name}'s Turn --- ");
                 _combatSequence[_turnIndex].GetTurnManager().StartTurn();
         }
         

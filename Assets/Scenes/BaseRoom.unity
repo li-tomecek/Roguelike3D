@@ -6559,7 +6559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats:
-    maxHealth: 0
+    maxHealth: 20
     attack: 6
     defense: 3
     agility: 3

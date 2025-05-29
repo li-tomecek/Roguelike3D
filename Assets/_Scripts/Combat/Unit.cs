@@ -49,6 +49,7 @@ public class Unit : MonoBehaviour
 
         if (_health <= 0)
         {
+            Debug.Log($"{name} is Dead.");
             CombatManager.Instance.RemoveFromCombat(this);
         }
     }
