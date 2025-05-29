@@ -2083,6 +2083,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3537792449865722905, guid: f96442df40a0bf74bbd6431cf2ee05d9, type: 3}
   m_PrefabInstance: {fileID: 546663475}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &576914379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 576914380}
+  m_Layer: 0
+  m_Name: EnemyPosition_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &576914380
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 576914379}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.4299998, y: 2.67, z: 2.44}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1429029263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &588289345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3824,13 +3855,15 @@ MonoBehaviour:
   - {fileID: 512308701}
   - {fileID: 650800313}
   - {fileID: 1845505591}
-  _enemyCombatPositions: []
+  _enemyCombatPositions:
+  - {fileID: 576914380}
   _playerUnits:
   - {fileID: 6550382094367805458}
   - {fileID: 9046910905802047813}
   - {fileID: 9046910906403289629}
   _enemyUnits:
   - {fileID: 9136037261554832186}
+  _inCombat: 0
 --- !u!4 &1429029263
 Transform:
   m_ObjectHideFlags: 0
@@ -3848,6 +3881,7 @@ Transform:
   - {fileID: 512308701}
   - {fileID: 650800313}
   - {fileID: 1845505591}
+  - {fileID: 576914380}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1463619731

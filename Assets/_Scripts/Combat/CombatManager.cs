@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 public class CombatManager : MonoBehaviour
 {
         public static CombatManager Instance;
@@ -36,6 +37,8 @@ public class CombatManager : MonoBehaviour
         public void BeginBattle()
         {
             _inCombat = true;
+            InputController.Instance.ActivateMenuMap();
+
             SendUnitsToPosition();      //ToDo: make this into a coroutine so the units actually "walk" there
                 
                 _combatSequence.Clear();
@@ -52,10 +55,12 @@ public class CombatManager : MonoBehaviour
         {
                 if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
                 {
-                        Debug.Log("Combat Finished.");
-                        CameraController.Instance.ToggleCombatCamera();
-                        _inCombat = false;
-                        return;
+                    Debug.Log("Combat Finished.");
+                    CameraController.Instance.ToggleCombatCamera();
+                    _inCombat = false;
+                    InputController.Instance.ActivateMovementMap();
+
+                    return;
                 }
                 _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
                 Debug.Log("Turn: " + _turnIndex);
@@ -68,7 +73,6 @@ public class CombatManager : MonoBehaviour
                 
                 for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
                 {
-                    //Debug.Log($"Moving {_playerUnits[i].gameObject.name} at pos [{_playerUnits[i].gameObject.transform.position}] to position [{_playerCombatPositions[i].position}]");
                     _playerUnits[i].gameObject.transform.position =  _playerCombatPositions[i].position;
                 }
                 
