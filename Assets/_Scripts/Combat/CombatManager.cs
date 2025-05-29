@@ -15,6 +15,8 @@ public class CombatManager : MonoBehaviour
         //LinkedList for combat sequence?
         private List<Unit> _combatSequence = new List<Unit>();
         private int _turnIndex;
+
+        public bool _inCombat = false;
         //----------------------------------------------------
         //---------------------------------------------------
     
@@ -33,7 +35,8 @@ public class CombatManager : MonoBehaviour
         // --- Combat Methods ---
         public void BeginBattle()
         {
-                SendUnitsToPosition();
+            _inCombat = true;
+            SendUnitsToPosition();      //ToDo: make this into a coroutine so the units actually "walk" there
                 
                 _combatSequence.Clear();
                 _combatSequence.AddRange(_playerUnits);
@@ -51,6 +54,7 @@ public class CombatManager : MonoBehaviour
                 {
                         Debug.Log("Combat Finished.");
                         CameraController.Instance.ToggleCombatCamera();
+                        _inCombat = false;
                         return;
                 }
                 _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
@@ -64,12 +68,13 @@ public class CombatManager : MonoBehaviour
                 
                 for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
                 {
-                        _playerUnits[i].gameObject.transform.position = _playerCombatPositions[i].transform.position;
+                    //Debug.Log($"Moving {_playerUnits[i].gameObject.name} at pos [{_playerUnits[i].gameObject.transform.position}] to position [{_playerCombatPositions[i].position}]");
+                    _playerUnits[i].gameObject.transform.position =  _playerCombatPositions[i].position;
                 }
                 
                 for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
                 {
-                        _enemyUnits[i].gameObject.transform.position = _enemyCombatPositions[i].transform.position;
+                     _enemyUnits[i].gameObject.transform.position = _enemyCombatPositions[i].position;
                 }
         }
 

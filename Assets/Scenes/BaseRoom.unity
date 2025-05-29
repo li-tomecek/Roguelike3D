@@ -984,8 +984,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17999327, y: -0.34591332, z: 0.06779839, w: 0.9183408}
-  m_LocalPosition: {x: 11.986, y: -7.971, z: 8.724999}
+  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
+  m_LocalPosition: {x: 0, y: -0.67294216, z: 2.23283}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1996,7 +1996,7 @@ GameObject:
   m_Component:
   - component: {fileID: 512308701}
   m_Layer: 0
-  m_Name: PlayerPosition_3
+  m_Name: PlayerPosition_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2011,7 +2011,7 @@ Transform:
   m_GameObject: {fileID: 512308700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.24, y: 0, z: -3.49}
+  m_LocalPosition: {x: -1.81, y: 2.67, z: -3.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2159,7 +2159,7 @@ GameObject:
   m_Component:
   - component: {fileID: 650800313}
   m_Layer: 0
-  m_Name: PlayerPosition_1
+  m_Name: PlayerPosition_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2174,7 +2174,7 @@ Transform:
   m_GameObject: {fileID: 650800312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2.17}
+  m_LocalPosition: {x: 2.4299998, y: 2.67, z: -1.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3821,9 +3821,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCombatPositions:
+  - {fileID: 512308701}
   - {fileID: 650800313}
   - {fileID: 1845505591}
-  - {fileID: 512308701}
   _enemyCombatPositions: []
   _playerUnits:
   - {fileID: 6550382094367805458}
@@ -3845,9 +3845,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 725835418}
+  - {fileID: 512308701}
   - {fileID: 650800313}
   - {fileID: 1845505591}
-  - {fileID: 512308701}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1463619731
@@ -4599,7 +4599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1845505591}
   m_Layer: 0
-  m_Name: PlayerPosition_2
+  m_Name: PlayerPosition_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4614,7 +4614,7 @@ Transform:
   m_GameObject: {fileID: 1845505590}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.96, y: 0, z: -3.71}
+  m_LocalPosition: {x: 6.39, y: 2.67, z: -3.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6143,8 +6143,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8bf55854ceef540a2e6c054c7b61ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 4fcd7ceef47899040841184ce0057780, type: 2}
-  _modifiers: {fileID: 0}
+  _stats:
+    maxHealth: 20
+    attack: 5
+    defense: 5
+    agility: 4
+  _modifiers:
+    maxHealth: 0
+    attack: 0
+    defense: 0
+    agility: 0
   _skills: []
   _defaultSkill: {fileID: 11400000, guid: fdcadd6c50ce10e4597ddaae4cd6c7ed, type: 2}
 --- !u!33 &6752532343671852620
@@ -6447,8 +6455,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8bf55854ceef540a2e6c054c7b61ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 4fcd7ceef47899040841184ce0057780, type: 2}
-  _modifiers: {fileID: 0}
+  _stats:
+    maxHealth: 20
+    attack: 7
+    defense: 4
+    agility: 5
+  _modifiers:
+    maxHealth: 0
+    attack: 0
+    defense: 0
+    agility: 0
   _skills: []
   _defaultSkill: {fileID: 11400000, guid: fdcadd6c50ce10e4597ddaae4cd6c7ed, type: 2}
 --- !u!23 &9046910906403289628
@@ -6508,8 +6524,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8bf55854ceef540a2e6c054c7b61ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 4fcd7ceef47899040841184ce0057780, type: 2}
-  _modifiers: {fileID: 0}
+  _stats:
+    maxHealth: 0
+    attack: 6
+    defense: 3
+    agility: 3
+  _modifiers:
+    maxHealth: 0
+    attack: 0
+    defense: 0
+    agility: 0
   _skills: []
   _defaultSkill: {fileID: 11400000, guid: fdcadd6c50ce10e4597ddaae4cd6c7ed, type: 2}
 --- !u!136 &9136037261554832184
@@ -6572,8 +6596,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8bf55854ceef540a2e6c054c7b61ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _stats: {fileID: 11400000, guid: 720b5a03acb735644b0ff1eda4f731bc, type: 2}
-  _modifiers: {fileID: 0}
+  _stats:
+    maxHealth: 20
+    attack: 5
+    defense: 2
+    agility: 2
+  _modifiers:
+    maxHealth: 0
+    attack: 0
+    defense: 0
+    agility: 0
   _skills: []
   _defaultSkill: {fileID: 11400000, guid: fdcadd6c50ce10e4597ddaae4cd6c7ed, type: 2}
 --- !u!1660057539 &9223372036854775807

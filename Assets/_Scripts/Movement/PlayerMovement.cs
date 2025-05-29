@@ -18,17 +18,11 @@ public class PlayerMovement : MonoBehaviour
         IsGrounded();
     }
 
-    public void HandleJump()
-    {
-        if (IsGrounded())
-        {
-            _movementVector.y = Mathf.Sqrt(_movementConfig.jumpHeight * 2f * _movementConfig.gravityForce);   //v_0 = sqrt(2 * gravity * height)
-            _isGrounded = false;
-        }
-    }
-
     void Update()
     {
+        if (CombatManager.Instance._inCombat)
+            return;
+
         //1. Set Movement Speed and Direction
         if (_directionalInput == Vector3.zero) 
         {
@@ -65,6 +59,15 @@ public class PlayerMovement : MonoBehaviour
 
         //3. Move Character
         _controller.Move(_movementVector * Time.deltaTime);
+    }
+
+    public void HandleJump()
+    {
+        if (IsGrounded())
+        {
+            _movementVector.y = Mathf.Sqrt(_movementConfig.jumpHeight * 2f * _movementConfig.gravityForce);   //v_0 = sqrt(2 * gravity * height)
+            _isGrounded = false;
+        }
     }
 
     public bool IsGrounded()

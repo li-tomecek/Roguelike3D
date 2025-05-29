@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Stats", menuName = "Scriptable Objects/Unit/Stats")]
-public class Stats : ScriptableObject       //ToDo: expose regular struct instead of haveing a scriptable object
+[System.Serializable]
+public struct Stats
 {
     public int maxHealth;
     public int attack, defense, agility;

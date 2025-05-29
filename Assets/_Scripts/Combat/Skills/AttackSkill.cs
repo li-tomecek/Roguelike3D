@@ -18,6 +18,6 @@ public class AttackSkill : Skill
         
         //apply cost
 
-        Debug.Log(target.gameObject.name + " took " + _damage + "damage!");
+        Debug.Log(target.gameObject.name + " took " + _damage + " damage!");
     }
 }

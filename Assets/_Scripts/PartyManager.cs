@@ -13,8 +13,18 @@ public class PartyManager : MonoBehaviour
         {   
             gameObject.GetComponent<InputController>().MoveEvent += HandleMoveInput;
             gameObject.GetComponent<InputController>().JumpEvent += HandleJump;
-            
             gameObject.GetComponent<InputController>().AttackEvent += FireProjectile;
+        }
+    }
+
+    private void Update()
+    {
+        if (_following)
+        {
+            for (int i = 1; i < _partyMovement.Count; i++)
+            {
+                _partyMovement[i].SetDirectionalInput(_partyMovement[i - 1].transform.Find("FollowerPoint").position - _partyMovement[i].transform.position);
+            }
         }
     }
 
@@ -35,17 +45,6 @@ public class PartyManager : MonoBehaviour
             _following = true;
             _partyMovement[0].SetDirectionalInput(input);
         }
-    }
-
-    private void Update()
-    {
-        if (!_following)
-            return;
-        
-        for (int i = 1; i < _partyMovement.Count; i++)
-        {
-            _partyMovement[i].SetDirectionalInput(_partyMovement[i - 1].transform.Find("FollowerPoint").position - _partyMovement[i].transform.position);
-        }  
     }
     private void HandleJump()
     {
