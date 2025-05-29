@@ -11,7 +11,7 @@ public enum TargetMode
 public class Skill : ScriptableObject
 {
     [Header("Skill Information")]
-    [SerializeField] protected string name;
+    [SerializeField] protected new string name;
     [SerializeField] protected string description;
     
     [SerializeField] protected int cost;

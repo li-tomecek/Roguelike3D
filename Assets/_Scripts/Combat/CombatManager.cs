@@ -18,7 +18,7 @@ public class CombatManager : MonoBehaviour
         private int _turnIndex;
 
         public bool _inCombat = false;
-        //----------------------------------------------------
+        //---------------------------------------------------
         //---------------------------------------------------
     
         void Awake()
