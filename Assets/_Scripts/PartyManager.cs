@@ -6,7 +6,6 @@ public class PartyManager : MonoBehaviour
 {
     [SerializeField] private List<PlayerMovement> _partyMovement = new List<PlayerMovement>();
     [SerializeField] private float _jumpDelay;
-
     private bool _following = false;
     private void OnEnable()
     {
@@ -14,6 +13,18 @@ public class PartyManager : MonoBehaviour
         {   
             gameObject.GetComponent<InputController>().MoveEvent += HandleMoveInput;
             gameObject.GetComponent<InputController>().JumpEvent += HandleJump;
+            gameObject.GetComponent<InputController>().AttackEvent += FireProjectile;
+        }
+    }
+
+    private void Update()
+    {
+        if (_following)
+        {
+            for (int i = 1; i < _partyMovement.Count; i++)
+            {
+                _partyMovement[i].SetDirectionalInput(_partyMovement[i - 1].transform.Find("FollowerPoint").position - _partyMovement[i].transform.position);
+            }
         }
     }
 
@@ -35,17 +46,6 @@ public class PartyManager : MonoBehaviour
             _partyMovement[0].SetDirectionalInput(input);
         }
     }
-
-    private void Update()
-    {
-        if (!_following)
-            return;
-        
-        for (int i = 1; i < _partyMovement.Count; i++)
-        {
-            _partyMovement[i].SetDirectionalInput(_partyMovement[i - 1].transform.Find("FollowerPoint").position - _partyMovement[i].transform.position);
-        }  
-    }
     private void HandleJump()
     {
         StartCoroutine(StartJumps());
@@ -60,6 +60,17 @@ public class PartyManager : MonoBehaviour
 
         }
     }
-    
-    
+
+    private void FireProjectile()
+    {
+        // (temp) fire a projectile
+        //Debug.Log("Cast a fireball");
+    }
+
+    public void AttackAlternate()
+    {
+        Debug.Log("this is the alternate attack");
+    }
+
+
 }
