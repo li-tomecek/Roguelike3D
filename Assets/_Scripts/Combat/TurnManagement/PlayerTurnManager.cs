@@ -1,17 +1,19 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 //using System.Diagnostics;
 
 public class PlayerTurnManager : TurnManager
 {
-    private int _targetIndex;
     private Skill _activeSkill;
+    private int _targetIndex;
     public PlayerTurnManager(Unit unit) : base(unit)
     {
         this.unit = unit;
     }
     
     // --- Overriden methods ---
+    // --------------------------
     public override void StartTurn()
     {
         base.StartTurn();
@@ -28,9 +30,12 @@ public class PlayerTurnManager : TurnManager
     public override void EndTurn()
     {
         InputController.Instance.SubmitEvent.RemoveAllListeners();
+        InputController.Instance.NavigateEvent.RemoveAllListeners();
         base.EndTurn();
     }
     
+    // --- Player-specific Methods ---
+    // -------------------------------
     public void UseDefaultSkill()
     {
         unit.UseDefaultSkill(CombatManager.Instance.GetRandomEnemyUnit());
@@ -41,6 +46,7 @@ public class PlayerTurnManager : TurnManager
     {
         //this is where you actually use the skill
         _activeSkill.UseSkill(CombatManager.Instance.GetEnemyUnits()[_targetIndex]);
+       
         CombatManager.Instance.HideArrow();
         EndTurn();
 
@@ -48,7 +54,7 @@ public class PlayerTurnManager : TurnManager
 
     private void CycleTarget(Vector2 input)
     {
-        //we are assuming targeting is only for enemies for now        
+        //we are assuming targeting is only for enemies for now 
 
         if (input.x < 0 || input.y < 0)
         {
@@ -62,7 +68,7 @@ public class PlayerTurnManager : TurnManager
         else
             return;
 
-            CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
+        CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
     }
 
 }

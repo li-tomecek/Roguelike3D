@@ -6,23 +6,23 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
         public static CombatManager Instance;
-        
+
         [SerializeField] private List<Transform> _playerCombatPositions;
         [SerializeField] private List<Transform> _enemyCombatPositions;
         [SerializeField] private float _travelSpeed = 4f;
-        
+
         [SerializeField] private List<Unit> _playerUnits;
         [SerializeField] private List<Unit> _enemyUnits;
 
         [SerializeField] private GameObject _selectionArrow;
-        
+
         private List<Unit> _combatSequence = new List<Unit>();
-        
+
         private int _turnIndex;
         private bool _inCombat = false;
         //---------------------------------------------------
         //---------------------------------------------------
-    
+
         void Awake()
         {
                 if (Instance == null)
@@ -34,8 +34,9 @@ public class CombatManager : MonoBehaviour
                         Destroy(gameObject);
                 }
         }
-    
-        // --- Combat Methods ---
+
+        // --- Turn Management ---
+        // -----------------------
         public void BeginBattle()
         {
             _inCombat = true;
@@ -54,7 +55,6 @@ public class CombatManager : MonoBehaviour
 
             StartCoroutine(SendUnitsToPosition());      //ToDo: make this into a coroutine so the units actually "walk" there
         }
-        
         private IEnumerator SendUnitsToPosition()
         {
                 bool finished = false;
@@ -87,7 +87,6 @@ public class CombatManager : MonoBehaviour
                 }   
                 NextTurn();
         }
-
         public void NextTurn()
         {
                 if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
@@ -104,17 +103,6 @@ public class CombatManager : MonoBehaviour
             Debug.Log($"--- {_combatSequence[_turnIndex].name}'s Turn --- ");
             _combatSequence[_turnIndex].GetTurnManager().StartTurn();
         }
-
-        public Unit GetRandomPlayerUnit()
-        {
-                return _playerUnits[Random.Range(0, _playerUnits.Count)];
-        }
-
-        public Unit GetRandomEnemyUnit()
-        {
-                return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
-        }
-
         public void RemoveFromCombat(Unit unit)
         {
                 if (_playerUnits.Contains(unit))
@@ -126,12 +114,15 @@ public class CombatManager : MonoBehaviour
                         _enemyUnits.Remove(unit);
                 }
 
+                if (_combatSequence.IndexOf(unit) < _turnIndex)
+                        _turnIndex--;
+                
                 _combatSequence.Remove(unit);
-
         }
-
-    public bool InCombat() { return _inCombat; }
-
+        
+        
+    // --- Targeting Arrow --- 
+    // -----------------------
     public void SetTargetArrowPosition(Vector3 position)
     {
         _selectionArrow.SetActive(true);
@@ -140,17 +131,30 @@ public class CombatManager : MonoBehaviour
     public void SetTargetArrowPositionAtEnemy(int index)
     {
         SetTargetArrowPosition(_enemyUnits[index].gameObject.transform.position);
-    }
-        public void SetTargetArrowPositionAtPlayer(int index)
+    } 
+    public void SetTargetArrowPositionAtPlayer(int index)
     {
         SetTargetArrowPosition(_playerUnits[index].gameObject.transform.position);
     }
-
     public void HideArrow()
     {
         _selectionArrow.SetActive(false);
     }
+    
+    
+    // --- Getters / Setters ---
+    // -------------------------
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }
     public List<Unit> GetPlayerUnits() { return _playerUnits; }
+    public List<Unit> GetCombatSequence() { return _combatSequence; } 
+    public bool InCombat() { return _inCombat; }
+    public Unit GetRandomPlayerUnit()
+    {
+            return _playerUnits[Random.Range(0, _playerUnits.Count)];
+    }
+    public Unit GetRandomEnemyUnit()
+    {
+            return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
+    }
 
 }
