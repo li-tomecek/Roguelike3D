@@ -26,7 +26,7 @@ public class TargetSelectArrow : MonoBehaviour
         _timer += Time.deltaTime;
 
         //floating
-        newPosition.y = floatAmplitude * Mathf.Sin(2*Mathf.PI*floatFrequency*_timer);   // y = Asin(2pi*freq*time)
+        newPosition.y = floatAmplitude * Mathf.Sin(2*Mathf.PI*floatFrequency*_timer) + heightOffset;   // y = Asin(2pi*freq*time)
         transform.position = newPosition;
 
         //rotation

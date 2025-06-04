@@ -60,7 +60,6 @@ public class Unit : MonoBehaviour
     // --- Getters / Setters ---
     public Stats GetStats() { return stats; }
     public virtual TurnManager GetTurnManager() { return turnManager; }
-
     public Skill GetDefaultSkill() { return defaultSkill; }
 
 }

@@ -102,7 +102,7 @@ public class CombatManager : MonoBehaviour
                 _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
                     
             Debug.Log($"--- {_combatSequence[_turnIndex].name}'s Turn --- ");
-                _combatSequence[_turnIndex].GetTurnManager().StartTurn();
+            _combatSequence[_turnIndex].GetTurnManager().StartTurn();
         }
 
         public Unit GetRandomPlayerUnit()
@@ -120,16 +120,17 @@ public class CombatManager : MonoBehaviour
                 if (_playerUnits.Contains(unit))
                 {
                         _playerUnits.Remove(unit);
-                        _combatSequence.Remove(unit);
                 }
                 else if (_enemyUnits.Contains(unit))
                 {
                         _enemyUnits.Remove(unit);
-                        _combatSequence.Remove(unit);
                 }
+
+                _combatSequence.Remove(unit);
+
         }
 
-        public bool InCombat() { return _inCombat; }
+    public bool InCombat() { return _inCombat; }
 
     public void SetTargetArrowPosition(Vector3 position)
     {
