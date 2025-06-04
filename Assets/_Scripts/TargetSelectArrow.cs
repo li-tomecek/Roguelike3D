@@ -33,4 +33,12 @@ public class TargetSelectArrow : MonoBehaviour
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World); 
         
     }
+
+    public void SetTarget(Vector3 targetPosition)
+    {
+        newPosition = targetPosition;
+        newPosition.y += heightOffset;
+
+        transform.position = newPosition;
+    }
 }

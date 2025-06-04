@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
-
 
 public class CombatManager : MonoBehaviour
 {
@@ -43,7 +41,7 @@ public class CombatManager : MonoBehaviour
             _inCombat = true;
 
             _selectionArrow = Instantiate(_selectionArrow);
-            //_selectionArrow.SetActive(false);
+            _selectionArrow.SetActive(false);
             InputController.Instance.ActivateMenuMap();
 
             _combatSequence.Clear();
@@ -132,4 +130,26 @@ public class CombatManager : MonoBehaviour
         }
 
         public bool InCombat() { return _inCombat; }
+
+    public void SetTargetArrowPosition(Vector3 position)
+    {
+        _selectionArrow.SetActive(true);
+        _selectionArrow.gameObject.GetComponent<TargetSelectArrow>().SetTarget(position);
+    }
+    public void SetTargetArrowPositionAtEnemy(int index)
+    {
+        SetTargetArrowPosition(_enemyUnits[index].gameObject.transform.position);
+    }
+        public void SetTargetArrowPositionAtPlayer(int index)
+    {
+        SetTargetArrowPosition(_playerUnits[index].gameObject.transform.position);
+    }
+
+    public void HideArrow()
+    {
+        _selectionArrow.SetActive(false);
+    }
+    public List<Unit> GetEnemyUnits() { return _enemyUnits; }
+    public List<Unit> GetPlayerUnits() { return _playerUnits; }
+
 }

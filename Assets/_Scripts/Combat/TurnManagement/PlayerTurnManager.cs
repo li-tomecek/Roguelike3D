@@ -1,6 +1,11 @@
 
+using UnityEngine;
+//using System.Diagnostics;
+
 public class PlayerTurnManager : TurnManager
 {
+    private int _targetIndex;
+    private Skill _activeSkill;
     public PlayerTurnManager(Unit unit) : base(unit)
     {
         this.unit = unit;
@@ -10,10 +15,14 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
+        _targetIndex = 0;
+        _activeSkill = unit.GetDefaultSkill();
+
+        CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
         
-        //this must be the last statement in the function
-        InputController.Instance.SubmitEvent.AddListener(UseDefaultSkill);  //temporary! when the player confirms, the unit will use their default skill
-        
+        //these must be the last statements in the function
+        InputController.Instance.SubmitEvent.AddListener(ConfirmTarget);  //temporary! when the player confirms, the unit will use their default skill
+        InputController.Instance.NavigateEvent.AddListener(CycleTarget);
     }
 
     public override void EndTurn()
@@ -26,6 +35,34 @@ public class PlayerTurnManager : TurnManager
     {
         unit.UseDefaultSkill(CombatManager.Instance.GetRandomEnemyUnit());
         EndTurn();
+    }
+
+    private void ConfirmTarget()
+    {
+        //this is where you actually use the skill
+        _activeSkill.UseSkill(CombatManager.Instance.GetEnemyUnits()[_targetIndex]);
+        CombatManager.Instance.HideArrow();
+        EndTurn();
+
+    }
+
+    private void CycleTarget(Vector2 input)
+    {
+        //we are assuming targeting is only for enemies for now        
+
+        if (input.x < 0 || input.y < 0)
+        {
+            //selection moves left
+            _targetIndex = (_targetIndex == 0) ? CombatManager.Instance.GetEnemyUnits().Count - 1 : (_targetIndex - 1);
+        }
+        else if (input.x > 0 || input.y > 0)
+        {
+            _targetIndex = (_targetIndex == CombatManager.Instance.GetEnemyUnits().Count - 1) ? 0 : (_targetIndex + 1);
+        }
+        else
+            return;
+
+            CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
     }
 
 }
