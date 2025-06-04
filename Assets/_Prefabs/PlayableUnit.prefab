@@ -184,6 +184,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementConfig: {fileID: 11400000, guid: 8c8386beaff584c4aafae16b1de40945, type: 2}
+  _raycastHeight: 1.3
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!114 &4126074244012417845
 MonoBehaviour:
   m_ObjectHideFlags: 0
