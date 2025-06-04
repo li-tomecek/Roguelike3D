@@ -20,7 +20,7 @@ public class InputController : MonoBehaviour
     public event Action<Vector2> NavigateEvent;     //menu selections
     //public event Action SubmitEvent;
     //public event Action CancelEvent;
-    public UnityEvent SubmitEvent;        //If I want to use listeners instead
+    public UnityEvent SubmitEvent;                  //If I want to use listeners instead
     public UnityEvent CancelEvent;
 
     void Awake()

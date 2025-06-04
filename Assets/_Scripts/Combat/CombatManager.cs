@@ -15,6 +15,8 @@ public class CombatManager : MonoBehaviour
         
         [SerializeField] private List<Unit> _playerUnits;
         [SerializeField] private List<Unit> _enemyUnits;
+
+        [SerializeField] private GameObject _selectionArrow;
         
         private List<Unit> _combatSequence = new List<Unit>();
         
@@ -39,34 +41,20 @@ public class CombatManager : MonoBehaviour
         public void BeginBattle()
         {
             _inCombat = true;
+
+            _selectionArrow = Instantiate(_selectionArrow);
+            //_selectionArrow.SetActive(false);
             InputController.Instance.ActivateMenuMap();
 
+            _combatSequence.Clear();
+            _combatSequence.AddRange(_playerUnits);
+            _combatSequence.AddRange(_enemyUnits);
+
+            _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();           //ToDo: This does not work, and will have to be fixed 
+
+            _turnIndex = -1;
+
             StartCoroutine(SendUnitsToPosition());      //ToDo: make this into a coroutine so the units actually "walk" there
-                
-                _combatSequence.Clear();
-                _combatSequence.AddRange(_playerUnits);
-                _combatSequence.AddRange(_enemyUnits);
-
-                _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();           //.ToList();
-
-                _turnIndex = -1;
-                //NextTurn();
-        }
-
-        public void NextTurn()
-        {
-                if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
-                {
-                    Debug.Log("Combat Finished.");
-                    CameraController.Instance.ToggleCombatCamera();
-                    _inCombat = false;
-                    InputController.Instance.ActivateMovementMap();
-
-                    return;
-                }
-                _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
-                Debug.Log($"--- {_combatSequence[_turnIndex].name}'s Turn --- ");
-                _combatSequence[_turnIndex].GetTurnManager().StartTurn();
         }
         
         private IEnumerator SendUnitsToPosition()
@@ -100,6 +88,23 @@ public class CombatManager : MonoBehaviour
                         yield return 0;
                 }   
                 NextTurn();
+        }
+
+        public void NextTurn()
+        {
+                if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
+                {
+                    Debug.Log("Combat Finished.");
+                    CameraController.Instance.ToggleCombatCamera();
+                    _inCombat = false;
+                    InputController.Instance.ActivateMovementMap();
+
+                    return;
+                }
+                _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
+                    
+            Debug.Log($"--- {_combatSequence[_turnIndex].name}'s Turn --- ");
+                _combatSequence[_turnIndex].GetTurnManager().StartTurn();
         }
 
         public Unit GetRandomPlayerUnit()
