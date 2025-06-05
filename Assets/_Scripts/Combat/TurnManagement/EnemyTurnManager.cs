@@ -1,7 +1,8 @@
 
 public class EnemyTurnManager : TurnManager
 {
-    public EnemyTurnManager(Unit unit) : base(unit)
+    private EnemyUnit unit;
+    public EnemyTurnManager(EnemyUnit unit) 
     {
         this.unit = unit;
     }

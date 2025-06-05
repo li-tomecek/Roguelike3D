@@ -160,6 +160,7 @@ public class CombatManager : MonoBehaviour
     {
             return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
     }
+
     public CombatMenu GetCombatMenu() { return _combatMenu; }
 
 }

@@ -1,9 +1,9 @@
-public class TurnManager
+public abstract class TurnManager
 {
-    protected Unit unit;
-    public TurnManager(Unit unit)
+    //protected Unit unit;
+    public TurnManager()
     {
-        this.unit = unit;
+        //this.unit = unit;d
     }
 
     public virtual void StartTurn()

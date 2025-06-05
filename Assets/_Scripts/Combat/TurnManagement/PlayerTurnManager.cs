@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class PlayerTurnManager : TurnManager
 {
+    private PlayerUnit unit;
     private Skill _activeSkill;
     private int _targetIndex;
-    public PlayerTurnManager(Unit unit) : base(unit)
+    public PlayerTurnManager(PlayerUnit unit) : base()
     {
         this.unit = unit;
     }
@@ -17,15 +18,15 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
-        _targetIndex = 0;
-        _activeSkill = unit.GetDefaultSkill();
+        /*_targetIndex = 0;
+        _activeSkill = unit.GetDefaultSkill();*/
 
         CombatManager.Instance.GetCombatMenu().SetupCombatMenu(unit);
-        CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
+        /*CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
         
         //these must be the last statements in the function
         InputController.Instance.SubmitEvent.AddListener(ConfirmTarget);  //temporary! when the player confirms, the unit will use their default skill
-        InputController.Instance.NavigateEvent.AddListener(CycleTarget);
+        InputController.Instance.NavigateEvent.AddListener(CycleTarget);*/
     }
 
     public override void EndTurn()
@@ -50,7 +51,6 @@ public class PlayerTurnManager : TurnManager
        
         CombatManager.Instance.HideArrow();
         EndTurn();
-
     }
 
     private void CycleTarget(Vector2 input)
@@ -70,6 +70,17 @@ public class PlayerTurnManager : TurnManager
             return;
 
         CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
+    }
+
+    public void ChooseTargetForSkill(Skill skill)
+    {
+        _targetIndex = 0;
+        _activeSkill = skill;
+        CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
+        
+        //these must be the last statements in the function
+        InputController.Instance.SubmitEvent.AddListener(ConfirmTarget); 
+        InputController.Instance.NavigateEvent.AddListener(CycleTarget);
     }
 
 }

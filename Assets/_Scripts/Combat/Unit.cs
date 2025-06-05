@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
     protected int _health;
 
     //Skills
-    [SerializeField] protected List<Skill> skills = new List<Skill>();
+    [SerializeField] protected List<Skill> skills;
     [SerializeField] protected Skill defaultSkill;
     
     //Effects

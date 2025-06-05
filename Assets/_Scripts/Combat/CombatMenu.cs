@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CombatMenu : MonoBehaviour
@@ -12,7 +13,7 @@ public class CombatMenu : MonoBehaviour
     [SerializeField] private Button _skill1Btn;
     [SerializeField] private Button _skill2Btn;
 
-    private Unit _unit;
+    private PlayerUnit _unit;
     private void Start()
     {
         _actionPanel = GameObject.Find("ActionPanel");
@@ -22,7 +23,7 @@ public class CombatMenu : MonoBehaviour
         _skillsPanel.SetActive(false);
     }
 
-    public void SetupCombatMenu(Unit unit)
+    public void SetupCombatMenu(PlayerUnit unit)
     {
         _unit = unit;
 
@@ -34,12 +35,27 @@ public class CombatMenu : MonoBehaviour
         _actionPanel.SetActive(true);
     }
 
+    private void CloseMenu()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        _actionPanel.SetActive(false);
+        _skillsPanel.SetActive(false);
+    }
+
+    
+    // --- Button On Click Methods ---
+    // -------------------------------
     public void AttackButtonPressed()
     {
+        Debug.Log("AttackButtonPressed");
+
         //select target for default attack
+        _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetDefaultSkill());
+        CloseMenu();
     }
     
     public void SkillsButtonPressed()
+    
     {
         //open skills menu, deactivate action menu
         _actionPanel.SetActive(false);
@@ -54,6 +70,8 @@ public class CombatMenu : MonoBehaviour
     public void SkillButtonPressed(int skillIndex)
     {
         //select target for selected skill
+        _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetSkills()[skillIndex]);   //ToDo: exception handling here! Or just a regular check
+        CloseMenu();
     }
 
 }

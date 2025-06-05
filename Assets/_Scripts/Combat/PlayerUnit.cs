@@ -7,4 +7,9 @@ public class PlayerUnit : Unit
         turnManager = new PlayerTurnManager(this);
         base.Start();
     }
+    
+    public PlayerTurnManager GetPlayerTurnManager()
+    {
+        return (PlayerTurnManager)turnManager;
+    }
 }
