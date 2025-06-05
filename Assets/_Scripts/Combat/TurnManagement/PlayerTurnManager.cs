@@ -47,7 +47,7 @@ public class PlayerTurnManager : TurnManager
     private void ConfirmTarget()
     {
         //this is where you actually use the skill
-        _activeSkill.UseSkill(CombatManager.Instance.GetEnemyUnits()[_targetIndex]);
+        _activeSkill.UseSkill(unit, CombatManager.Instance.GetEnemyUnits()[_targetIndex]);
        
         CombatManager.Instance.HideArrow();
         EndTurn();

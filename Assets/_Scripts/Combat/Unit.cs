@@ -39,7 +39,7 @@ public class Unit : MonoBehaviour
     // --- Combat Methods ---
     public void UseDefaultSkill(Unit target)
     {
-        defaultSkill.UseSkill(target);
+        defaultSkill.UseSkill(this, target);
     }
 
     public void TakeDamage(int damage)
