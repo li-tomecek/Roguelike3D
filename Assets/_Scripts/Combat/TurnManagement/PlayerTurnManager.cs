@@ -20,6 +20,7 @@ public class PlayerTurnManager : TurnManager
         _targetIndex = 0;
         _activeSkill = unit.GetDefaultSkill();
 
+        CombatManager.Instance.GetCombatMenu().SetupCombatMenu(unit);
         CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
         
         //these must be the last statements in the function

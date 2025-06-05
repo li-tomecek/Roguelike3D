@@ -61,5 +61,6 @@ public class Unit : MonoBehaviour
     public Stats GetStats() { return stats; }
     public virtual TurnManager GetTurnManager() { return turnManager; }
     public Skill GetDefaultSkill() { return defaultSkill; }
+    public List<Skill> GetSkills() { return skills; }
 
 }

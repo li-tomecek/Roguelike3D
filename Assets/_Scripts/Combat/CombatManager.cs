@@ -7,14 +7,18 @@ public class CombatManager : MonoBehaviour
 {
         public static CombatManager Instance;
 
+        [Header("Combat Positions")]
         [SerializeField] private List<Transform> _playerCombatPositions;
         [SerializeField] private List<Transform> _enemyCombatPositions;
-        [SerializeField] private float _travelSpeed = 4f;
 
+        [Header("Combat Units")]
         [SerializeField] private List<Unit> _playerUnits;
         [SerializeField] private List<Unit> _enemyUnits;
-
+        [SerializeField] private float _travelSpeed = 4f;
+        
+        [Header("Other Parameters")]
         [SerializeField] private GameObject _selectionArrow;
+        [SerializeField] private CombatMenu _combatMenu;
 
         private List<Unit> _combatSequence = new List<Unit>();
 
@@ -156,5 +160,6 @@ public class CombatManager : MonoBehaviour
     {
             return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
     }
+    public CombatMenu GetCombatMenu() { return _combatMenu; }
 
 }
