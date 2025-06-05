@@ -10,8 +10,9 @@ public class CombatMenu : MonoBehaviour
     
     [Header("Skills Menu")]
     private GameObject _skillsPanel;
-    [SerializeField] private Button _skill1Btn;
-    [SerializeField] private Button _skill2Btn;
+    [SerializeField] private TextMeshProUGUI _unitNameText;
+    [SerializeField] private TextMeshProUGUI _skill1Text;
+    [SerializeField] private TextMeshProUGUI _skill2Text;
 
     private PlayerUnit _unit;
     private void Start()
@@ -26,11 +27,12 @@ public class CombatMenu : MonoBehaviour
     public void SetupCombatMenu(PlayerUnit unit)
     {
         _unit = unit;
+        _unitNameText.SetText(unit.name);
 
-        /*if (unit.GetSkills()[0] != null)
-            _skill1Btn.GetComponent<TextMeshProUGUI>().text = unit.GetSkills()[0].name;
+        if (unit.GetSkills()[0] != null)
+            _skill1Text.SetText(unit.GetSkills()[0].name);
         if (unit.GetSkills()[1] != null)
-            _skill2Btn.GetComponent<TextMeshProUGUI>().text = unit.GetSkills()[1].name;*/
+            _skill2Text.SetText(unit.GetSkills()[1].name);
         
         _actionPanel.SetActive(true);
     }
