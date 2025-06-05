@@ -8,6 +8,7 @@ public class PlayerTurnManager : TurnManager
     private PlayerUnit unit;
     private Skill _activeSkill;
     private int _targetIndex;
+    private List<Unit> _targetPool;
     public PlayerTurnManager(PlayerUnit unit) : base()
     {
         this.unit = unit;
@@ -18,15 +19,7 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
-        /*_targetIndex = 0;
-        _activeSkill = unit.GetDefaultSkill();*/
-
         CombatManager.Instance.GetCombatMenu().SetupCombatMenu(unit);
-        /*CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
-        
-        //these must be the last statements in the function
-        InputController.Instance.SubmitEvent.AddListener(ConfirmTarget);  //temporary! when the player confirms, the unit will use their default skill
-        InputController.Instance.NavigateEvent.AddListener(CycleTarget);*/
     }
 
     public override void EndTurn()
@@ -38,12 +31,6 @@ public class PlayerTurnManager : TurnManager
     
     // --- Player-specific Methods ---
     // -------------------------------
-    public void UseDefaultSkill()
-    {
-        unit.UseDefaultSkill(CombatManager.Instance.GetRandomEnemyUnit());
-        EndTurn();
-    }
-
     private void ConfirmTarget()
     {
         //this is where you actually use the skill
@@ -76,6 +63,25 @@ public class PlayerTurnManager : TurnManager
     {
         _targetIndex = 0;
         _activeSkill = skill;
+        
+        /*switch (skill.GetTargetMode())
+        {
+            case TargetMode.MELEE:
+                _targetPool = CombatManager.Instance.GetEnemyUnits();
+                CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);     //Todo: make sure the enemy melee targets are not actually ranged
+                break;
+            case TargetMode.ALL:
+                break;
+            case TargetMode.RANGED:
+                _targetPool = CombatManager.Instance.GetEnemyUnits();
+                CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);     //Todo: make sure the enemy melee targets are actually ranged
+                break;
+            case TargetMode.ALLY:
+                _targetPool = CombatManager.Instance.GetPlayerUnits();
+                CombatManager.Instance.SetTargetArrowPosotionAtAlly(_targetIndex);     //Todo: make sure the enemy melee targets are actually ranged
+                break;
+        }*/
+        
         CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
         
         //these must be the last statements in the function

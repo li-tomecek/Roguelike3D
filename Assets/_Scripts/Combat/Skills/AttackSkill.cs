@@ -15,7 +15,7 @@ public class AttackSkill : Skill
     {
         if (useAttackStat)
             damage += caster.GetStats().attack;
-        
+ 
         damage = Mathf.Max(damage - target.GetStats().defense, 0);
         
         //check accuracy
@@ -27,6 +27,7 @@ public class AttackSkill : Skill
         
         //apply cost
 
+        
         Debug.Log(target.gameObject.name + " took " + damage + " damage!");
     }
 }

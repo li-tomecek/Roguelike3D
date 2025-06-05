@@ -23,6 +23,8 @@ public class Skill : ScriptableObject
         Debug.Log("Performed " + name);
     }
 
+    public TargetMode GetTargetMode() { return targetMode; }
+
 }
 
 

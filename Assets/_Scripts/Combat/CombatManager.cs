@@ -65,6 +65,7 @@ public class CombatManager : MonoBehaviour
                 while (!finished)
                 {
                         finished = true;
+                        //Move all player units into their start position
                         for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
                         { 
                                 if (_playerUnits[i].gameObject.transform.position != _playerCombatPositions[i].position)
@@ -73,9 +74,10 @@ public class CombatManager : MonoBehaviour
                                         _playerUnits[i].transform.LookAt(_playerCombatPositions[i].position);
                                         finished = false;
                                 } else
-                                        _playerUnits[i].transform.LookAt(_enemyCombatPositions[1].position);    //may want to change the look target
+                                        _playerUnits[i].transform.LookAt(_enemyCombatPositions[1].position);    
                         }
                 
+                        //Move all enemy units into their start position
                         for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
                         {
                                 if (_enemyUnits[i].gameObject.transform.position != _enemyCombatPositions[i].position)
@@ -84,7 +86,7 @@ public class CombatManager : MonoBehaviour
                                         _enemyUnits[i].transform.LookAt(_enemyCombatPositions[i].position);
                                         finished = false;
                                 } else
-                                        _enemyUnits[i].transform.LookAt(_playerCombatPositions[1].position);    //may want to change the look target
+                                        _enemyUnits[i].transform.LookAt(_playerCombatPositions[1].position);  
                         } 
                         
                         yield return 0;
