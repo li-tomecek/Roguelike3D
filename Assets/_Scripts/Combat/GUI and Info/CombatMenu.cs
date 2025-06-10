@@ -49,8 +49,6 @@ public class CombatMenu : MonoBehaviour
     // -------------------------------
     public void AttackButtonPressed()
     {
-        Debug.Log("AttackButtonPressed");
-
         //select target for default attack
         _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetDefaultSkill());
         CloseMenu();
