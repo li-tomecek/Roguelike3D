@@ -87,8 +87,15 @@ public class CombatManager : MonoBehaviour
                     } 
                         
                     yield return 0;
-            }   
-            NextTurn();
+            }
+
+        //activate health bars
+        foreach (Unit unit in _combatSequence)
+        {
+            unit.GetHealthBar().gameObject.SetActive(true);
+        }
+
+        NextTurn();
     }
     public void NextTurn()
     {

@@ -11,7 +11,6 @@ public struct Stats
 
 public class Unit : MonoBehaviour
 {
-    [FormerlySerializedAs("_stats")]
     [Header("Combat")]
     //Stats
     [SerializeField] protected Stats stats; 
@@ -21,11 +20,13 @@ public class Unit : MonoBehaviour
     //Skills
     [SerializeField] protected List<Skill> skills;
     [SerializeField] protected Skill defaultSkill;
-    
+
+
     //Effects
     //private List<Effect> _activeEffects = new List<Effect>();
-    
+
     protected TurnManager turnManager;
+    protected HealthBar healthBar;
     
     //----------------------------------------------------
     //---------------------------------------------------
@@ -33,6 +34,9 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
         _health = stats.maxHealth;
+        healthBar = gameObject.GetComponentInChildren<HealthBar>();
+
+        healthBar.gameObject.SetActive(false);  //hide health bar until combat
     }
     
     
@@ -46,6 +50,7 @@ public class Unit : MonoBehaviour
     {
         _health -= damage;
         _health = _health < 0 ? 0 : _health;
+        healthBar.SetSliderPercent((float)_health / stats.maxHealth);
 
         if (_health <= 0)
         {
@@ -64,4 +69,5 @@ public class Unit : MonoBehaviour
     public Skill GetDefaultSkill() { return defaultSkill; }
     public List<Skill> GetSkills() { return skills; }
 
+    public HealthBar GetHealthBar() { return healthBar; }
 }
