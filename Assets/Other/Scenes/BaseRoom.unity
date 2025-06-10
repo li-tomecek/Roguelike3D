@@ -1050,8 +1050,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: -0.67294216, z: 2.23283}
+  m_LocalRotation: {x: 0.17999327, y: -0.34591332, z: 0.06779839, w: 0.9183408}
+  m_LocalPosition: {x: 10, y: -8.99, z: 11.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4350,7 +4350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectionArrow: {fileID: 7291429933288162340, guid: 45120fb0939ac624e87d0cc90ba63e9b, type: 3}
   _turnMenu: {fileID: 2954357079538441984, guid: b28f2bbbdcd45f6498ba1b9817cd88a1, type: 3}
-  _damageIndicatorPrefab: {fileID: 8695526232119907271, guid: 3b83eb015c1299941bbb0e0d45ead06a, type: 3}
+  _damageIndicatorPrefab: {fileID: 8542705804623845304, guid: 3b83eb015c1299941bbb0e0d45ead06a, type: 3}
+  _pooledIndicatorAmount: 6
 --- !u!1001 &1463619731
 PrefabInstance:
   m_ObjectHideFlags: 0

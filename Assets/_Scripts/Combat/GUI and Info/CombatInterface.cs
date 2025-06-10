@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 /*
  *  Manages all things related to the interface the player sees during combat.
@@ -14,7 +16,10 @@ public class CombatInterface : MonoBehaviour
 
     [SerializeField] private TargetSelectArrow _selectionArrow;
     [SerializeField] private PlayerTurnMenu _turnMenu;
-    [SerializeField] DamageIndicator _damageIndicatorPrefab;
+    [SerializeField] private GameObject _damageIndicatorPrefab;
+    [SerializeField] private int _pooledIndicatorAmount;
+
+    private ObjectPool _damageIndicators;
     
 
 
@@ -23,20 +28,22 @@ public class CombatInterface : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            Setup();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Setup()
+    {
+        _damageIndicators = new ObjectPool(_damageIndicatorPrefab, _pooledIndicatorAmount);
         
-        _selectionArrow = Instantiate(_selectionArrow);
+            _selectionArrow = Instantiate(_selectionArrow);
         _selectionArrow.gameObject.SetActive(false);
 
         _turnMenu = Instantiate(_turnMenu).GetComponent<PlayerTurnMenu>();
-
-        _damageIndicatorPrefab = Instantiate(_damageIndicatorPrefab).GetComponent<DamageIndicator>();
-        _damageIndicatorPrefab.gameObject.SetActive(false);
-
     }
 
     // --- Targeting Arrow --- 
@@ -57,14 +64,13 @@ public class CombatInterface : MonoBehaviour
     public void HideArrow()
     {
         _selectionArrow.gameObject.SetActive(false);
-    }
+    } 
 
     // --- Damage Indicator --- 
     // ------------------------
     public void SetDamageIndicator(int damage, Transform target)
     {
-        _damageIndicatorPrefab.gameObject.SetActive(true);
-        _damageIndicatorPrefab.ShowDamageAtTarget(damage, target);
+        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowDamageAtTarget(damage, target);
     }
 
     // --- Getters / Setters ---
