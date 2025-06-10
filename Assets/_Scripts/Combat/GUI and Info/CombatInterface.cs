@@ -12,9 +12,10 @@ public class CombatInterface : MonoBehaviour
 {
     public static CombatInterface Instance;
 
-    [SerializeField] private PlayerTurnMenu _combatMenu;
-    [SerializeField] private GameObject _selectionArrow;
-    [SerializeField] DamageIndicator _damageIndicator;
+    [SerializeField] private TargetSelectArrow _selectionArrow;
+    [SerializeField] private PlayerTurnMenu _turnMenu;
+    [SerializeField] DamageIndicator _damageIndicatorPrefab;
+    
 
 
     void Awake()
@@ -29,15 +30,21 @@ public class CombatInterface : MonoBehaviour
         }
         
         _selectionArrow = Instantiate(_selectionArrow);
-        _selectionArrow.SetActive(false);
+        _selectionArrow.gameObject.SetActive(false);
+
+        _turnMenu = Instantiate(_turnMenu).GetComponent<PlayerTurnMenu>();
+
+        _damageIndicatorPrefab = Instantiate(_damageIndicatorPrefab).GetComponent<DamageIndicator>();
+        _damageIndicatorPrefab.gameObject.SetActive(false);
+
     }
 
     // --- Targeting Arrow --- 
     // -----------------------
     public void SetTargetArrowPosition(Vector3 position)
     {
-        _selectionArrow.SetActive(true);
-        _selectionArrow.gameObject.GetComponent<TargetSelectArrow>().SetTarget(position);
+        _selectionArrow.gameObject.SetActive(true);
+        _selectionArrow.SetTarget(position);
     }
     public void SetTargetArrowPositionAtEnemy(int index)
     {
@@ -49,19 +56,19 @@ public class CombatInterface : MonoBehaviour
     }
     public void HideArrow()
     {
-        _selectionArrow.SetActive(false);
+        _selectionArrow.gameObject.SetActive(false);
     }
 
     // --- Damage Indicator --- 
     // ------------------------
     public void SetDamageIndicator(int damage, Transform target)
     {
-        _damageIndicator.gameObject.SetActive(true);
-        _damageIndicator.ShowDamageAtTarget(damage, target);
+        _damageIndicatorPrefab.gameObject.SetActive(true);
+        _damageIndicatorPrefab.ShowDamageAtTarget(damage, target);
     }
 
     // --- Getters / Setters ---
     // -------------------------
-    public PlayerTurnMenu GetTurnMenu() { return _combatMenu; }
+    public PlayerTurnMenu GetTurnMenu() { return _turnMenu; }
 
 }
