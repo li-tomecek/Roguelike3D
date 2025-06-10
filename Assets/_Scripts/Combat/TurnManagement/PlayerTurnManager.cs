@@ -15,7 +15,7 @@ public class PlayerTurnManager : TurnManager
     }
     
     // --- Overriden methods ---
-    // --------------------------
+    // -------------------------
     public override void StartTurn()
     {
         base.StartTurn();
