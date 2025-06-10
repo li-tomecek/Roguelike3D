@@ -15,4 +15,7 @@ MonoBehaviour:
   name: Basic Attack
   description: Does 5 damage. That's it.
   cost: 0
-  _damage: 5
+  targetMode: 0
+  damage: 5
+  useAttackStat: 0
+  ignoresDefense: 1

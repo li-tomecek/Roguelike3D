@@ -9,25 +9,28 @@ public class AttackSkill : Skill
     [Header("Combat Information")]
     [SerializeField] int damage;
     [SerializeField] private bool useAttackStat;
+    [SerializeField] private bool ignoresDefense;
     //[SerializeField] int _accuracy;
     
     public override void UseSkill(Unit caster, Unit target)
     {
+        int dmg = damage;
+        
         if (useAttackStat)
-            damage += caster.GetStats().attack;
+            dmg += caster.GetStats().attack;
  
-        damage = Mathf.Max(damage - target.GetStats().defense, 0);
+        if(!ignoresDefense)
+            dmg = Mathf.Max(dmg - target.GetStats().defense, 0);
         
         //check accuracy
 
         //apply damage (or healing)
-        target.TakeDamage(damage);
+        target.TakeDamage(dmg);
         
-        //apply effect
         
         //apply cost
 
         
-        Debug.Log(target.gameObject.name + " took " + damage + " damage!");
+        Debug.Log(target.gameObject.name + " took " + dmg + " damage!");
     }
 }
