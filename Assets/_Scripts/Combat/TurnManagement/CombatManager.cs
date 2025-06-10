@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
+/*
+ *  Handles combat setup and turn sequence and management.
+ *  Handles global combat logic aside from anything graphical.
+ */
 public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
@@ -16,11 +19,6 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
     [SerializeField] private float _travelSpeed = 4f;
-        
-    [Header("Other Parameters")]
-    [SerializeField] private GameObject _selectionArrow;
-    [SerializeField] private CombatMenu _combatMenu;
-    [SerializeField] DamageIndicator _damageIndicator;
 
     private List<Unit> _combatSequence = new List<Unit>();
 
@@ -46,9 +44,6 @@ public class CombatManager : MonoBehaviour
     public void BeginBattle()
     {
         _inCombat = true;
-
-        _selectionArrow = Instantiate(_selectionArrow);
-        _selectionArrow.SetActive(false);
         InputController.Instance.ActivateMenuMap();
 
         _combatSequence.Clear();
@@ -59,7 +54,7 @@ public class CombatManager : MonoBehaviour
 
         _turnIndex = -1;
 
-        StartCoroutine(SendUnitsToPosition());      //ToDo: make this into a coroutine so the units actually "walk" there
+        StartCoroutine(SendUnitsToPosition());  
     }
     private IEnumerator SendUnitsToPosition()
     {
@@ -128,42 +123,14 @@ public class CombatManager : MonoBehaviour
             _combatSequence.Remove(unit);
     }
         
-        
-    // --- Targeting Arrow --- 
-    // -----------------------
-    public void SetTargetArrowPosition(Vector3 position)
-    {
-        _selectionArrow.SetActive(true);
-        _selectionArrow.gameObject.GetComponent<TargetSelectArrow>().SetTarget(position);
-    }
-    public void SetTargetArrowPositionAtEnemy(int index)
-    {
-        SetTargetArrowPosition(_enemyUnits[index].gameObject.transform.position);
-    } 
-    public void SetTargetArrowPositionAtPlayer(int index)
-    {
-        SetTargetArrowPosition(_playerUnits[index].gameObject.transform.position);
-    }
-    public void HideArrow()
-    {
-        _selectionArrow.SetActive(false);
-    }
-
-    // --- Damage Indicator --- 
-    // ------------------------
-    public void SetDamageIndicator(int damage, Transform target)
-    {
-        _damageIndicator.gameObject.SetActive(true);
-        _damageIndicator.ShowDamageAtTarget(damage, target);
-    }
-
-
     // --- Getters / Setters ---
     // -------------------------
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }
     public List<Unit> GetPlayerUnits() { return _playerUnits; }
     public List<Unit> GetCombatSequence() { return _combatSequence; } 
+    
     public bool InCombat() { return _inCombat; }
+    
     public Unit GetRandomPlayerUnit()
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];
@@ -172,6 +139,4 @@ public class CombatManager : MonoBehaviour
     {
             return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
     }   //temp
-    public CombatMenu GetCombatMenu() { return _combatMenu; }
-
 }

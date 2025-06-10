@@ -30,7 +30,7 @@ public class AttackSkill : Skill
 
         //apply cost
 
-        CombatManager.Instance.SetDamageIndicator(dmg, target.gameObject.transform);
+        CombatInterface.Instance.SetDamageIndicator(dmg, target.gameObject.transform);
         Debug.Log(target.gameObject.name + " took " + dmg + " damage!");
     }
 }

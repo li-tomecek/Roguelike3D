@@ -19,7 +19,7 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
-        CombatManager.Instance.GetCombatMenu().SetupCombatMenu(unit);
+        CombatInterface.Instance.GetTurnMenu().SetupMenu(unit);
     }
 
     public override void EndTurn()
@@ -35,8 +35,8 @@ public class PlayerTurnManager : TurnManager
     {
         //this is where you actually use the skill
         _activeSkill.UseSkill(unit, CombatManager.Instance.GetEnemyUnits()[_targetIndex]);
-       
-        CombatManager.Instance.HideArrow();
+
+        CombatInterface.Instance.HideArrow();
         EndTurn();
     }
 
@@ -56,14 +56,14 @@ public class PlayerTurnManager : TurnManager
         else
             return;
 
-        CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
+        CombatInterface.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
     }
 
     public void ChooseTargetForSkill(Skill skill)
     {
         _targetIndex = 0;
         _activeSkill = skill;
-        
+
         /*switch (skill.GetTargetMode())
         {
             case TargetMode.MELEE:
@@ -81,8 +81,8 @@ public class PlayerTurnManager : TurnManager
                 CombatManager.Instance.SetTargetArrowPosotionAtAlly(_targetIndex);     //Todo: make sure the enemy melee targets are actually ranged
                 break;
         }*/
-        
-        CombatManager.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
+
+        CombatInterface.Instance.SetTargetArrowPositionAtEnemy(_targetIndex);
         
         //these must be the last statements in the function
         InputController.Instance.SubmitEvent.AddListener(ConfirmTarget); 

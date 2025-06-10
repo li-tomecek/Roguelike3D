@@ -5568,6 +5568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1429029263}
   - component: {fileID: 1429029262}
+  - component: {fileID: 1429029264}
   m_Layer: 0
   m_Name: CombatSpace
   m_TagString: Untagged
@@ -5604,9 +5605,6 @@ MonoBehaviour:
   - {fileID: 482292098}
   - {fileID: 1391629002}
   _travelSpeed: 4
-  _selectionArrow: {fileID: 1099022203180348417, guid: 45120fb0939ac624e87d0cc90ba63e9b, type: 3}
-  _combatMenu: {fileID: 153762245}
-  _damageIndicator: {fileID: 605969857}
 --- !u!4 &1429029263
 Transform:
   m_ObjectHideFlags: 0
@@ -5630,6 +5628,21 @@ Transform:
   - {fileID: 605969854}
   m_Father: {fileID: 274480610}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1429029264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429029261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0349f940dafce84fb09034a19541682, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _combatMenu: {fileID: 153762245}
+  _selectionArrow: {fileID: 1099022203180348417, guid: 45120fb0939ac624e87d0cc90ba63e9b, type: 3}
+  _damageIndicator: {fileID: 605969857}
 --- !u!1 &1441678159
 GameObject:
   m_ObjectHideFlags: 0

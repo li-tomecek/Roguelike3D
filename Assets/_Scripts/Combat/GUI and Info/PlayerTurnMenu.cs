@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CombatMenu : MonoBehaviour
+public class PlayerTurnMenu : MonoBehaviour
 {
     [Header("Action Menu")]
     private GameObject _actionPanel;
@@ -24,7 +24,7 @@ public class CombatMenu : MonoBehaviour
         _skillsPanel.SetActive(false);
     }
 
-    public void SetupCombatMenu(PlayerUnit unit)
+    public void SetupMenu(PlayerUnit unit)
     {
         _unit = unit;
         _unitNameText.SetText(unit.name);
