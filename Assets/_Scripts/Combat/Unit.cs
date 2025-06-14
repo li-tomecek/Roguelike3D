@@ -9,7 +9,7 @@ public struct Stats
     public int attack, defense, agility;
 }
 
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour
 {
     [Header("Combat")]
     //Stats

@@ -14,8 +14,7 @@ public class EnemyTurnManager : TurnManager
         base.StartTurn();
         
         //this must be the last statement in the function
-        //unit.UseDefaultSkill( CombatManager.Instance.GetRandomPlayerUnit()); //temp
-        unit.UseDefaultSkill( CombatManager.Instance.GetPlayerUnits()[0]); //temp
+        unit.UseDefaultSkill( CombatManager.Instance.GetRandomPlayerUnit()); //temp
         EndTurn();
         
     }

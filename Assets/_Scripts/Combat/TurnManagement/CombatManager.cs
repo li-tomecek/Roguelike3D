@@ -126,7 +126,8 @@ public class CombatManager : MonoBehaviour
 
             if (_combatSequence.IndexOf(unit) < _turnIndex)
                     _turnIndex--;
-                
+             
+            unit.GetHealthBar().gameObject.SetActive(false);
             _combatSequence.Remove(unit);
     }
         
