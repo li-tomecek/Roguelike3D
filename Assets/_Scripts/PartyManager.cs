@@ -16,6 +16,8 @@ public class PartyControls : MonoBehaviour
 
     [Header("Ranged Attack")]
     [SerializeField] GameObject _projectilePrefab;
+    [SerializeField] float _projectileCooldown = 0.5f;
+    private float _timeLastFired = 0;
    
     private void Start()
     {
@@ -77,6 +79,11 @@ public class PartyControls : MonoBehaviour
 
     private void FireProjectile()
     {
+        if (Time.time - _timeLastFired < _projectileCooldown)
+            return;
+        
+        _timeLastFired = Time.time;
+        
         //Fire a projectile
         Instantiate(_projectilePrefab, 
             _partyMovement[0].GetProjectileOrigin().position, 
