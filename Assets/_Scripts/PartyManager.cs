@@ -7,13 +7,17 @@ public class PartyManager : MonoBehaviour
     [SerializeField] private List<PlayerMovement> _partyMovement = new List<PlayerMovement>();
     [SerializeField] private float _jumpDelay;
     private bool _following = false;
-    private void OnEnable()
+    private void Start()
     {
-        if (gameObject.GetComponent<InputController>() != null)
+        if (InputController.Instance != null)
         {   
-            gameObject.GetComponent<InputController>().MoveEvent += HandleMoveInput;
-            gameObject.GetComponent<InputController>().JumpEvent += HandleJump;
-            gameObject.GetComponent<InputController>().AttackEvent += FireProjectile;
+            InputController.Instance.MoveEvent += HandleMoveInput;
+            InputController.Instance.JumpEvent += HandleJump;
+            InputController.Instance.AttackEvent += FireProjectile;
+        }
+        else
+        {
+            Debug.LogWarning("No InputController found");
         }
     }
 

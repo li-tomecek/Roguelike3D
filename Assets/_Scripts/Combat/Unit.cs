@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public struct Stats
@@ -8,56 +9,65 @@ public struct Stats
     public int attack, defense, agility;
 }
 
-public class Unit : MonoBehaviour
+public abstract class Unit : MonoBehaviour
 {
     [Header("Combat")]
     //Stats
-    [SerializeField] protected Stats _stats; 
-    [SerializeField] protected Stats _modifiers; 
+    [SerializeField] protected Stats stats; 
+    [SerializeField] protected Stats modifiers; 
     protected int _health;
 
     //Skills
-    [SerializeField] protected List<Skill> _skills = new List<Skill>();
-    [SerializeField] protected Skill _defaultSkill;
-    
+    [SerializeField] protected List<Skill> skills;
+    [SerializeField] protected Skill defaultSkill;
+
+
     //Effects
     //private List<Effect> _activeEffects = new List<Effect>();
-    
-    private TurnManager _turnManager;
+
+    protected TurnManager turnManager;
+    protected HealthBar healthBar;
     
     //----------------------------------------------------
     //---------------------------------------------------
 
-    private void Start()
+    protected virtual void Start()
     {
-        _turnManager = new TurnManager(this);
-        _health = _stats.maxHealth;
+        _health = stats.maxHealth;
+        healthBar = gameObject.GetComponentInChildren<HealthBar>();
+
+        healthBar.gameObject.SetActive(false);  //hide health bar until combat
     }
-    
     
     
     // --- Combat Methods ---
     public void UseDefaultSkill(Unit target)
     {
-        _defaultSkill.UseSkill(target);
+        defaultSkill.UseSkill(this, target);
     }
 
     public void TakeDamage(int damage)
     {
         _health -= damage;
         _health = _health < 0 ? 0 : _health;
+        healthBar.SetSliderPercent((float)_health / stats.maxHealth);
 
         if (_health <= 0)
         {
-            Debug.Log($"{name} is Dead.");
             CombatManager.Instance.RemoveFromCombat(this);
+            Debug.Log($"{name} is Dead.");
+            
+            this.gameObject.SetActive(false);   //temp
         }
     }
     
     
     
     // --- Getters / Setters ---
-    public Stats GetStats() { return _stats; }
-    public TurnManager GetTurnManager() { return _turnManager; }
+    public Stats GetStats() { return stats; }
+    public virtual TurnManager GetTurnManager() { return turnManager; }
+    public Skill GetDefaultSkill() { return defaultSkill; }
+    public List<Skill> GetSkills() { return skills; }
 
+    public HealthBar GetHealthBar() { return healthBar; }
 }

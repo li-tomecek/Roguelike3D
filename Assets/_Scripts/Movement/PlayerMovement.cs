@@ -8,10 +8,13 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _controller;
     [SerializeField] private MovementConfig _movementConfig;
     private float _speed;
-    private bool _isGrounded;
     private Vector3 _directionalInput;
     private Vector3 _movementVector;
 
+    [Header ("Jump")]
+    [SerializeField] private float _raycastHeight;
+    [SerializeField] private LayerMask _groundLayer;
+    private bool _isGrounded;
     void Awake()
     {
         _controller = gameObject.GetComponent<CharacterController>();
@@ -20,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (CombatManager.Instance._inCombat)
+        if (CombatManager.Instance.InCombat())
             return;
 
         //1. Set Movement Speed and Direction
@@ -72,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool IsGrounded()
     {
-        _isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.3f);
+        _isGrounded = Physics.Raycast(transform.position, Vector3.down, _raycastHeight, _groundLayer);
         return _isGrounded;
     }
 

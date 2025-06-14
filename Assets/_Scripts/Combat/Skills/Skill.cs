@@ -6,8 +6,6 @@ public enum TargetMode
 {
     MELEE, RANGED, ALLY, ALL
 }
-
-//[CreateAssetMenu(fileName = "Skill", menuName = "Scriptable Objects/Skill")]
 public class Skill : ScriptableObject
 {
     [Header("Skill Information")]
@@ -15,15 +13,17 @@ public class Skill : ScriptableObject
     [SerializeField] protected string description;
     
     [SerializeField] protected int cost;
-    //[SerializeField] protected TargetMode targetMode;
-    //public Effect effect
+    [SerializeField] protected TargetMode targetMode;
     
+    //public Effect effect
     //public List<Skill> upgrades = new List<Skill> ();
    
-    public virtual void UseSkill(Unit target)
+    public virtual void UseSkill(Unit caster, Unit target)
     {
         Debug.Log("Performed " + name);
     }
+
+    public TargetMode GetTargetMode() { return targetMode; }
 
 }
 

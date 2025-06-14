@@ -1,23 +1,36 @@
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "AttackSkill", menuName = "Scriptable Objects/Skill/AttackSkill")]
 public class AttackSkill : Skill
 {
+    [FormerlySerializedAs("_damage")]
     [Header("Combat Information")]
-    [SerializeField] int _damage;
+    [SerializeField] int damage;
+    [SerializeField] private bool useAttackStat;
+    [SerializeField] private bool ignoresDefense;
     //[SerializeField] int _accuracy;
     
-    public override void UseSkill(Unit target)
+    public override void UseSkill(Unit caster, Unit target)
     {
+        int dmg = damage;
+        
+        if (useAttackStat)
+            dmg += caster.GetStats().attack;
+ 
+        if(!ignoresDefense)
+            dmg = Mathf.Max(dmg - target.GetStats().defense, 0);
+        
         //check accuracy
 
         //apply damage (or healing)
-        target.TakeDamage(_damage);
-        
-        //apply effect
-        
+        target.TakeDamage(dmg);
+
+
         //apply cost
 
-        Debug.Log(target.gameObject.name + " took " + _damage + " damage!");
+        CombatInterface.Instance.SetDamageIndicator(dmg, target.gameObject.transform);
+        Debug.Log(target.gameObject.name + " took " + dmg + " damage!");
     }
 }
