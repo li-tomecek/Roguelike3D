@@ -43,6 +43,7 @@ public class CombatManager : MonoBehaviour
     // -----------------------
     public void BeginBattle()
     {
+        CameraController.Instance.ToggleCombatCamera();
         _inCombat = true;
         InputController.Instance.ActivateMenuMap();
 

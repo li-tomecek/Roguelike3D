@@ -17,9 +17,7 @@ public class InputController : MonoBehaviour
     public event Action AttackEvent;
 
     //MENU CONTROLS
-    //public event Action SubmitEvent;
-    //public event Action CancelEvent;
-    public UnityEvent<Vector2> NavigateEvent;     //menu selections
+    public UnityEvent<Vector2> NavigateEvent;       //menu selections
     public UnityEvent SubmitEvent;                  //If I want to use listeners instead
     public UnityEvent CancelEvent;
 
@@ -72,21 +70,6 @@ public class InputController : MonoBehaviour
 
 
     // MENU NAVIGATION CONTROLS
-    
-    /*public void ReAssignSubmitEvent(Action newFunction)
-    {
-        SubmitEvent = newFunction;
-    }
-    public void ReAssignBack(Action newFunction)
-    {
-        CancelEvent = newFunction;
-    }
-    public void ReAssignSubmitEventAndBack(Action confirm, Action back)
-    {
-        SubmitEvent = confirm;
-        CancelEvent = back;
-    }*/
-
     private void OnSubmitPerformed(InputAction.CallbackContext context) { SubmitEvent?.Invoke(); }
     private void OnCancelPerformed(InputAction.CallbackContext context) { CancelEvent?.Invoke(); }
     private void OnNavigatePerformed(InputAction.CallbackContext context) { NavigateEvent?.Invoke(context.ReadValue<Vector2>()); }

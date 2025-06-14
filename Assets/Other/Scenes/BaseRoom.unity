@@ -1050,8 +1050,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: -0.67294216, z: 2.23283}
+  m_LocalRotation: {x: 0.17999327, y: -0.34591332, z: 0.06779839, w: 0.9183408}
+  m_LocalPosition: {x: 10, y: -8.99, z: 11.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3405,6 +3405,8 @@ MonoBehaviour:
   - {fileID: 1322328539}
   - {fileID: 1592516812}
   _jumpDelay: 0.05
+  _projectilePrefab: {fileID: 8882713711815007449, guid: 339ac59ec8bc08f4bb3638d5741a578d, type: 3}
+  _projectileSpeed: 5
 --- !u!1001 &987008825
 PrefabInstance:
   m_ObjectHideFlags: 0

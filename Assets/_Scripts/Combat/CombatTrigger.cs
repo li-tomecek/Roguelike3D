@@ -9,7 +9,6 @@ public class CombatTrigger : MonoBehaviour
     {
         if (!_triggered && other.gameObject.tag == "Player")
         {
-            CameraController.Instance.ToggleCombatCamera();
             _triggered = true;      //alternatively, just delete the trigger
 
            CombatManager.Instance.BeginBattle();

@@ -11,6 +11,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _directionalInput;
     private Vector3 _movementVector;
 
+    [SerializeField] Transform _followerPoint;
+    [SerializeField] Transform _projectileOrigin;
+
     [Header ("Jump")]
     [SerializeField] private float _raycastHeight;
     [SerializeField] private LayerMask _groundLayer;
@@ -92,4 +95,10 @@ public class PlayerMovement : MonoBehaviour
         _directionalInput = directionalInput.normalized;
         _directionalInput.y = 0f;
     }
+
+    public Transform GetProjectileOrigin() { return _projectileOrigin; }
+    public Transform GetFollowerPoint() { return _followerPoint; }
 }
+
+
+
