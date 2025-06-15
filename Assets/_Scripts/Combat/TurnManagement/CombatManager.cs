@@ -15,6 +15,8 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private List<Transform> _playerCombatPositions;
     [SerializeField] private List<Transform> _enemyCombatPositions;
 
+    private GameObject[] _obstacles;
+
     [Header("Combat Units")]
     [SerializeField] private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
@@ -43,18 +45,22 @@ public class CombatManager : MonoBehaviour
     // ---------------------------------
     public void BeginBattle()
     {
+        _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+       
         CameraController.Instance.ToggleCombatCamera();
-        _inCombat = true;
         InputController.Instance.ActivateMenuMap();
+        _inCombat = true;
+        _turnIndex = -1;
 
+
+        //Add and units to combatSequence List and order them by agility
         _combatSequence.Clear();
         _combatSequence.AddRange(_playerUnits);
         _combatSequence.AddRange(_enemyUnits);
 
         _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();           //ToDo: This does not work, and will have to be fixed 
 
-        _turnIndex = -1;
-
+        //Start required coroutines
         StartCoroutine(CombatSetupSequence());  
     }
     private IEnumerator CombatSetupSequence()
@@ -64,7 +70,13 @@ public class CombatManager : MonoBehaviour
         {
             unit.gameObject.SetActive(true);
         }
-        
+
+        //Deactivate obstacles that will block vision and position setup
+        foreach (GameObject go in _obstacles)
+        {
+            go.SetActive(false);
+        }
+
         //move to start positions
         yield return SendUnitsToPosition();
         
@@ -114,11 +126,7 @@ public class CombatManager : MonoBehaviour
     {
             if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
             {
-                Debug.Log("Combat Finished.");
-                CameraController.Instance.ToggleCombatCamera();
-                _inCombat = false;
-                InputController.Instance.ActivateMovementMap();
-
+            EndEncounter();
                 return;
             }
             _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
@@ -126,24 +134,40 @@ public class CombatManager : MonoBehaviour
         Debug.Log($"--- {_combatSequence[_turnIndex].name}'s Turn --- ");
         _combatSequence[_turnIndex].GetTurnManager().StartTurn();
     }
+    private void EndEncounter()
+    {
+        Debug.Log("Combat Finished.");
+        _inCombat = false;
+
+        CameraController.Instance.ToggleCombatCamera();
+        InputController.Instance.ActivateMovementMap();
+
+        //re-enable the map obstacles
+        foreach (GameObject go in _obstacles)
+        {
+            go.SetActive(true);
+        }
+
+    }
     public void RemoveFromCombat(Unit unit)
     {
-            if (_playerUnits.Contains(unit))
-            {
-                    _playerUnits.Remove(unit);
-            }
-            else if (_enemyUnits.Contains(unit))
-            {
-                    _enemyUnits.Remove(unit);
-            }
+        unit.gameObject.SetActive(false);   //temp    
 
-            if (_combatSequence.IndexOf(unit) < _turnIndex)
-                    _turnIndex--;
+        if (_playerUnits.Contains(unit))
+        {
+                _playerUnits.Remove(unit);
+        }
+        else if (_enemyUnits.Contains(unit))
+        {
+                _enemyUnits.Remove(unit);
+        }
+
+        if (_combatSequence.IndexOf(unit) < _turnIndex)
+                _turnIndex--;
              
-            unit.GetHealthBar().gameObject.SetActive(false);
-            _combatSequence.Remove(unit);
+        _combatSequence.Remove(unit);
     }
-        
+
     // --- Getters / Setters ---
     // -------------------------
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }

@@ -6,10 +6,7 @@ public class Sightline : MonoBehaviour
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _chaseSpeed;
     private bool _spottedTarget;
-    void Start()
-    {
-        
-    }
+
     void FixedUpdate()
     {
         if (CombatManager.Instance.InCombat())

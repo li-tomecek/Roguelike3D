@@ -56,8 +56,7 @@ public abstract class Unit : MonoBehaviour
         {
             CombatManager.Instance.RemoveFromCombat(this);
             Debug.Log($"{name} is Dead.");
-            
-            this.gameObject.SetActive(false);   //temp
+           
         }
     }
     
