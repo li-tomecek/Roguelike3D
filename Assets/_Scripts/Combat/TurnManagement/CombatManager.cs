@@ -39,8 +39,8 @@ public class CombatManager : MonoBehaviour
             }
     }
 
-    // --- Turn Management ---
-    // -----------------------
+    // --- Setup and Turn Management ---
+    // ---------------------------------
     public void BeginBattle()
     {
         CameraController.Instance.ToggleCombatCamera();
@@ -55,7 +55,27 @@ public class CombatManager : MonoBehaviour
 
         _turnIndex = -1;
 
-        StartCoroutine(SendUnitsToPosition());  
+        StartCoroutine(CombatSetupSequence());  
+    }
+    private IEnumerator CombatSetupSequence()
+    { 
+        //activate hidden enemies
+        foreach(Unit unit in _enemyUnits)
+        {
+            unit.gameObject.SetActive(true);
+        }
+        
+        //move to start positions
+        yield return SendUnitsToPosition();
+        
+        //activate health bars
+        foreach (Unit unit in _combatSequence)
+        {
+            unit.GetHealthBar().gameObject.SetActive(true);
+        }
+
+        NextTurn();
+
     }
     private IEnumerator SendUnitsToPosition()
     {
@@ -89,14 +109,6 @@ public class CombatManager : MonoBehaviour
                         
                     yield return 0;
             }
-
-        //activate health bars
-        foreach (Unit unit in _combatSequence)
-        {
-            unit.GetHealthBar().gameObject.SetActive(true);
-        }
-
-        NextTurn();
     }
     public void NextTurn()
     {
@@ -137,9 +149,7 @@ public class CombatManager : MonoBehaviour
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }
     public List<Unit> GetPlayerUnits() { return _playerUnits; }
     public List<Unit> GetCombatSequence() { return _combatSequence; } 
-    
     public bool InCombat() { return _inCombat; }
-    
     public Unit GetRandomPlayerUnit()
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];

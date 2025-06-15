@@ -1886,6 +1886,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5186110144560868181, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_fontSize
       value: 36
@@ -1976,11 +1980,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7909153990272771131, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7909153990272771131, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4115,6 +4119,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5186110144560868181, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_fontSize
       value: 36
@@ -4201,11 +4209,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7909153990272771131, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7909153990272771131, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

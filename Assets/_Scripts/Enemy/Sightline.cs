@@ -32,7 +32,6 @@ public class Sightline : MonoBehaviour
     {
         if (!CombatManager.Instance.InCombat() && (1 << other.gameObject.layer) == _layerMask)
         {
-            Debug.Log("eyooo");
             CombatManager.Instance.BeginBattle();
         }
     }

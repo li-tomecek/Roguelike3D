@@ -20,6 +20,12 @@ public class Fireball : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            //ignore
+            return;
+        }
+        
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             CombatManager.Instance.BeginBattle();
