@@ -67,4 +67,5 @@ public abstract class Unit : MonoBehaviour
     public List<Skill> GetSkills() { return skills; }
 
     public HealthBar GetHealthBar() { return healthBar; }
+    public int GetHealth() { return _health; }
 }

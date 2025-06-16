@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /*
  *  Handles combat setup and turn sequence and management.
@@ -14,18 +16,21 @@ public class CombatManager : MonoBehaviour
     [Header("Combat Positions")]
     [SerializeField] private List<Transform> _playerCombatPositions;
     [SerializeField] private List<Transform> _enemyCombatPositions;
+    [SerializeField] private float _travelSpeed = 4f;
+
 
     private GameObject[] _obstacles;
 
     [Header("Combat Units")]
     [SerializeField] private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
-    [SerializeField] private float _travelSpeed = 4f;
+    [SerializeField] private float _percentDamageOnDisadvantage = 0.1f;
 
     private List<Unit> _combatSequence = new List<Unit>();
 
     private int _turnIndex;
     private bool _inCombat = false;
+    private bool _playerAdvantage;
     //---------------------------------------------------
     //---------------------------------------------------
 
@@ -41,10 +46,11 @@ public class CombatManager : MonoBehaviour
             }
     }
 
-    // --- Setup and Turn Management ---
-    // ---------------------------------
-    public void BeginBattle()
+    // --- Setup  ---
+    // --------------
+    public void BeginBattle(bool playerAdvantage)
     {
+        _playerAdvantage = playerAdvantage;
         _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
        
         CameraController.Instance.ToggleCombatCamera();
@@ -62,6 +68,20 @@ public class CombatManager : MonoBehaviour
 
         //Start required coroutines
         StartCoroutine(CombatSetupSequence());  
+    }
+
+    private void ApplyDisadvantageDamage(List<Unit> unitList)
+    {
+        int damage;
+        foreach (Unit unit in unitList)
+        {
+            damage = Math.Max((int) (unit.GetStats().maxHealth * _percentDamageOnDisadvantage), 1); //Unit must take at least 1 damage(if possible)
+            damage = Math.Min(damage, (unit.GetHealth() - 1));                                      //unit must remain at at least 1HP
+                
+            unit.TakeDamage(damage);
+            CombatInterface.Instance.SetDamageIndicator(damage, unit.gameObject.transform);
+
+        }
     }
     private IEnumerator CombatSetupSequence()
     { 
@@ -85,7 +105,14 @@ public class CombatManager : MonoBehaviour
         {
             unit.GetHealthBar().gameObject.SetActive(true);
         }
+        
+        //Apply disadvantage damage
+        if (_playerAdvantage)    // all enemies start with damage equal to 10% of max health
+            ApplyDisadvantageDamage(_enemyUnits);
+        else                    // all players start with damage equal to 10% of max health
+            ApplyDisadvantageDamage(_playerUnits);
 
+        //Start the first turn
         NextTurn();
 
     }
@@ -122,6 +149,9 @@ public class CombatManager : MonoBehaviour
                     yield return 0;
             }
     }
+    
+    // --- Turn Management -----
+    // -------------------------
     public void NextTurn()
     {
             if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
@@ -177,9 +207,5 @@ public class CombatManager : MonoBehaviour
     public Unit GetRandomPlayerUnit()
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];
-    }   //temp
-    public Unit GetRandomEnemyUnit()
-    {
-            return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
     }   //temp
 }
