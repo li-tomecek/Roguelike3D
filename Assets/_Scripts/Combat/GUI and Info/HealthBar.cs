@@ -1,12 +1,8 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    /// <summary>
-    /// [SerializeField] private TextMeshProUGUI nameText;
-    /// </summary>
     [SerializeField] private Slider healthSlider;
 
     private void Start()

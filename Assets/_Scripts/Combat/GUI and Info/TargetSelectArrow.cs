@@ -1,8 +1,4 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
-using static UnityEditor.PlayerSettings;
-
 public class TargetSelectArrow : MonoBehaviour
 {
     [SerializeField] private float heightOffset;

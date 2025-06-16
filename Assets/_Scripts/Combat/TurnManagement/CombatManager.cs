@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /*
  *  Handles combat setup and turn sequence and management.
@@ -14,16 +16,21 @@ public class CombatManager : MonoBehaviour
     [Header("Combat Positions")]
     [SerializeField] private List<Transform> _playerCombatPositions;
     [SerializeField] private List<Transform> _enemyCombatPositions;
+    [SerializeField] private float _travelSpeed = 4f;
+
+
+    private GameObject[] _obstacles;
 
     [Header("Combat Units")]
     [SerializeField] private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
-    [SerializeField] private float _travelSpeed = 4f;
+    [SerializeField] private float _percentDamageOnDisadvantage = 0.1f;
 
     private List<Unit> _combatSequence = new List<Unit>();
 
     private int _turnIndex;
     private bool _inCombat = false;
+    private bool _playerAdvantage;
     //---------------------------------------------------
     //---------------------------------------------------
 
@@ -39,22 +46,75 @@ public class CombatManager : MonoBehaviour
             }
     }
 
-    // --- Turn Management ---
-    // -----------------------
-    public void BeginBattle()
+    // --- Setup  ---
+    // --------------
+    public void BeginBattle(bool playerAdvantage)
     {
-        _inCombat = true;
+        _playerAdvantage = playerAdvantage;
+        _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+       
+        CameraController.Instance.ToggleCombatCamera();
         InputController.Instance.ActivateMenuMap();
+        _inCombat = true;
+        _turnIndex = -1;
 
+
+        //Add and units to combatSequence List and order them by agility
         _combatSequence.Clear();
         _combatSequence.AddRange(_playerUnits);
         _combatSequence.AddRange(_enemyUnits);
 
-        _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();           //ToDo: This does not work, and will have to be fixed 
+        _combatSequence = _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList(); 
 
-        _turnIndex = -1;
+        //Start required coroutines
+        StartCoroutine(CombatSetupSequence());  
+    }
 
-        StartCoroutine(SendUnitsToPosition());  
+    private void ApplyDisadvantageDamage(List<Unit> unitList)
+    {
+        int damage;
+        foreach (Unit unit in unitList)
+        {
+            damage = Math.Max((int) (unit.GetStats().maxHealth * _percentDamageOnDisadvantage), 1); //Unit must take at least 1 damage(if possible)
+            damage = Math.Min(damage, (unit.GetHealth() - 1));                                      //unit must remain at at least 1HP
+                
+            unit.TakeDamage(damage);
+            CombatInterface.Instance.SetDamageIndicator(damage, unit.gameObject.transform);
+
+        }
+    }
+    private IEnumerator CombatSetupSequence()
+    { 
+        //activate hidden enemies
+        foreach(Unit unit in _enemyUnits)
+        {
+            unit.gameObject.SetActive(true);
+        }
+
+        //Deactivate obstacles that will block vision and position setup
+        foreach (GameObject go in _obstacles)
+        {
+            go.SetActive(false);
+        }
+
+        //move to start positions
+        yield return SendUnitsToPosition();
+        
+        //activate health bars
+        foreach (Unit unit in _combatSequence)
+        {
+            unit.GetHealthBar().gameObject.SetActive(true);
+        }
+        
+        //Apply disadvantage damage
+        if (_playerAdvantage)    // all enemies start with damage equal to 10% of max health
+            ApplyDisadvantageDamage(_enemyUnits);
+        else                    // all players start with damage equal to 10% of max health
+            ApplyDisadvantageDamage(_playerUnits);
+
+        //Start the first turn
+        NextTurn();
+
     }
     private IEnumerator SendUnitsToPosition()
     {
@@ -88,24 +148,15 @@ public class CombatManager : MonoBehaviour
                         
                     yield return 0;
             }
-
-        //activate health bars
-        foreach (Unit unit in _combatSequence)
-        {
-            unit.GetHealthBar().gameObject.SetActive(true);
-        }
-
-        NextTurn();
     }
+    
+    // --- Turn Management -----
+    // -------------------------
     public void NextTurn()
     {
             if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
             {
-                Debug.Log("Combat Finished.");
-                CameraController.Instance.ToggleCombatCamera();
-                _inCombat = false;
-                InputController.Instance.ActivateMovementMap();
-
+            EndEncounter();
                 return;
             }
             _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
@@ -113,38 +164,48 @@ public class CombatManager : MonoBehaviour
         Debug.Log($"--- {_combatSequence[_turnIndex].name}'s Turn --- ");
         _combatSequence[_turnIndex].GetTurnManager().StartTurn();
     }
+    private void EndEncounter()
+    {
+        Debug.Log("Combat Finished.");
+        _inCombat = false;
+
+        CameraController.Instance.ToggleCombatCamera();
+        InputController.Instance.ActivateMovementMap();
+
+        //re-enable the map obstacles
+        foreach (GameObject go in _obstacles)
+        {
+            go.SetActive(true);
+        }
+
+    }
     public void RemoveFromCombat(Unit unit)
     {
-            if (_playerUnits.Contains(unit))
-            {
-                    _playerUnits.Remove(unit);
-            }
-            else if (_enemyUnits.Contains(unit))
-            {
-                    _enemyUnits.Remove(unit);
-            }
+        unit.gameObject.SetActive(false);   //temp    
 
-            if (_combatSequence.IndexOf(unit) < _turnIndex)
-                    _turnIndex--;
+        if (_playerUnits.Contains(unit))
+        {
+                _playerUnits.Remove(unit);
+        }
+        else if (_enemyUnits.Contains(unit))
+        {
+                _enemyUnits.Remove(unit);
+        }
+
+        if (_combatSequence.IndexOf(unit) < _turnIndex)
+                _turnIndex--;
              
-            unit.GetHealthBar().gameObject.SetActive(false);
-            _combatSequence.Remove(unit);
+        _combatSequence.Remove(unit);
     }
-        
+
     // --- Getters / Setters ---
     // -------------------------
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }
     public List<Unit> GetPlayerUnits() { return _playerUnits; }
     public List<Unit> GetCombatSequence() { return _combatSequence; } 
-    
     public bool InCombat() { return _inCombat; }
-    
     public Unit GetRandomPlayerUnit()
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];
-    }   //temp
-    public Unit GetRandomEnemyUnit()
-    {
-            return _enemyUnits[Random.Range( 0, _enemyUnits.Count)];
     }   //temp
 }

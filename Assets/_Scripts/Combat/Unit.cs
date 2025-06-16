@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [System.Serializable]
 public struct Stats
@@ -56,11 +55,9 @@ public abstract class Unit : MonoBehaviour
         {
             CombatManager.Instance.RemoveFromCombat(this);
             Debug.Log($"{name} is Dead.");
-            
-            this.gameObject.SetActive(false);   //temp
+           
         }
     }
-    
     
     
     // --- Getters / Setters ---
@@ -70,4 +67,5 @@ public abstract class Unit : MonoBehaviour
     public List<Skill> GetSkills() { return skills; }
 
     public HealthBar GetHealthBar() { return healthBar; }
+    public int GetHealth() { return _health; }
 }

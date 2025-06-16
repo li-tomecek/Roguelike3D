@@ -1,6 +1,4 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
     private float _speed;
     private Vector3 _directionalInput;
     private Vector3 _movementVector;
+
+    [SerializeField] Transform _followerPoint;
+    [SerializeField] Transform _projectileOrigin;
 
     [Header ("Jump")]
     [SerializeField] private float _raycastHeight;
@@ -92,4 +93,10 @@ public class PlayerMovement : MonoBehaviour
         _directionalInput = directionalInput.normalized;
         _directionalInput.y = 0f;
     }
+
+    public Transform GetProjectileOrigin() { return _projectileOrigin; }
+    public Transform GetFollowerPoint() { return _followerPoint; }
 }
+
+
+
