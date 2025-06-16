@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/* Handles logic related to the tentire party:
+/* Handles logic related to the entire party:
  *  - Handles input for out-of-combat controls and has last arty memebers follow the first party member
  * 
  */
@@ -66,7 +66,6 @@ public class PartyControls : MonoBehaviour
     {
         StartCoroutine(StartJumps());
     }
-
     private IEnumerator StartJumps()
     {
         for (int i = 0; i < _partyMovement.Count; i++)
@@ -76,7 +75,6 @@ public class PartyControls : MonoBehaviour
 
         }
     }
-
     private void FireProjectile()
     {
         if (Time.time - _timeLastFired < _projectileCooldown)
