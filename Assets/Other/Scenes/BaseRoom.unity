@@ -7873,7 +7873,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 223739873}
+  m_Mesh: {fileID: 678196942}
 --- !u!33 &1460659079
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -9842,7 +9842,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 810675914}
+  m_Mesh: {fileID: 769684917}
 --- !u!33 &1686007804
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -11949,6 +11949,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4256256137994084213, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4256256137994084213, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 576
+      objectReference: {fileID: 0}
     - target: {fileID: 5186110144560868181, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_fontSize
       value: 36
@@ -12041,6 +12049,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9208743075525665910, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12098,6 +12110,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _chaseSpeed: 5
+  _detectionRadius: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
