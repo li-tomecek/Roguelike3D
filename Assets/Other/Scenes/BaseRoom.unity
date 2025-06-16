@@ -2597,6 +2597,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: stats.agility
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_Name
       value: Enemy 2
@@ -7489,6 +7493,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: stats.agility
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_Name
       value: Enemy 3
@@ -12013,7 +12021,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4126074244012417845, guid: 934ed75203cf5614dae7998eca3d2bc5, type: 3}
       propertyPath: stats.agility
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4126074244012417845, guid: 934ed75203cf5614dae7998eca3d2bc5, type: 3}
       propertyPath: skills.Array.size
@@ -12171,6 +12179,10 @@ PrefabInstance:
     - target: {fileID: 3398201698211801459, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: stats.agility
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_Name

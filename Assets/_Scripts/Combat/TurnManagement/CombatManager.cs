@@ -58,7 +58,7 @@ public class CombatManager : MonoBehaviour
         _combatSequence.AddRange(_playerUnits);
         _combatSequence.AddRange(_enemyUnits);
 
-        _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();           //ToDo: This does not work, and will have to be fixed 
+        _combatSequence = _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList(); 
 
         //Start required coroutines
         StartCoroutine(CombatSetupSequence());  

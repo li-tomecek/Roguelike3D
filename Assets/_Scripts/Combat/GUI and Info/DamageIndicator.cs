@@ -1,9 +1,6 @@
-using Mono.Cecil;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(Canvas))]
 public class DamageIndicator : MonoBehaviour

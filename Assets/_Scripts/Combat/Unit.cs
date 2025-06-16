@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [System.Serializable]
 public struct Stats
@@ -59,7 +58,6 @@ public abstract class Unit : MonoBehaviour
            
         }
     }
-    
     
     
     // --- Getters / Setters ---
