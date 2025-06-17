@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -48,14 +49,6 @@ public class CombatInterface : MonoBehaviour
     {
         _selectionArrow.gameObject.SetActive(true);
         _selectionArrow.SetTarget(position);
-    }
-    public void SetTargetArrowPositionAtEnemy(int index)
-    {
-        SetTargetArrowPosition(CombatManager.Instance.GetEnemyUnits()[index].gameObject.transform.position);
-    }
-    public void SetTargetArrowPositionAtPlayer(int index)
-    {
-        SetTargetArrowPosition(CombatManager.Instance.GetPlayerUnits()[index].gameObject.transform.position);
     }
     public void HideArrow()
     {

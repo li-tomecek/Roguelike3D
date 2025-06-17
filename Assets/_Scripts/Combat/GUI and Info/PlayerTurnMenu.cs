@@ -38,20 +38,31 @@ public class PlayerTurnMenu : MonoBehaviour
 
         if (unit.GetSkills()[0] != null)
         {
+            _skill1Btn.gameObject.SetActive(true);
             _skill1Btn.GetComponentInChildren<TextMeshProUGUI>().SetText($"{ unit.GetSkills()[0].name}\n[{unit.GetSkills()[0].GetCost()} BP]");
+            
             if (unit.GetSkills()[0].GetCost() > unit.GetBP())
                 _skill1Btn.interactable = false;
             else
                 _skill1Btn.interactable = true;
+        } else
+        {
+            _skill1Btn.gameObject.SetActive(false);
         }
         if (unit.GetSkills()[1] != null)
         {
+            _skill2Btn.gameObject.SetActive(true);
             _skill2Btn.GetComponentInChildren<TextMeshProUGUI>().SetText($"{unit.GetSkills()[1].name}\n[{unit.GetSkills()[1].GetCost()} BP]");
+            
             if (unit.GetSkills()[1].GetCost() > unit.GetBP())
                 _skill2Btn.interactable = false;
             else
                 _skill2Btn.interactable = true;
 
+        }
+        else
+        {
+            _skill2Btn.gameObject.SetActive(false);
         }
 
         InputController.Instance.CancelEvent.AddListener(BackToActionMenu);
