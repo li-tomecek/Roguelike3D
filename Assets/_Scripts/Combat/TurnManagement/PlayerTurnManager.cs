@@ -19,6 +19,7 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
+        unit.IncrementBP();
         CombatInterface.Instance.GetTurnMenu().SetupMenu(unit);
     }
 

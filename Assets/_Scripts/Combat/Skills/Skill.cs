@@ -18,11 +18,12 @@ public class Skill : ScriptableObject
    
     public virtual void UseSkill(Unit caster, Unit target)
     {
-        Debug.Log("Performed " + name);
+        caster.DecrementBP(cost);
     }
 
     public TargetMode GetTargetMode() { return targetMode; }
 
+    public int GetCost() { return cost; }
 }
 
 

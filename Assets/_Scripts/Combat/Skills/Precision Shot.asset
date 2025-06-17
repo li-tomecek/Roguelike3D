@@ -16,4 +16,6 @@ MonoBehaviour:
   description: A powerful single-target attack. Must Attack at range.
   cost: 2
   targetMode: 1
-  _damage: 12
+  damage: 12
+  useAttackStat: 1
+  ignoresDefense: 0

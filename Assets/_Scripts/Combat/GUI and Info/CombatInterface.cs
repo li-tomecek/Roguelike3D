@@ -19,8 +19,6 @@ public class CombatInterface : MonoBehaviour
 
     private ObjectPool _damageIndicators;
     
-
-
     void Awake()
     {
         if (Instance == null)
@@ -38,7 +36,7 @@ public class CombatInterface : MonoBehaviour
     {
         _damageIndicators = new ObjectPool(_damageIndicatorPrefab, _pooledIndicatorAmount);
         
-            _selectionArrow = Instantiate(_selectionArrow);
+        _selectionArrow = Instantiate(_selectionArrow);
         _selectionArrow.gameObject.SetActive(false);
 
         _turnMenu = Instantiate(_turnMenu).GetComponent<PlayerTurnMenu>();

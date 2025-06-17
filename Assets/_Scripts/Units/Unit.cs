@@ -15,6 +15,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] protected Stats stats; 
     [SerializeField] protected Stats modifiers; 
     protected int _health;
+    protected int _bp;
 
     //Skills
     [SerializeField] protected List<Skill> skills;
@@ -68,4 +69,7 @@ public abstract class Unit : MonoBehaviour
 
     public HealthBar GetHealthBar() { return healthBar; }
     public int GetHealth() { return _health; }
+    public int GetBP() { return _bp; }
+    public void IncrementBP() { _bp++; }
+    public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }
 }

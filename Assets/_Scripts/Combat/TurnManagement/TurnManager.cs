@@ -3,7 +3,7 @@ public abstract class TurnManager
     //protected Unit unit;
     public TurnManager()
     {
-        //this.unit = unit;d
+        //this.unit = unit;
     }
 
     public virtual void StartTurn()

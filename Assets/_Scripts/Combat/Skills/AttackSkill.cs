@@ -26,10 +26,9 @@ public class AttackSkill : Skill
         //apply damage (or healing)
         target.TakeDamage(dmg);
 
-
-        //apply cost
-
         CombatInterface.Instance.SetDamageIndicator(dmg, target.gameObject.transform);
         Debug.Log(target.gameObject.name + " took " + dmg + " damage!");
+
+        base.UseSkill(caster, target);
     }
 }
