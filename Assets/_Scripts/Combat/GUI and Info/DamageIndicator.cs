@@ -9,11 +9,9 @@ public class DamageIndicator : MonoBehaviour
     [SerializeField] private float activeTime = 2f;
     [SerializeField] private float heightOffset = 1f;
     [SerializeField] private float floatSpeed = 0.75f;
-    
-
-    public void ShowDamageAtTarget(int damage, Transform target, Color color)
+    public void ShowIndicatorAtTarget(string str, Transform target, Color color)
     {
-        _damageText.SetText(damage.ToString());
+        _damageText.SetText(str);
         _damageText.outlineColor = color;
         
         gameObject.transform.position = target.position;

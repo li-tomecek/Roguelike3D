@@ -4,7 +4,6 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(fileName = "AttackSkill", menuName = "Scriptable Objects/Skill/AttackSkill")]
 public class AttackSkill : Skill
 {
-    [FormerlySerializedAs("_damage")]
     [Header("Combat Information")]
     [SerializeField] int damage;
     [SerializeField] private bool useAttackStat;
@@ -16,17 +15,17 @@ public class AttackSkill : Skill
         int dmg = damage;
         
         if (useAttackStat)
-            dmg += caster.GetStats().attack;
+            dmg += (caster.GetStats().attack + caster.GetModifiers().attack);
  
         if(!ignoresDefense)
-            dmg = Mathf.Max(dmg - target.GetStats().defense, 0);
+            dmg = Mathf.Max(dmg - (target.GetStats().defense + target.GetModifiers().defense), 0);
         
         //check accuracy
 
         //apply damage (or healing)
         target.TakeDamage(dmg);
 
-        CombatInterface.Instance.SetDamageIndicator(dmg, target.gameObject.transform);
+        CombatInterface.Instance.SetIndicator(dmg.ToString(), target.gameObject.transform);
         Debug.Log(target.gameObject.name + " took " + dmg + " damage!");
 
         base.UseSkill(caster, target);

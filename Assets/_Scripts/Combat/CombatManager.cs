@@ -144,7 +144,7 @@ public class CombatManager : MonoBehaviour
             damage = Math.Min(damage, (unit.GetHealth() - 1));                                      //unit must remain at at least 1HP
 
             unit.TakeDamage(damage);
-            CombatInterface.Instance.SetDamageIndicator(damage, unit.gameObject.transform);
+            CombatInterface.Instance.SetIndicator(damage.ToString(), unit.gameObject.transform);
 
         }
     }

@@ -23,7 +23,7 @@ public abstract class Unit : MonoBehaviour
 
 
     //Effects
-    //private List<Effect> _activeEffects = new List<Effect>();
+    private List<Effect> _activeEffects = new List<Effect>();
 
     protected TurnManager turnManager;
     protected HealthBar healthBar;
@@ -59,14 +59,40 @@ public abstract class Unit : MonoBehaviour
            
         }
     }
-    
-    
+
+    public void ApplyModifier(EffectType type, int value)
+    {
+        switch (type)
+        {
+            case EffectType.ATK:
+                modifiers.attack += value;
+                break;
+            case EffectType.DEF:
+                modifiers.defense += value;
+                break;
+            case EffectType.AGI:
+                modifiers.agility += value;
+                break;
+
+        }
+    }
+
+    public void ResolveEffects()
+    {
+        for(int i = 0; i < _activeEffects.Count; i++)
+        {
+            _activeEffects[i].duration--;
+        }
+    }
+
+
     // --- Getters / Setters ---
     public Stats GetStats() { return stats; }
+    public Stats GetModifiers() { return modifiers; }
+    public List<Effect> GetActiveEffects() { return _activeEffects; }
     public virtual TurnManager GetTurnManager() { return turnManager; }
     public Skill GetDefaultSkill() { return defaultSkill; }
     public List<Skill> GetSkills() { return skills; }
-
     public HealthBar GetHealthBar() { return healthBar; }
     public int GetHealth() { return _health; }
     public int GetBP() { return _bp; }

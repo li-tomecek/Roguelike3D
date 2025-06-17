@@ -58,14 +58,14 @@ public class CombatInterface : MonoBehaviour
 
     // --- Damage Indicator --- 
     // ------------------------
-    public void SetDamageIndicator(int damage, Transform target, UnityEngine.Color color)
+    public void SetIndicator(string str, Transform target, UnityEngine.Color color)
     {
-        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowDamageAtTarget(damage, target, color);
+        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowIndicatorAtTarget(str, target, color);
     }
-    public void SetDamageIndicator(int damage, Transform target)
+    public void SetIndicator(string str, Transform target)
     {
 
-        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowDamageAtTarget(damage, target, UnityEngine.Color.black);
+        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowIndicatorAtTarget(str, target, UnityEngine.Color.black);
     }
 
     // --- Getters / Setters ---

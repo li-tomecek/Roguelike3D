@@ -9,7 +9,7 @@ public class PlayerTurnManager : TurnManager
     private Skill _activeSkill;
     private int _targetIndex;
     private List<Unit> _targetPool;
-    public PlayerTurnManager(PlayerUnit unit) : base()
+    public PlayerTurnManager(PlayerUnit unit) : base(unit)
     {
         this.unit = unit;
     }
@@ -19,7 +19,7 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
-        unit.IncrementBP();
+        //unit.IncrementBP();
         CombatInterface.Instance.GetTurnMenu().SetupMenu(unit);
     }
 
