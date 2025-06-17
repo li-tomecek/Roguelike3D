@@ -11,9 +11,10 @@ public class DamageIndicator : MonoBehaviour
     [SerializeField] private float floatSpeed = 0.75f;
     
 
-    public void ShowDamageAtTarget(int damage, Transform target)
+    public void ShowDamageAtTarget(int damage, Transform target, Color color)
     {
         _damageText.SetText(damage.ToString());
+        _damageText.outlineColor = color;
         
         gameObject.transform.position = target.position;
         gameObject.transform.rotation = Quaternion.LookRotation(gameObject.transform.position - Camera.main.transform.position);    //backwards bc for some reason the text is backwards

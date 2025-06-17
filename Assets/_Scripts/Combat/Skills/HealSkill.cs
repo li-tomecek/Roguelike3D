@@ -21,7 +21,7 @@ public class HealSkill : Skill
         //apply  healing
         target.TakeDamage(-heal);
 
-        CombatInterface.Instance.SetDamageIndicator(heal, target.gameObject.transform);
+        CombatInterface.Instance.SetDamageIndicator(heal, target.gameObject.transform, UnityEngine.Color.green);
         Debug.Log(target.gameObject.name + " restored " + heal + " damage!");
 
         base.UseSkill(caster, target);

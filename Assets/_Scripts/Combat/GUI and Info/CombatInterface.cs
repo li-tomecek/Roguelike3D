@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 /*
@@ -57,9 +58,14 @@ public class CombatInterface : MonoBehaviour
 
     // --- Damage Indicator --- 
     // ------------------------
+    public void SetDamageIndicator(int damage, Transform target, UnityEngine.Color color)
+    {
+        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowDamageAtTarget(damage, target, color);
+    }
     public void SetDamageIndicator(int damage, Transform target)
     {
-        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowDamageAtTarget(damage, target);
+
+        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowDamageAtTarget(damage, target, UnityEngine.Color.black);
     }
 
     // --- Getters / Setters ---
