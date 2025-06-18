@@ -1,14 +1,28 @@
 public abstract class TurnManager
 {
-    //protected Unit unit;
-    public TurnManager()
+    private Unit unit;
+    public TurnManager(Unit unit)
     {
-        //this.unit = unit;d
+        this.unit = unit;
     }
 
     public virtual void StartTurn()
     {
-        //ToDo: resolve any active effects
+        //Resolve any active effects
+        Effect effect;
+        for (int i = 0; i < unit.GetActiveEffects().Count; i++)
+        {
+            effect = unit.GetActiveEffects()[i];
+            effect.duration--;
+            if (effect.duration < 0)    // means that is is still up for one turn
+            {
+                effect.RemoveEffect(unit);
+                unit.GetActiveEffects().Remove(effect);
+            }
+        }
+        
+        
+        unit.IncrementBP();
     }
 
     public virtual void EndTurn()

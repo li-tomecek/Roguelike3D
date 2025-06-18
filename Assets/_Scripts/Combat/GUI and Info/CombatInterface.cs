@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 /*
@@ -19,8 +21,6 @@ public class CombatInterface : MonoBehaviour
 
     private ObjectPool _damageIndicators;
     
-
-
     void Awake()
     {
         if (Instance == null)
@@ -38,7 +38,7 @@ public class CombatInterface : MonoBehaviour
     {
         _damageIndicators = new ObjectPool(_damageIndicatorPrefab, _pooledIndicatorAmount);
         
-            _selectionArrow = Instantiate(_selectionArrow);
+        _selectionArrow = Instantiate(_selectionArrow);
         _selectionArrow.gameObject.SetActive(false);
 
         _turnMenu = Instantiate(_turnMenu).GetComponent<PlayerTurnMenu>();
@@ -51,14 +51,6 @@ public class CombatInterface : MonoBehaviour
         _selectionArrow.gameObject.SetActive(true);
         _selectionArrow.SetTarget(position);
     }
-    public void SetTargetArrowPositionAtEnemy(int index)
-    {
-        SetTargetArrowPosition(CombatManager.Instance.GetEnemyUnits()[index].gameObject.transform.position);
-    }
-    public void SetTargetArrowPositionAtPlayer(int index)
-    {
-        SetTargetArrowPosition(CombatManager.Instance.GetPlayerUnits()[index].gameObject.transform.position);
-    }
     public void HideArrow()
     {
         _selectionArrow.gameObject.SetActive(false);
@@ -66,9 +58,14 @@ public class CombatInterface : MonoBehaviour
 
     // --- Damage Indicator --- 
     // ------------------------
-    public void SetDamageIndicator(int damage, Transform target)
+    public void SetIndicator(string str, Transform target, UnityEngine.Color color)
     {
-        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowDamageAtTarget(damage, target);
+        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowIndicatorAtTarget(str, target, color);
+    }
+    public void SetIndicator(string str, Transform target)
+    {
+
+        _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowIndicatorAtTarget(str, target, UnityEngine.Color.black);
     }
 
     // --- Getters / Setters ---

@@ -69,20 +69,6 @@ public class CombatManager : MonoBehaviour
         //Start required coroutines
         StartCoroutine(CombatSetupSequence());  
     }
-
-    private void ApplyDisadvantageDamage(List<Unit> unitList)
-    {
-        int damage;
-        foreach (Unit unit in unitList)
-        {
-            damage = Math.Max((int) (unit.GetStats().maxHealth * _percentDamageOnDisadvantage), 1); //Unit must take at least 1 damage(if possible)
-            damage = Math.Min(damage, (unit.GetHealth() - 1));                                      //unit must remain at at least 1HP
-                
-            unit.TakeDamage(damage);
-            CombatInterface.Instance.SetDamageIndicator(damage, unit.gameObject.transform);
-
-        }
-    }
     private IEnumerator CombatSetupSequence()
     { 
         //activate hidden enemies
@@ -149,7 +135,20 @@ public class CombatManager : MonoBehaviour
                     yield return 0;
             }
     }
-    
+    private void ApplyDisadvantageDamage(List<Unit> unitList)
+    {
+        int damage;
+        foreach (Unit unit in unitList)
+        {
+            damage = Math.Max((int)(unit.GetStats().maxHealth * _percentDamageOnDisadvantage), 1); //Unit must take at least 1 damage(if possible)
+            damage = Math.Min(damage, (unit.GetHealth() - 1));                                      //unit must remain at at least 1HP
+
+            unit.TakeDamage(damage);
+            CombatInterface.Instance.SetIndicator(damage.ToString(), unit.gameObject.transform);
+
+        }
+    }
+
     // --- Turn Management -----
     // -------------------------
     public void NextTurn()

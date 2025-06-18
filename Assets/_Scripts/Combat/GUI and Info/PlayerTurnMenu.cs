@@ -1,17 +1,21 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerTurnMenu : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _unitNameText;
+    [SerializeField] private TextMeshProUGUI _unitBPText;
+
     [Header("Action Menu")]
     private GameObject _actionPanel;
+    [SerializeField] private Button _defaultSelectedButton;
     
     [Header("Skills Menu")]
     private GameObject _skillsPanel;
-    [SerializeField] private TextMeshProUGUI _unitNameText;
-    [SerializeField] private TextMeshProUGUI _skill1Text;
-    [SerializeField] private TextMeshProUGUI _skill2Text;
+    [SerializeField] private Button _skill1Btn;
+    [SerializeField] private Button _skill2Btn;
 
     private PlayerUnit _unit;
     private void Start()
@@ -19,31 +23,65 @@ public class PlayerTurnMenu : MonoBehaviour
         _actionPanel = GameObject.Find("ActionPanel");
         _skillsPanel = GameObject.Find("SkillsPanel");
         
-        _actionPanel.SetActive(false);
         _skillsPanel.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void SetupMenu(PlayerUnit unit)
     {
+        gameObject.SetActive(true);
+        _actionPanel.SetActive(true);   
+        
+        //1. Name and BP
         _unit = unit;
         _unitNameText.SetText(unit.name);
+        _unitBPText.SetText($"BP: {_unit.GetBP()}");
 
+        //2. Skill Buttons
         if (unit.GetSkills()[0] != null)
-            _skill1Text.SetText(unit.GetSkills()[0].name);
+        {
+            _skill1Btn.gameObject.SetActive(true);
+            _skill1Btn.GetComponentInChildren<TextMeshProUGUI>().SetText($"{ unit.GetSkills()[0].name}\n[{unit.GetSkills()[0].GetCost()} BP]");
+            
+            if (unit.GetSkills()[0].GetCost() > unit.GetBP())
+                _skill1Btn.interactable = false;
+            else
+                _skill1Btn.interactable = true;
+        } else
+        {
+            _skill1Btn.gameObject.SetActive(false);
+        }
         if (unit.GetSkills()[1] != null)
-            _skill2Text.SetText(unit.GetSkills()[1].name);
-        
-        _actionPanel.SetActive(true);
+        {
+            _skill2Btn.gameObject.SetActive(true);
+            _skill2Btn.GetComponentInChildren<TextMeshProUGUI>().SetText($"{unit.GetSkills()[1].name}\n[{unit.GetSkills()[1].GetCost()} BP]");
+            
+            if (unit.GetSkills()[1].GetCost() > unit.GetBP())
+                _skill2Btn.interactable = false;
+            else
+                _skill2Btn.interactable = true;
+
+        }
+        else
+        {
+            _skill2Btn.gameObject.SetActive(false);
+        }
+
+        InputController.Instance.CancelEvent.AddListener(BackToActionMenu);
     }
 
     private void CloseMenu()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        _actionPanel.SetActive(false);
         _skillsPanel.SetActive(false);
+
+        InputController.Instance.CancelEvent.RemoveAllListeners();
+
+        gameObject.SetActive(false);
+
     }
 
-    
+
     // --- Button On Click Methods ---
     // -------------------------------
     public void AttackButtonPressed()
@@ -58,7 +96,7 @@ public class PlayerTurnMenu : MonoBehaviour
     {
         //open skills menu, deactivate action menu
         _actionPanel.SetActive(false);
-        _skillsPanel.SetActive(true);    
+        _skillsPanel.SetActive(true);
     }
 
     public void GuardButtonPressed()
@@ -72,5 +110,22 @@ public class PlayerTurnMenu : MonoBehaviour
         _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetSkills()[skillIndex]);   //ToDo: exception handling here! Or just a regular check
         CloseMenu();
     }
+
+    
+    
+    
+    // --- Input Reading Methods ---
+    //------------------------------
+    public void BackToActionMenu()
+    {
+        //going from skills panel back to action panel
+        if (_skillsPanel.activeSelf)
+        {
+            _actionPanel.SetActive(true);
+            _skillsPanel.SetActive(false);
+        }
+    }
+
+
 
 }

@@ -47,7 +47,7 @@ public class PartyControls : MonoBehaviour
     // PARTY MOVEMENT AND OUT-OF-COMBAT CONTROLS
     private void HandleMoveInput(Vector2 input)
     {
-        _partyMovement[0].SetDirectionalInput(input);
+        _partyMovement[0].SetDirectionalInput(input);   //only the first party member is directly controlled via input
         if (input == Vector2.zero)      //if the player is not moving
         {
             _following = false;
@@ -59,7 +59,6 @@ public class PartyControls : MonoBehaviour
         else
         {
             _following = true;
-            _partyMovement[0].SetDirectionalInput(input);   //only the first party member is directly controlled via input
         }
     }
     private void HandleJump()
