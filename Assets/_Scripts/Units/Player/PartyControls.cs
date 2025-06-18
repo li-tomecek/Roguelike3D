@@ -9,18 +9,38 @@ using UnityEngine;
 
 public class PartyControls : MonoBehaviour
 {
+    public static PartyControls Instance;
+    [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
+
     [Header("Party Movement")]
-    [SerializeField] private List<PlayerMovement> _partyMovement = new List<PlayerMovement>();
     [SerializeField] private float _jumpDelay;
+    private List<PlayerMovement> _partyMovement = new List<PlayerMovement>();
+
     private bool _following = false;
 
     [Header("Ranged Attack")]
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-   
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
+        foreach(PlayerUnit unit in _partyMembers)
+        {
+            _partyMovement.Add(unit.gameObject.GetComponent<PlayerMovement>());
+        }
+
         if (InputController.Instance != null)
         {   
             InputController.Instance.MoveEvent += HandleMoveInput;
@@ -32,7 +52,6 @@ public class PartyControls : MonoBehaviour
             Debug.LogWarning("No InputController found");
         }
     }
-
     private void Update()
     {
         if (_following)
@@ -44,7 +63,8 @@ public class PartyControls : MonoBehaviour
         }
     }
 
-    // PARTY MOVEMENT AND OUT-OF-COMBAT CONTROLS
+    // --- PARTY OUT-OF-COMBAT CONTROLS --- 
+    // ------------------------------------
     private void HandleMoveInput(Vector2 input)
     {
         _partyMovement[0].SetDirectionalInput(input);   //only the first party member is directly controlled via input
@@ -86,4 +106,6 @@ public class PartyControls : MonoBehaviour
             _partyMovement[0].GetProjectileOrigin().position, 
             _partyMovement[0].GetProjectileOrigin().rotation);  
     }
+
+    public List<PlayerUnit> GetPartyMembers() { return _partyMembers; }
 }

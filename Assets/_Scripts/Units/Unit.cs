@@ -60,6 +60,7 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+
     public void ApplyModifier(EffectType type, int value)
     {
         switch (type)
@@ -95,6 +96,7 @@ public abstract class Unit : MonoBehaviour
     public List<Skill> GetSkills() { return skills; }
     public HealthBar GetHealthBar() { return healthBar; }
     public int GetHealth() { return _health; }
+    public void SetHealth(int value) { _health = value; }
     public int GetBP() { return _bp; }
     public void IncrementBP() { _bp++; }
     public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }

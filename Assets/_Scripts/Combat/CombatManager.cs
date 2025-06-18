@@ -13,6 +13,11 @@ public class CombatManager : MonoBehaviour
 {
     public static CombatManager Instance;
 
+    [Header("Combat Units")]
+    private List<Unit> _playerUnits;
+    [SerializeField] private List<Unit> _enemyUnits;
+    [SerializeField] private float _percentDamageOnDisadvantage = 0.1f;
+
     [Header("Combat Positions")]
     [SerializeField] private List<Transform> _playerCombatPositions;
     [SerializeField] private List<Transform> _enemyCombatPositions;
@@ -20,11 +25,6 @@ public class CombatManager : MonoBehaviour
 
 
     private GameObject[] _obstacles;
-
-    [Header("Combat Units")]
-    [SerializeField] private List<Unit> _playerUnits;
-    [SerializeField] private List<Unit> _enemyUnits;
-    [SerializeField] private float _percentDamageOnDisadvantage = 0.1f;
 
     private List<Unit> _combatSequence = new List<Unit>();
 
@@ -50,6 +50,8 @@ public class CombatManager : MonoBehaviour
     // --------------
     public void BeginBattle(bool playerAdvantage)
     {
+        _playerUnits = PartyControls.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
+
         _playerAdvantage = playerAdvantage;
         _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
        
@@ -169,12 +171,30 @@ public class CombatManager : MonoBehaviour
         _inCombat = false;
 
         CameraController.Instance.ToggleCombatCamera();
-        InputController.Instance.ActivateMovementMap();
 
         //re-enable the map obstacles
         foreach (GameObject go in _obstacles)
         {
             go.SetActive(true);
+        }
+
+        
+        if(_playerUnits.Count > 0)  //Player won
+        {
+            InputController.Instance.ActivateMovementMap();
+            foreach(PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
+            {
+                unit.gameObject.SetActive(true);    
+                if (unit.GetHealth() <= 0)
+                    unit.SetHealth(1);              //revive "dead" units to 1HP
+                
+                unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
+            }
+
+        }
+        else                      //Game over
+        {
+
         }
 
     }
