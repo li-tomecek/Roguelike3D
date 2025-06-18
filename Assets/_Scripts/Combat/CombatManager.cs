@@ -168,7 +168,6 @@ public class CombatManager : MonoBehaviour
     private void EndEncounter()
     {
         Debug.Log("Combat Finished.");
-        _inCombat = false;
 
         CameraController.Instance.ToggleCombatCamera();
 
@@ -179,22 +178,24 @@ public class CombatManager : MonoBehaviour
         }
 
         
-        if(_playerUnits.Count > 0)  //Player won
+        if(_playerUnits.Count > 0)  //PLAYER WON
         {
+            _inCombat = false;
             InputController.Instance.ActivateMovementMap();
+            
             foreach(PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
             {
                 unit.gameObject.SetActive(true);    
                 if (unit.GetHealth() <= 0)
-                    unit.SetHealth(1);              //revive "dead" units to 1HP
+                    unit.SetHealth(1);                              //revive "dead" units to 1HP
                 
                 unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
             }
 
         }
-        else                      //Game over
+        else   //GAME OVER
         {
-
+            CombatInterface.Instance.OpenGameOverScreen();
         }
 
     }

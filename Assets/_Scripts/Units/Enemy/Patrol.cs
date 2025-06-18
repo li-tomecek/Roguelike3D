@@ -49,6 +49,7 @@ public class Patrol : MonoBehaviour
         {
             if (Physics.Raycast(gameObject.transform.position, transform.forward, out RaycastHit hit, _collisionDistance, _layerMask))
             {
+                _spottedTarget = false;
                 CombatManager.Instance.BeginBattle(false);
             } else
             {

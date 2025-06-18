@@ -1177,10 +1177,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0349f940dafce84fb09034a19541682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _selectionArrow: {fileID: 7291429933288162340, guid: 45120fb0939ac624e87d0cc90ba63e9b, type: 3}
+  _selectionArrowPrefab: {fileID: 7291429933288162340, guid: 45120fb0939ac624e87d0cc90ba63e9b, type: 3}
   _turnMenu: {fileID: 2954357079538441984, guid: b28f2bbbdcd45f6498ba1b9817cd88a1, type: 3}
   _damageIndicatorPrefab: {fileID: 8542705804623845304, guid: 3b83eb015c1299941bbb0e0d45ead06a, type: 3}
   _pooledIndicatorAmount: 6
+  _gameOverPrefab: {fileID: 7917014909572229797, guid: 4ead6e700d5e1714da9f4bc9f4e328b9, type: 3}
 --- !u!114 &274480612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1193,6 +1194,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2fb50fb9e53e0a4880a4c30123843dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyUnits:
+  - {fileID: 9136037261554832186}
+  - {fileID: 482292098}
+  - {fileID: 1391629002}
+  _percentDamageOnDisadvantage: 0.1
   _playerCombatPositions:
   - {fileID: 512308701}
   - {fileID: 650800313}
@@ -1202,15 +1208,6 @@ MonoBehaviour:
   - {fileID: 1796797571}
   - {fileID: 286855451}
   _travelSpeed: 7
-  _playerUnits:
-  - {fileID: 6550382094367805458}
-  - {fileID: 1322328538}
-  - {fileID: 1592516811}
-  _enemyUnits:
-  - {fileID: 9136037261554832186}
-  - {fileID: 482292098}
-  - {fileID: 1391629002}
-  _percentDamageOnDisadvantage: 0.1
 --- !u!1001 &281725272
 PrefabInstance:
   m_ObjectHideFlags: 0

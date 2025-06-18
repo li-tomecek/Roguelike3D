@@ -14,10 +14,12 @@ public class CombatInterface : MonoBehaviour
 {
     public static CombatInterface Instance;
 
-    [SerializeField] private TargetSelectArrow _selectionArrow;
+    [SerializeField] private TargetSelectArrow _selectionArrowPrefab;
     [SerializeField] private PlayerTurnMenu _turnMenu;
     [SerializeField] private GameObject _damageIndicatorPrefab;
     [SerializeField] private int _pooledIndicatorAmount;
+    [SerializeField] private GameObject _gameOverPrefab;
+
 
     private ObjectPool _damageIndicators;
     
@@ -38,8 +40,11 @@ public class CombatInterface : MonoBehaviour
     {
         _damageIndicators = new ObjectPool(_damageIndicatorPrefab, _pooledIndicatorAmount);
         
-        _selectionArrow = Instantiate(_selectionArrow);
-        _selectionArrow.gameObject.SetActive(false);
+        _selectionArrowPrefab = Instantiate(_selectionArrowPrefab);
+        _selectionArrowPrefab.gameObject.SetActive(false);
+
+        _gameOverPrefab = Instantiate(_gameOverPrefab);
+        _gameOverPrefab.gameObject.SetActive(false);
 
         _turnMenu = Instantiate(_turnMenu).GetComponent<PlayerTurnMenu>();
     }
@@ -48,12 +53,12 @@ public class CombatInterface : MonoBehaviour
     // -----------------------
     public void SetTargetArrowPosition(Vector3 position)
     {
-        _selectionArrow.gameObject.SetActive(true);
-        _selectionArrow.SetTarget(position);
+        _selectionArrowPrefab.gameObject.SetActive(true);
+        _selectionArrowPrefab.SetTarget(position);
     }
     public void HideArrow()
     {
-        _selectionArrow.gameObject.SetActive(false);
+        _selectionArrowPrefab.gameObject.SetActive(false);
     } 
 
     // --- Damage Indicator --- 
@@ -66,6 +71,13 @@ public class CombatInterface : MonoBehaviour
     {
 
         _damageIndicators.GetActivePooledObject().GetComponent<DamageIndicator>().ShowIndicatorAtTarget(str, target, UnityEngine.Color.black);
+    }
+
+    // --- Game Over Screen --- 
+    // ------------------------
+    public void OpenGameOverScreen()
+    {
+        _gameOverPrefab.SetActive(true);
     }
 
     // --- Getters / Setters ---
