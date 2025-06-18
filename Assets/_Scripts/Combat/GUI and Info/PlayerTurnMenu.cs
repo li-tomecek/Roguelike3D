@@ -32,10 +32,12 @@ public class PlayerTurnMenu : MonoBehaviour
         gameObject.SetActive(true);
         _actionPanel.SetActive(true);   
         
+        //1. Name and BP
         _unit = unit;
         _unitNameText.SetText(unit.name);
         _unitBPText.SetText($"BP: {_unit.GetBP()}");
 
+        //2. Skill Buttons
         if (unit.GetSkills()[0] != null)
         {
             _skill1Btn.gameObject.SetActive(true);
