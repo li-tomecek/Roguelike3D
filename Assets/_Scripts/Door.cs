@@ -28,6 +28,6 @@ public class Door : MonoBehaviour, IInteractable
             totalRotation += openRotationSpeed * Time.deltaTime;
             yield return null;
         } 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
