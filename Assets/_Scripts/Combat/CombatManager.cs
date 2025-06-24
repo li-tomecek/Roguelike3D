@@ -33,7 +33,6 @@ public class CombatManager : MonoBehaviour
     private bool _playerAdvantage;
     //---------------------------------------------------
     //---------------------------------------------------
-
     void Awake()
     {
             if (Instance == null)

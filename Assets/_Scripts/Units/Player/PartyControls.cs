@@ -46,6 +46,7 @@ public class PartyControls : MonoBehaviour
             InputController.Instance.MoveEvent += HandleMoveInput;
             InputController.Instance.JumpEvent += HandleJump;
             InputController.Instance.AttackEvent += FireProjectile;
+            InputController.Instance.InteractEvent += CastForInteract;
         }
         else
         {
@@ -54,6 +55,7 @@ public class PartyControls : MonoBehaviour
     }
     private void Update()
     {
+        Debug.DrawRay(_partyMembers[0].gameObject.transform.position, _partyMembers[0].transform.forward * 2f);
         if (_following)
         {
             for (int i = 1; i < _partyMovement.Count; i++)
@@ -107,5 +109,15 @@ public class PartyControls : MonoBehaviour
             _partyMovement[0].GetProjectileOrigin().rotation);  
     }
 
+    private void CastForInteract()
+    {     
+        if (Physics.Raycast(_partyMembers[0].gameObject.transform.position, _partyMembers[0].transform.forward, out RaycastHit hit, 2.5f))
+        {
+            if (hit.transform.gameObject.GetComponent<IInteractable>() != null)
+            {
+                hit.transform.gameObject.GetComponent<IInteractable>().Interact();
+            }
+        }
+    }
     public List<PlayerUnit> GetPartyMembers() { return _partyMembers; }
 }
