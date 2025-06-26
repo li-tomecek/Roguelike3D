@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public enum EnemyState
 {
-    Patrol, Chase, Idle
+    Patrol, Chase, InCombat
 }
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -42,18 +42,10 @@ public class Patrol : MonoBehaviour
 
         if (_patrolNodes.Count > 0)
             _agent.SetDestination(_patrolNodes[0].position);
-        else
-            _state = EnemyState.Idle;
     }
 
     void FixedUpdate()
     {
-        if (CombatManager.Instance.InCombat())
-        {
-            _agent.enabled = false; //disable the NavMeshAgent   
-            return;
-        }
-
         switch (_state)
         {
             case EnemyState.Chase:
@@ -62,8 +54,9 @@ public class Patrol : MonoBehaviour
             case EnemyState.Patrol:
                 PatrolBehaviour();
                 break;
-            default:
-                return;
+            case EnemyState.InCombat:
+                _agent.enabled = false; //disable the NavMeshAgent   
+                break;
         }
     }
 
@@ -89,6 +82,7 @@ public class Patrol : MonoBehaviour
         if (Physics.Raycast(gameObject.transform.position, transform.forward, out RaycastHit hit, _collisionDistance, _layerMask)) // check if player is in range
         {
             //ToDo: Attack sequence here
+            _state = EnemyState.InCombat;
             CombatManager.Instance.BeginBattle(false);
         } else
         {

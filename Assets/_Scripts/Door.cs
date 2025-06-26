@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -14,6 +13,7 @@ public class Door : MonoBehaviour, IInteractable
         if (_isLocked)
         {
             Debug.Log("The door is locked.");
+            //ToDo: Make the door shake or give some sort of visual feedback to the player that it is locked.
             return;
         }
         

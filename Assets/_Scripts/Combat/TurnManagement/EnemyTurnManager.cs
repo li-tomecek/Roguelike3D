@@ -18,5 +18,4 @@ public class EnemyTurnManager : TurnManager
         EndTurn();
         
     }
-
 }

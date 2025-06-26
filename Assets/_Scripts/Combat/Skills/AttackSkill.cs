@@ -8,7 +8,6 @@ public class AttackSkill : Skill
     [SerializeField] int damage;
     [SerializeField] private bool useAttackStat;
     [SerializeField] private bool ignoresDefense;
-    //[SerializeField] int _accuracy;
     
     public override void UseSkill(Unit caster, Unit target)
     {
@@ -19,8 +18,6 @@ public class AttackSkill : Skill
  
         if(!ignoresDefense)
             dmg = Mathf.Max(dmg - (target.GetStats().defense + target.GetModifiers().defense), 0);
-        
-        //check accuracy
 
         //apply damage (or healing)
         target.TakeDamage(dmg);
