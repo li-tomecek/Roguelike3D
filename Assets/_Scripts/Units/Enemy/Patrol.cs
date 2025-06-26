@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum EnemyState
+{
+    Patrol, Chase, Idle
+}
+
 [RequireComponent(typeof(NavMeshAgent))]
 public class Patrol : MonoBehaviour
 {
@@ -22,8 +27,8 @@ public class Patrol : MonoBehaviour
 
 
     private CharacterController _controller;
- 
-    private bool _spottedTarget;
+
+    private EnemyState _state;
     GameObject target;
     Vector3 _targetDirection;
 
@@ -33,8 +38,12 @@ public class Patrol : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         _agent.speed = _patrolSpeed;
 
+        _state = EnemyState.Patrol;
+
         if (_patrolNodes.Count > 0)
             _agent.SetDestination(_patrolNodes[0].position);
+        else
+            _state = EnemyState.Idle;
     }
 
     void FixedUpdate()
@@ -45,29 +54,45 @@ public class Patrol : MonoBehaviour
             return;
         }
 
-        if (_spottedTarget) //chasing the target
+        switch (_state)
         {
-            if (Physics.Raycast(gameObject.transform.position, transform.forward, out RaycastHit hit, _collisionDistance, _layerMask))
-            {
-                _spottedTarget = false;
-                CombatManager.Instance.BeginBattle(false);
-            } else
-            {
-                _agent.SetDestination(target.transform.position);
-            }
+            case EnemyState.Chase:
+                ChaseBehaviour();
+                break;
+            case EnemyState.Patrol:
+                PatrolBehaviour();
+                break;
+            default:
+                return;
+        }
+    }
 
-        } //Check for the target
-        else if (Physics.SphereCast(gameObject.transform.position, _spherecastRadius, transform.forward, out RaycastHit hit, _sightDistance, _layerMask))
+    public void PatrolBehaviour()
+    {
+        //Spherecast to check for player
+        if (Physics.SphereCast(gameObject.transform.position, _spherecastRadius, transform.forward, out RaycastHit hit, _sightDistance, _layerMask))
         {
-            _spottedTarget = true;
+            _state = EnemyState.Chase;
             target = hit.transform.gameObject;
             _agent.speed = _chaseSpeed;
         } 
-        else if(_patrolNodes.Count > 1 && _agent.remainingDistance <= _collisionDistance) //patrol
+        //Patrol
+        else if(_patrolNodes.Count > 1 && _agent.remainingDistance <= _collisionDistance)
         {
             _nodeIndex = (_nodeIndex + 1) % _patrolNodes.Count;
             _agent.SetDestination(_patrolNodes[_nodeIndex].position);
         }
+    }
 
+    public void ChaseBehaviour()
+    {
+        if (Physics.Raycast(gameObject.transform.position, transform.forward, out RaycastHit hit, _collisionDistance, _layerMask)) // check if player is in range
+        {
+            //ToDo: Attack sequence here
+            CombatManager.Instance.BeginBattle(false);
+        } else
+        {
+            _agent.SetDestination(target.transform.position);
+        }
     }
 }
