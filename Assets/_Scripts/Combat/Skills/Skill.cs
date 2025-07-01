@@ -4,12 +4,12 @@ using UnityEngine;
 
 public enum TargetMode
 {
-    MELEE, RANGED, ALLY, ALL_ENEMIES, ALL_ALLIES
+    MELEE, RANGED, ALLY, ALL_ENEMIES, ALL_ALLIES, ANY_ENEMY
 }
 public class Skill : ScriptableObject
 {
     [Header("Skill Information")]
-    [SerializeField] protected new string name;
+    [SerializeField] public new string name;
     [SerializeField] protected string description;
     
     [SerializeField] protected int cost;

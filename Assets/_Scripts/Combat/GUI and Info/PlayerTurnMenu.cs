@@ -107,9 +107,8 @@ public class PlayerTurnMenu : MonoBehaviour
     public void SkillButtonPressed(int skillIndex)
     {
         //select target for selected skill
-        CloseMenu();
+        CloseMenu();    //this has to come first!
         _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetSkills()[skillIndex]);   //ToDo: exception handling here! Or just a regular check
-        //CloseMenu();
     }
 
     

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
-  m_Name: AttackBuff
+  m_Name: DefenseDebuff
   m_EditorClassIdentifier: 
-  name: Inspire
-  description: Provides an attack buff to a target ally for 2 turns.
+  name: Off Guard
+  description: Applies a defense debuff to a target enemy for 2 turns.
   cost: 1
-  targetMode: 2
+  targetMode: 0
   upgrades:
-  - {fileID: 11400000, guid: 6811d4dd696524043a7ff96784b7cc00, type: 2}
-  - {fileID: 11400000, guid: ed4a44895ae95d24ca37bb534f7f3318, type: 2}
-  amount: 5
+  - {fileID: 11400000, guid: baa099edaa2ffcb4cb3627d43108e286, type: 2}
+  - {fileID: 11400000, guid: a33895818d6f7eb448f95f1a41c3bab1, type: 2}
+  amount: 3
   duration: 2
-  type: 0
-  isDebuff: 0
+  type: 1
+  isDebuff: 1

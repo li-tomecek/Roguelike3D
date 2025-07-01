@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9752a591eb0715f4c9ba9e3df925390a, type: 3}
-  m_Name: Precision Shot
+  m_Name: Wide Slash 2
   m_EditorClassIdentifier: 
-  name: Precision Shot
-  description: A powerful single-target attack. Must Attack at range.
+  name: Cleave
+  description: Swings sword in an arc to inflict  damage to all enemies
   cost: 2
-  targetMode: 1
-  upgrades:
-  - {fileID: 11400000, guid: 39dfd8edc13377c4e85e4d0c1e35b830, type: 2}
-  - {fileID: 11400000, guid: 90fabcbeaf4669541bc3941ca0ebcaa9, type: 2}
-  damage: 10
+  targetMode: 3
+  upgrades: []
+  damage: 9
   useAttackStat: 1
   ignoresDefense: 0

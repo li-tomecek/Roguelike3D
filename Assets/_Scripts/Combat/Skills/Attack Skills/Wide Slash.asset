@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Wide Slash
   m_EditorClassIdentifier: 
   name: Wide Slash
-  description: Swings sword in an arc to to light damage to all enemies
+  description: Swings sword in an arc to inflict light damage to all enemies
   cost: 2
   targetMode: 3
-  damage: 7
+  upgrades:
+  - {fileID: 11400000, guid: bbb16cc7c6c6bc643968253bae0d703f, type: 2}
+  damage: 5
   useAttackStat: 1
   ignoresDefense: 0
