@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 //using System.Diagnostics;
 
@@ -19,7 +20,6 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
-        //unit.IncrementBP();
         CombatInterface.Instance.GetTurnMenu().SetupMenu(unit);
     }
 
@@ -91,7 +91,7 @@ public class PlayerTurnManager : TurnManager
         //a)  Use skill on all applicable targets
         if(skill.GetTargetMode() == TargetMode.ALL_ENEMIES || skill.GetTargetMode() == TargetMode.ALL_ALLIES)
         {
-            foreach(Unit target in _targetPool)
+            foreach(Unit target in _targetPool.ToList())
             {
                 _activeSkill.UseSkill(unit, target);
             }

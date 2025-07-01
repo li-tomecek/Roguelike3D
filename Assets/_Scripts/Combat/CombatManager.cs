@@ -165,7 +165,7 @@ public class CombatManager : MonoBehaviour
     {
             if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
             {
-            EndEncounter();
+                EndEncounter();
                 return;
             }
             _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
