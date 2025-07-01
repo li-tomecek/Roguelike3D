@@ -1120,7 +1120,7 @@ MonoBehaviour:
   _selectionArrowPrefab: {fileID: 7291429933288162340, guid: 45120fb0939ac624e87d0cc90ba63e9b, type: 3}
   _turnMenu: {fileID: 2954357079538441984, guid: b28f2bbbdcd45f6498ba1b9817cd88a1, type: 3}
   _damageIndicatorPrefab: {fileID: 8542705804623845304, guid: 3b83eb015c1299941bbb0e0d45ead06a, type: 3}
-  _pooledIndicatorAmount: 6
+  _pooledIndicatorAmount: 10
   _gameOverPrefab: {fileID: 7917014909572229797, guid: 4ead6e700d5e1714da9f4bc9f4e328b9, type: 3}
 --- !u!114 &274480612
 MonoBehaviour:
@@ -8120,6 +8120,10 @@ PrefabInstance:
       value: Ranger
       objectReference: {fileID: 0}
     - target: {fileID: 4126074244012417845, guid: 934ed75203cf5614dae7998eca3d2bc5, type: 3}
+      propertyPath: defaultSkill
+      value: 
+      objectReference: {fileID: 11400000, guid: 063f6caf890d8f14d8a61c1dcca26c35, type: 2}
+    - target: {fileID: 4126074244012417845, guid: 934ed75203cf5614dae7998eca3d2bc5, type: 3}
       propertyPath: stats.defense
       value: 3
       objectReference: {fileID: 0}
@@ -11481,6 +11485,7 @@ MonoBehaviour:
   - {fileID: 1650762111}
   - {fileID: 1919174075}
   _patrolSpeed: 4
+  agent: {fileID: 0}
 --- !u!195 &9136037261554832196
 NavMeshAgent:
   m_ObjectHideFlags: 0
