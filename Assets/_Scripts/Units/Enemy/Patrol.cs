@@ -22,7 +22,7 @@ public class Patrol : MonoBehaviour
     [SerializeField] private List<Transform> _patrolNodes;
     [SerializeField] private float _patrolSpeed;
 
-    private NavMeshAgent _agent;
+    public NavMeshAgent agent;
     private int _nodeIndex = 0;
 
 
@@ -34,14 +34,14 @@ public class Patrol : MonoBehaviour
 
     private void Start()
     {
-        _agent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         _controller = GetComponent<CharacterController>();
-        _agent.speed = _patrolSpeed;
+        agent.speed = _patrolSpeed;
 
         _state = EnemyState.Patrol;
 
         if (_patrolNodes.Count > 0)
-            _agent.SetDestination(_patrolNodes[0].position);
+            agent.SetDestination(_patrolNodes[0].position);
     }
 
     void FixedUpdate()
@@ -55,7 +55,6 @@ public class Patrol : MonoBehaviour
                 PatrolBehaviour();
                 break;
             case EnemyState.InCombat:
-                _agent.enabled = false; //disable the NavMeshAgent   
                 break;
         }
     }
@@ -67,13 +66,13 @@ public class Patrol : MonoBehaviour
         {
             _state = EnemyState.Chase;
             target = hit.transform.gameObject;
-            _agent.speed = _chaseSpeed;
+            agent.speed = _chaseSpeed;
         } 
         //Patrol
-        else if(_patrolNodes.Count > 1 && _agent.remainingDistance <= _collisionDistance)
+        else if(_patrolNodes.Count > 1 && agent.remainingDistance <= _collisionDistance)
         {
             _nodeIndex = (_nodeIndex + 1) % _patrolNodes.Count;
-            _agent.SetDestination(_patrolNodes[_nodeIndex].position);
+            agent.SetDestination(_patrolNodes[_nodeIndex].position);
         }
     }
 
@@ -81,12 +80,19 @@ public class Patrol : MonoBehaviour
     {
         if (Physics.Raycast(gameObject.transform.position, transform.forward, out RaycastHit hit, _collisionDistance, _layerMask)) // check if player is in range
         {
-            //ToDo: Attack sequence here
-            _state = EnemyState.InCombat;
+            //ToDo: Attack sequence here;
             CombatManager.Instance.BeginBattle(false);
-        } else
+        }
+        else
         {
-            _agent.SetDestination(target.transform.position);
+            agent.SetDestination(target.transform.position);
         }
     }
+
+    public void PatrolToCombat()
+    {
+        agent.enabled = false;
+        _state = EnemyState.InCombat;
+    }
+
 }

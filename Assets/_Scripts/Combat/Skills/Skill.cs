@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum TargetMode
 {
-    MELEE, RANGED, ALLY, ALL
+    MELEE, RANGED, ALLY, ALL_ENEMIES, ALL_ALLIES
 }
 public class Skill : ScriptableObject
 {
@@ -32,8 +32,8 @@ public class Skill : ScriptableObject
     
     
     public TargetMode GetTargetMode() { return targetMode; }
-
     public int GetCost() { return cost; }
+    public List<Skill> GetUpgrades() { return upgrades; }
 }
 
 

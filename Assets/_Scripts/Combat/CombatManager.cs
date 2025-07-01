@@ -60,6 +60,15 @@ public class CombatManager : MonoBehaviour
         _turnIndex = -1;
 
 
+        //disable NavAgetn for all patrolling enemies
+        foreach (Unit enemy in _enemyUnits)
+        {
+            if(enemy.TryGetComponent<Patrol>(out Patrol patroller))
+            {
+                patroller.PatrolToCombat();
+            }
+        }
+
         //Add and units to combatSequence List and order them by agility
         _combatSequence.Clear();
         _combatSequence.AddRange(_playerUnits);

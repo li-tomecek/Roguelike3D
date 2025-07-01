@@ -12,10 +12,8 @@ public class StatModSkill : Skill
 
     public override void UseSkill(Unit caster, Unit target)
     {
-        if (isDebuff)
-            amount *= -1;
         
-        Effect statModifier = new Effect(amount, type, duration);
+        Effect statModifier = new Effect(isDebuff ? -amount : amount, type, duration);
         statModifier.ApplyEffect(target);
         target.GetActiveEffects().Add(statModifier);
       
