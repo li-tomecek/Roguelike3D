@@ -10,7 +10,7 @@ public class Skill : ScriptableObject
 {
     [Header("Skill Information")]
     [SerializeField] public new string name;
-    [SerializeField] protected string description;
+    [SerializeField] public string description;
     
     [SerializeField] protected int cost;
     [SerializeField] protected TargetMode targetMode;

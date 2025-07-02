@@ -200,6 +200,7 @@ public class CombatManager : MonoBehaviour
                 unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
             }
 
+            LevelManager.Instance.SpawnReward();
         }
         else   //GAME OVER
         {

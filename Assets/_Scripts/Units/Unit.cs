@@ -100,4 +100,12 @@ public abstract class Unit : MonoBehaviour
     
     public void IncrementBP() { _bp++; }
     public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }
+
+    public void ReplaceSkill(Skill oldSK, Skill newSk)
+    {
+        int index = skills.FindIndex(s => s == oldSK);
+        if (index != -1)
+            LevelManager.Instance.GetRewardedUnit().GetSkills()[index] = newSk;
+    }
+
 }
