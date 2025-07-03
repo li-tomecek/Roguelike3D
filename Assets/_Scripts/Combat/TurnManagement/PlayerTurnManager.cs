@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 //using System.Diagnostics;
 
@@ -19,7 +20,6 @@ public class PlayerTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
-        //unit.IncrementBP();
         CombatInterface.Instance.GetTurnMenu().SetupMenu(unit);
     }
 
@@ -65,24 +65,47 @@ public class PlayerTurnManager : TurnManager
         _targetIndex = 0;
         _activeSkill = skill;
 
+        
         switch (skill.GetTargetMode())
         {
+
+            case TargetMode.RANGED:
+                _targetPool = CombatManager.Instance.GetEnemyUnits();
+                break;
+            case TargetMode.MELEE:
+                _targetPool = CombatManager.Instance.GetEnemyUnits();
+                break;
+            case TargetMode.ALL_ENEMIES:
+                _targetPool = CombatManager.Instance.GetEnemyUnits();
+                break;
             case TargetMode.ALLY:
                 _targetPool = CombatManager.Instance.GetPlayerUnits();
                 break;
-            default:
-                _targetPool = CombatManager.Instance.GetEnemyUnits();
+            case TargetMode.ALL_ALLIES:
+                _targetPool = CombatManager.Instance.GetPlayerUnits();
                 break;
-            
-            //ToDo: Setup proper targeting for 'RANGED', and 'ALL'
+          
+            //ToDo: Setup proper targeting for 'RANGED', and 'MELEE'
         }
 
-        CombatInterface.Instance.SetTargetArrowPosition(_targetPool[_targetIndex].transform.position);
+        //a)  Use skill on all applicable targets
+        if(skill.GetTargetMode() == TargetMode.ALL_ENEMIES || skill.GetTargetMode() == TargetMode.ALL_ALLIES)
+        {
+            foreach(Unit target in _targetPool.ToList())
+            {
+                _activeSkill.UseSkill(unit, target);
+            }
+            EndTurn();
+        }
+        //b) Setup targeting arrow for target selection
+        else
+        {
+            CombatInterface.Instance.SetTargetArrowPosition(_targetPool[_targetIndex].transform.position);
 
-
-        //these must be the last statements in the function
-        InputController.Instance.SubmitEvent.AddListener(ConfirmTarget); 
-        InputController.Instance.NavigateEvent.AddListener(CycleTarget);
+            //these must be the last statements in the function
+            InputController.Instance.SubmitEvent.AddListener(ConfirmTarget);
+            InputController.Instance.NavigateEvent.AddListener(CycleTarget);
+        }
     }
 
 }

@@ -28,7 +28,7 @@ public abstract class Unit : MonoBehaviour
     protected TurnManager turnManager;
     protected HealthBar healthBar;
     
-    //----------------------------------------------------
+    //---------------------------------------------------
     //---------------------------------------------------
 
     protected virtual void Start()
@@ -59,7 +59,6 @@ public abstract class Unit : MonoBehaviour
            
         }
     }
-
 
     public void ApplyModifier(EffectType type, int value)
     {
@@ -98,6 +97,15 @@ public abstract class Unit : MonoBehaviour
     public int GetHealth() { return _health; }
     public void SetHealth(int value) { _health = value; }
     public int GetBP() { return _bp; }
+    
     public void IncrementBP() { _bp++; }
     public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }
+
+    public void ReplaceSkill(Skill oldSK, Skill newSk)
+    {
+        int index = skills.FindIndex(s => s == oldSK);
+        if (index != -1)
+            LevelManager.Instance.GetRewardedUnit().GetSkills()[index] = newSk;
+    }
+
 }

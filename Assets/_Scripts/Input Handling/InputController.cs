@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class InputController : MonoBehaviour
 {
     public static InputController Instance;
-    private GameControls _gameControls;
+    private ControlScheme _controlScheme;
 
     private InputActionMap _movementControlsMap;
     private InputActionMap _menuControlsMap;
@@ -15,6 +15,7 @@ public class InputController : MonoBehaviour
     public event Action<Vector2> MoveEvent;
     public event Action JumpEvent;
     public event Action AttackEvent;
+    public event Action InteractEvent;
 
     //MENU CONTROLS
     public UnityEvent<Vector2> NavigateEvent;       //menu selections
@@ -26,9 +27,9 @@ public class InputController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            _gameControls = new GameControls();
-            _movementControlsMap = _gameControls.Player;
-            _menuControlsMap = _gameControls.UI;
+            _controlScheme = new ControlScheme();
+            _movementControlsMap = _controlScheme.Player;
+            _menuControlsMap = _controlScheme.UI;
         }
         else
         {
@@ -38,18 +39,19 @@ public class InputController : MonoBehaviour
 
     void OnEnable()
     {
-        _gameControls.Player.Enable();
+        _controlScheme.Player.Enable();
 
-        _gameControls.Player.Move.performed += OnMovePerformed;
-        _gameControls.Player.Move.canceled += OnMoveCancelled;
-        _gameControls.Player.Jump.performed += OnJumpPerformed;
-        _gameControls.Player.Attack.performed += OnAttackPerformed;
+        _controlScheme.Player.Move.performed += OnMovePerformed;
+        _controlScheme.Player.Move.canceled += OnMoveCancelled;
+        _controlScheme.Player.Jump.performed += OnJumpPerformed;
+        _controlScheme.Player.Attack.performed += OnAttackPerformed;
+        _controlScheme.Player.Interact.performed += OnInteractPerformed;
 
-        _gameControls.UI.Navigate.performed += OnNavigatePerformed;
-        _gameControls.UI.Submit.performed += OnSubmitPerformed;
-        _gameControls.UI.Cancel.performed += OnCancelPerformed;
+        _controlScheme.UI.Navigate.performed += OnNavigatePerformed;
+        _controlScheme.UI.Submit.performed += OnSubmitPerformed;
+        _controlScheme.UI.Cancel.performed += OnCancelPerformed;
     }
-    
+
     // CHANGE ACTIVE MAP
     public void ActivateMovementMap()
     {
@@ -67,6 +69,7 @@ public class InputController : MonoBehaviour
     private void OnMoveCancelled(InputAction.CallbackContext context) { MoveEvent?.Invoke(Vector2.zero); }
     private void OnJumpPerformed(InputAction.CallbackContext context) { JumpEvent?.Invoke(); }
     private void OnAttackPerformed(InputAction.CallbackContext context) { AttackEvent?.Invoke(); }
+    private void OnInteractPerformed(InputAction.CallbackContext context) {InteractEvent?.Invoke(); }
 
 
     // MENU NAVIGATION CONTROLS

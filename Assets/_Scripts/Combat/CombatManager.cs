@@ -33,7 +33,6 @@ public class CombatManager : MonoBehaviour
     private bool _playerAdvantage;
     //---------------------------------------------------
     //---------------------------------------------------
-
     void Awake()
     {
             if (Instance == null)
@@ -60,6 +59,15 @@ public class CombatManager : MonoBehaviour
         _inCombat = true;
         _turnIndex = -1;
 
+
+        //disable NavAgetn for all patrolling enemies
+        foreach (Unit enemy in _enemyUnits)
+        {
+            if(enemy.TryGetComponent<Patrol>(out Patrol patroller))
+            {
+                patroller.PatrolToCombat();
+            }
+        }
 
         //Add and units to combatSequence List and order them by agility
         _combatSequence.Clear();
@@ -157,7 +165,7 @@ public class CombatManager : MonoBehaviour
     {
             if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
             {
-            EndEncounter();
+                EndEncounter();
                 return;
             }
             _turnIndex = (_turnIndex == _combatSequence.Count-1) ? 0 : _turnIndex + 1;
@@ -192,6 +200,7 @@ public class CombatManager : MonoBehaviour
                 unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
             }
 
+            LevelManager.Instance.SpawnReward();
         }
         else   //GAME OVER
         {
