@@ -22,6 +22,7 @@ public class CombatManager : MonoBehaviour
     [SerializeField] private List<Transform> _playerCombatPositions;
     [SerializeField] private List<Transform> _enemyCombatPositions;
     [SerializeField] private float _travelSpeed = 4f;
+    [SerializeField] private float _targetDistanceThreshold = 0.1f;
 
 
     private GameObject[] _obstacles;
@@ -114,35 +115,48 @@ public class CombatManager : MonoBehaviour
     }
     private IEnumerator SendUnitsToPosition()
     {
-            bool finished = false;
+            bool atDestination, finished = false;
+            Vector3 direction;
+            
             while (!finished)
             {
                     finished = true;
                     //Move all player units into their start position
                     for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
                     { 
-                            if (_playerUnits[i].gameObject.transform.position != _playerCombatPositions[i].position)
+                            direction = (_playerCombatPositions[i].transform.position - _playerUnits[i].transform.position);
+                            direction.y = 0f;   //we don't want to adjust their height.
+                            
+                            atDestination = direction.magnitude < _targetDistanceThreshold;
+                            if (!atDestination)
                             {
-                                    _playerUnits[i].gameObject.transform.position = Vector3.MoveTowards(_playerUnits[i].transform.position,_playerCombatPositions[i].position,_travelSpeed * Time.deltaTime);
-                                    _playerUnits[i].transform.LookAt(_playerCombatPositions[i].position);
-                                    finished = false;
-                            } else
-                                    _playerUnits[i].transform.LookAt(_enemyCombatPositions[1].position);    
+                                direction.Normalize();
+                                _playerUnits[i].gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
+                            }
+                            
+                            finished &= atDestination;
+
                     }
+                    
                 
                     //Move all enemy units into their start position
                     for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
-                    {
-                            if (_enemyUnits[i].gameObject.transform.position != _enemyCombatPositions[i].position)
-                            {
-                                    _enemyUnits[i].gameObject.transform.position = Vector3.MoveTowards(_enemyUnits[i].transform.position,_enemyCombatPositions[i].position,_travelSpeed * Time.deltaTime);
-                                    _enemyUnits[i].transform.LookAt(_enemyCombatPositions[i].position);
-                                    finished = false;
-                            } else
-                                    _enemyUnits[i].transform.LookAt(_playerCombatPositions[1].position);  
-                    } 
+                    { 
+                        direction = (_enemyCombatPositions[i].transform.position - _enemyUnits[i].transform.position);
+                        direction.y = 0f;   //we don't want to adjust their height.
+                            
+                        atDestination = direction.magnitude < _targetDistanceThreshold;
+                        if (!atDestination)
+                        {
+                            direction.Normalize();
+                            _enemyUnits[i].gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
+                        }
+                            
+                        finished &= atDestination;
+
+                    }
                         
-                    yield return 0;
+                    yield return null;
             }
     }
     private void ApplyDisadvantageDamage(List<Unit> unitList)
