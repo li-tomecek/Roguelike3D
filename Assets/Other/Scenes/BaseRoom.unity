@@ -40573,7 +40573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 690936467692228123, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 690936467692228123, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -40615,6 +40615,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2986039514985191793, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4109696022052249550, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -40624,12 +40628,20 @@ PrefabInstance:
       value: Ranger
       objectReference: {fileID: 0}
     - target: {fileID: 5690037525670380364, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5690037525670380364, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_CullingMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5690037525670380364, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6033491511908792623, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
+      propertyPath: _raycastHeight
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7329846653023566795, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_Enabled
@@ -40637,7 +40649,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7854968719036946559, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -41074,6 +41086,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: cbde1041eb9b11e49b2d75f2aa45957b, type: 2}
+    - target: {fileID: 8467510954492085179, guid: 6413a1f4d9db047489fbcfebfe0f2525, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

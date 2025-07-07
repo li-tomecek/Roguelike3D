@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (CombatManager.Instance.InCombat())
             return;
-
+        
         //1. Set Movement Speed and Direction
         if (_directionalInput == Vector3.zero) 
         {
