@@ -120,18 +120,26 @@ public class CombatManager : MonoBehaviour
             
             while (!finished)
             {
+                Unit unit;
                     finished = true;
                     //Move all player units into their start position
                     for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
                     { 
-                            direction = (_playerCombatPositions[i].transform.position - _playerUnits[i].transform.position);
+                            unit = _playerUnits[i];
+                            
+                            direction = (_playerCombatPositions[i].transform.position - unit.transform.position);
                             direction.y = 0f;   //we don't want to adjust their height.
                             
                             atDestination = direction.magnitude < _targetDistanceThreshold;
                             if (!atDestination)
                             {
                                 direction.Normalize();
-                                _playerUnits[i].gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
+                                unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+                                unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
+                            }
+                            else
+                            {
+                                unit.transform.rotation =  Quaternion.LookRotation(_enemyCombatPositions[1].transform.position - unit.transform.position, Vector3.up);
                             }
                             
                             finished &= atDestination;
@@ -142,14 +150,21 @@ public class CombatManager : MonoBehaviour
                     //Move all enemy units into their start position
                     for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
                     { 
-                        direction = (_enemyCombatPositions[i].transform.position - _enemyUnits[i].transform.position);
-                        direction.y = 0f;   //we don't want to adjust their height.
-                            
+                        unit = _enemyUnits[i];
+                        
+                        direction = (_enemyCombatPositions[i].transform.position - unit.transform.position);
+                        direction.y = 0f;   //we don't want to adjust their height
+                        
                         atDestination = direction.magnitude < _targetDistanceThreshold;
                         if (!atDestination)
                         {
                             direction.Normalize();
-                            _enemyUnits[i].gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
+                            unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+                            unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
+                        }
+                        else
+                        {
+                            unit.transform.rotation =  Quaternion.LookRotation(_playerCombatPositions[1].transform.position - unit.transform.position, Vector3.up);
                         }
                             
                         finished &= atDestination;
@@ -158,6 +173,16 @@ public class CombatManager : MonoBehaviour
                         
                     yield return null;
             }
+            
+            // //face towards the center of the opposing group
+            // foreach (Unit player in _playerUnits)
+            // {
+            //     player.transform.rotation = Quaternion.LookRotation(_enemyCombatPositions[1].transform.position - player.transform.position, Vector3.up);
+            // }            
+            // foreach (Unit enemy in _enemyUnits)
+            // {
+            //     enemy.transform.rotation = Quaternion.LookRotation(_playerCombatPositions[1].transform.position - enemy.transform.position, Vector3.up);
+            // }
     }
     private void ApplyDisadvantageDamage(List<Unit> unitList)
     {
