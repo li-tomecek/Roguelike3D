@@ -8826,7 +8826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7203610971244030943, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -330.88
+      value: -332.05
       objectReference: {fileID: 0}
     - target: {fileID: 7203610971244030943, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -25638,7 +25638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7203610971244030943, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -330.88
+      value: -332.05
       objectReference: {fileID: 0}
     - target: {fileID: 7203610971244030943, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -36910,6 +36910,7 @@ Transform:
   - {fileID: 259351255}
   - {fileID: 1128488386}
   - {fileID: 800518817}
+  - {fileID: 5826582560800034684}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1991077709
@@ -40367,7 +40368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5690037525670380364, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5778263436560695229, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
       propertyPath: m_Enabled
@@ -41454,12 +41455,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 416386656692741843}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: -15}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -14.73, y: -3.2242532, z: -14.665693}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1989927156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &5952838053663524032
 SkinnedMeshRenderer:
@@ -41645,7 +41646,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8664443529749780595, guid: 8cb75b8b0eabc394994b73ec0ee4b2c6, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 898035341044496369, guid: 8cb75b8b0eabc394994b73ec0ee4b2c6, type: 3}
       propertyPath: m_AnchorMax.x
@@ -42070,6 +42071,5 @@ SceneRoots:
   - {fileID: 725812158}
   - {fileID: 7462042007908561591}
   - {fileID: 360826738}
-  - {fileID: 5826582560800034684}
   - {fileID: 1593493980702644839}
   - {fileID: 2054840294}

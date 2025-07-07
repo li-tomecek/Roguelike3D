@@ -134,13 +134,15 @@ public class CombatManager : MonoBehaviour
                             if (!atDestination)
                             {
                                 direction.Normalize();
-                                unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
                                 unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
                             }
                             else
                             {
-                                unit.transform.rotation =  Quaternion.LookRotation(_enemyCombatPositions[1].transform.position - unit.transform.position, Vector3.up);
+                                direction = _enemyCombatPositions[1].transform.position - unit.transform.position;
+                                direction.y = 0f;
                             }
+                            
+                            unit.transform.rotation =  Quaternion.LookRotation(direction, Vector3.up);
                             
                             finished &= atDestination;
 
@@ -159,13 +161,15 @@ public class CombatManager : MonoBehaviour
                         if (!atDestination)
                         {
                             direction.Normalize();
-                            unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
                             unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.fixedDeltaTime);
                         }
                         else
                         {
-                            unit.transform.rotation =  Quaternion.LookRotation(_playerCombatPositions[1].transform.position - unit.transform.position, Vector3.up);
+                            direction = _playerCombatPositions[1].transform.position - unit.transform.position;
+                            direction.y = 0f;
                         }
+                        
+                        unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
                             
                         finished &= atDestination;
 
@@ -173,16 +177,6 @@ public class CombatManager : MonoBehaviour
                         
                     yield return null;
             }
-            
-            // //face towards the center of the opposing group
-            // foreach (Unit player in _playerUnits)
-            // {
-            //     player.transform.rotation = Quaternion.LookRotation(_enemyCombatPositions[1].transform.position - player.transform.position, Vector3.up);
-            // }            
-            // foreach (Unit enemy in _enemyUnits)
-            // {
-            //     enemy.transform.rotation = Quaternion.LookRotation(_playerCombatPositions[1].transform.position - enemy.transform.position, Vector3.up);
-            // }
     }
     private void ApplyDisadvantageDamage(List<Unit> unitList)
     {
