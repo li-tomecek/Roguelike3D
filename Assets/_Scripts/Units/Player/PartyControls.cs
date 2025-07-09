@@ -52,6 +52,8 @@ public class PartyControls : MonoBehaviour
         {
             Debug.LogWarning("No InputController found");
         }
+
+        _partyMovement[0].gameObject.layer = LayerMask.NameToLayer("ControlledPlayer");     //so changing character order in the editor will automatically set the controller player
     }
     private void Update()
     {

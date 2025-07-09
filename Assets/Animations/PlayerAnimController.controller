@@ -86,6 +86,9 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
+  - m_ConditionMode: 4
+    m_ConditionEvent: MoveSpeed
+    m_EventTreshold: 0.05
   - m_ConditionMode: 1
     m_ConditionEvent: InCombat
     m_EventTreshold: 0
@@ -163,7 +166,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: InCombat
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8714950192943606336}
   m_Solo: 0
@@ -198,10 +204,10 @@ AnimatorStateMachine:
     m_Position: {x: 70, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2447336179688139635}
-    m_Position: {x: 320, y: 140, z: 0}
+    m_Position: {x: 310, y: 160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8785298621599263853}
-    m_Position: {x: 310, y: 190, z: 0}
+    m_Position: {x: 310, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7253803224035220982}
     m_Position: {x: 70, y: 200, z: 0}
@@ -380,6 +386,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: MoveSpeed
     m_EventTreshold: 0.05
+  - m_ConditionMode: 2
+    m_ConditionEvent: InCombat
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6518041063279150608}
   m_Solo: 0
