@@ -22,10 +22,7 @@ public class PartyControls : MonoBehaviour
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-
-    [Header("Interact")] 
-    private float _heightOffset = 3f;
-
+    
     void Awake()
     {
         if (Instance == null)
@@ -105,6 +102,8 @@ public class PartyControls : MonoBehaviour
             return;
         
         _timeLastFired = Time.time;
+        
+        _partyMembers[0].gameObject.GetComponent<Animator>().SetTrigger("MeleeAttack");
         
         //Fire a projectile
         Instantiate(_projectilePrefab, 
