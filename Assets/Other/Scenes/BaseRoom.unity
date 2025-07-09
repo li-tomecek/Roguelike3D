@@ -6664,7 +6664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b504b6a15109d439aef1697fe0d4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rewardedUnit: {fileID: 0}
+  _rewardedUnit: {fileID: 1592516811}
   _nextRoomRewards: []
   _combatReward: {fileID: 4939334368783352287, guid: d45720706e550404981986b8a5c1cb45, type: 3}
 --- !u!1 &1354373698 stripped

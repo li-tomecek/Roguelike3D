@@ -23,6 +23,9 @@ public class PartyControls : MonoBehaviour
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
 
+    [Header("Interact")] 
+    private float _heightOffset = 3f;
+
     void Awake()
     {
         if (Instance == null)
@@ -111,7 +114,7 @@ public class PartyControls : MonoBehaviour
 
     private void CastForInteract()
     {     
-        if (Physics.Raycast(_partyMembers[0].gameObject.transform.position, _partyMembers[0].transform.forward, out RaycastHit hit, 2.5f))
+        if (Physics.Raycast(_partyMovement[0].GetProjectileOrigin().position, _partyMembers[0].transform.forward, out RaycastHit hit, 2.5f))
         {
             if (hit.transform.gameObject.GetComponent<IInteractable>() != null)
             {
