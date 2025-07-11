@@ -20,7 +20,30 @@ public class Skill : ScriptableObject
    
     public virtual void UseSkill(Unit caster, Unit target)
     {
+        //1. Spend BP
         caster.DecrementBP(cost);
+
+        //2. Look at Target
+        Quaternion originalRotation = caster.transform.rotation;
+        if (targetMode == TargetMode.MELEE || targetMode == TargetMode.RANGED)
+            caster.gameObject.transform.LookAt(target.transform, Vector3.up);
+
+        //3. Use Skill animation
+        switch (targetMode)
+        {
+            case TargetMode.MELEE:
+                //Run towards target here
+                if(caster.gameObject.GetComponent<Animator>())
+                    caster.gameObject.GetComponent<Animator>().SetTrigger("MeleeAttack");   //Todo: add sequence where caster runs towards target 
+                break;
+            
+            default:
+                if (caster.gameObject.GetComponent<Animator>())
+                    caster.gameObject.GetComponent<Animator>().SetTrigger("MeleeAttack");   //Todo: replace with ranged attack 
+                break;
+
+
+        }
     }
 
     public virtual Tuple<Unit, float> getOptimalTarget(List<Unit> targets)      //for enemy AI, to implement separately for each type of move.

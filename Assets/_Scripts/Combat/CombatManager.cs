@@ -21,7 +21,7 @@ public class CombatManager : MonoBehaviour
     [Header("Combat Positions")]
     [SerializeField] private List<Transform> _playerCombatPositions;
     [SerializeField] private List<Transform> _enemyCombatPositions;
-    [SerializeField] private float _travelSpeed = 4f;
+    [SerializeField] private float _travelSpeed = 2f;
     [SerializeField] private float _targetDistanceThreshold = 0.1f;
 
 
@@ -32,6 +32,9 @@ public class CombatManager : MonoBehaviour
     private int _turnIndex;
     private bool _inCombat = false;
     private bool _playerAdvantage;
+
+    private int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
+
     //---------------------------------------------------
     //---------------------------------------------------
     void Awake()
@@ -115,6 +118,16 @@ public class CombatManager : MonoBehaviour
     }
     private IEnumerator SendUnitsToPosition()
     {
+        //for the animator
+        foreach(var unit in _combatSequence)
+        {
+            if (unit.gameObject.GetComponent<Animator>())
+            {
+                unit.gameObject.GetComponent<Animator>().SetFloat(MoveSpeedHash, _travelSpeed);
+                unit.gameObject.GetComponent<Animator>().SetBool("InCombat", true);
+            }
+        }
+        
             bool atDestination, finished = false;
             Vector3 direction;
             
@@ -140,6 +153,7 @@ public class CombatManager : MonoBehaviour
                             {
                                 direction = _enemyCombatPositions[1].transform.position - unit.transform.position;
                                 direction.y = 0f;
+                                unit.gameObject.GetComponent<Animator>().SetFloat(MoveSpeedHash, 0f);
                             }
                             
                             unit.transform.rotation =  Quaternion.LookRotation(direction, Vector3.up);

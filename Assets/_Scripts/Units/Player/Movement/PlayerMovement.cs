@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _controller;
     private Animator _animator;
     [SerializeField] private MovementConfig _movementConfig;
+
     private float _speed;
     private Vector3 _directionalInput;
     private Vector3 _movementVector;
@@ -17,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _raycastHeight;
     [SerializeField] private LayerMask _groundLayer;
     private bool _isGrounded;
+
+    //For animation
+    private int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
+
     void Awake()
     {
         _controller = gameObject.GetComponent<CharacterController>();
@@ -50,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         _movementVector.x = _directionalInput.x * _speed;
         _movementVector.z = _directionalInput.z * _speed;
 
-        _animator.SetFloat("MoveSpeed", _speed);
+        _animator.SetFloat(MoveSpeedHash, _speed);
     
 
         //2. Handle Jump

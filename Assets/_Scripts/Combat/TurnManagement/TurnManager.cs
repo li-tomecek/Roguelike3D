@@ -14,7 +14,7 @@ public abstract class TurnManager
         {
             effect = unit.GetActiveEffects()[i];
             effect.duration--;
-            if (effect.duration < 0)    // means that is is still up for one turn
+            if (effect.duration < 0)    //0 means that is is still up for one turn
             {
                 effect.RemoveEffect(unit);
                 unit.GetActiveEffects().Remove(effect);

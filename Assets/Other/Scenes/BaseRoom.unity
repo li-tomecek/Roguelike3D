@@ -1147,7 +1147,7 @@ MonoBehaviour:
   - {fileID: 576914380}
   - {fileID: 1796797571}
   - {fileID: 286855451}
-  _travelSpeed: 7
+  _travelSpeed: 1
   _targetDistanceThreshold: 0.3
 --- !u!1001 &281725272
 PrefabInstance:

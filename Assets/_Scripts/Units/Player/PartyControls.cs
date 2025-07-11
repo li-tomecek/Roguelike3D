@@ -22,7 +22,9 @@ public class PartyControls : MonoBehaviour
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-    
+    private int MeleeHash = Animator.StringToHash("MeleeAttack");
+
+
     void Awake()
     {
         if (Instance == null)
@@ -105,7 +107,7 @@ public class PartyControls : MonoBehaviour
         
         _timeLastFired = Time.time;
         
-        _partyMembers[0].gameObject.GetComponent<Animator>().SetTrigger("MeleeAttack");
+        _partyMembers[0].gameObject.GetComponent<Animator>().SetTrigger(MeleeHash);     //TODO: change this to a spell-cast animation
         
         //Fire a projectile
         Instantiate(_projectilePrefab, 
