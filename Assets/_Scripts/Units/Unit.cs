@@ -52,6 +52,9 @@ public abstract class Unit : MonoBehaviour
         _health = _health < 0 ? 0 : _health;
         healthBar.SetSliderPercent((float)_health / stats.maxHealth);
 
+        if (damage > 0 && this.TryGetComponent<Animator>(out Animator animator))
+            animator.SetTrigger("Take Damage");
+
         if (_health <= 0)
         {
             CombatManager.Instance.RemoveFromCombat(this);
