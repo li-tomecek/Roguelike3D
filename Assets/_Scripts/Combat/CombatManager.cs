@@ -240,7 +240,10 @@ public class CombatManager : MonoBehaviour
             
             foreach(PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
             {
-                unit.gameObject.SetActive(true);    
+                unit.gameObject.SetActive(true);
+                unit.gameObject.GetComponent<Animator>().SetBool("IsDead", false);
+                unit.gameObject.GetComponent<Animator>().SetBool("InCombat", false);
+                
                 if (unit.GetHealth() <= 0)
                     unit.SetHealth(1);                              //revive "dead" units to 1HP
                 
@@ -256,16 +259,23 @@ public class CombatManager : MonoBehaviour
 
     }
     public void RemoveFromCombat(Unit unit)
-    {
-        unit.gameObject.SetActive(false);   //temp    
+    {    
+        if (unit.gameObject.GetComponent<Animator>())
+        {
+            unit.gameObject.GetComponent<Animator>().SetBool("IsDead", true);
+            unit.GetHealthBar().gameObject.SetActive(false);
+        }    
+        else
+            unit.gameObject.SetActive(false);
+
 
         if (_playerUnits.Contains(unit))
         {
-                _playerUnits.Remove(unit);
+            _playerUnits.Remove(unit);
         }
         else if (_enemyUnits.Contains(unit))
         {
-                _enemyUnits.Remove(unit);
+            _enemyUnits.Remove(unit);
         }
 
         if (_combatSequence.IndexOf(unit) < _turnIndex)
