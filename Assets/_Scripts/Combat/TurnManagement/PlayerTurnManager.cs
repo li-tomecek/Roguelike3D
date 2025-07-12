@@ -1,4 +1,6 @@
 
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,21 +8,18 @@ using UnityEngine;
 
 public class PlayerTurnManager : TurnManager
 {
-    private PlayerUnit unit;
-    private Skill _activeSkill;
-    private int _targetIndex;
-    private List<Unit> _targetPool;
-    public PlayerTurnManager(PlayerUnit unit) : base(unit)
+
+    public void Start()
     {
-        this.unit = unit;
+        this.unit = GetComponent<PlayerUnit>();
     }
-    
+
     // --- Overriden methods ---
     // -------------------------
     public override void StartTurn()
     {
         base.StartTurn();
-        CombatInterface.Instance.GetTurnMenu().SetupMenu(unit);
+        CombatInterface.Instance.GetTurnMenu().SetupMenu((PlayerUnit)unit);
     }
 
     public override void EndTurn()
@@ -36,15 +35,13 @@ public class PlayerTurnManager : TurnManager
     {
         //this is where you actually use the skill
         _activeSkill.UseSkill(unit, _targetPool[_targetIndex]);
-
         CombatInterface.Instance.HideArrow();
         EndTurn();
+        //StartCoroutine(PlayTurnSequence(_activeSkill, _targetPool[_targetIndex]));  
     }
 
     private void CycleTarget(Vector2 input)
-    {
-        //we are assuming targeting is only for enemies for now 
-
+    { 
         if (input.x < 0 || input.y < 0)
         {
             //selection moves left
@@ -65,37 +62,17 @@ public class PlayerTurnManager : TurnManager
         _targetIndex = 0;
         _activeSkill = skill;
 
-        
-        switch (skill.GetTargetMode())
-        {
-
-            case TargetMode.RANGED:
-                _targetPool = CombatManager.Instance.GetEnemyUnits();
-                break;
-            case TargetMode.MELEE:
-                _targetPool = CombatManager.Instance.GetEnemyUnits();
-                break;
-            case TargetMode.ALL_ENEMIES:
-                _targetPool = CombatManager.Instance.GetEnemyUnits();
-                break;
-            case TargetMode.ALLY:
-                _targetPool = CombatManager.Instance.GetPlayerUnits();
-                break;
-            case TargetMode.ALL_ALLIES:
-                _targetPool = CombatManager.Instance.GetPlayerUnits();
-                break;
-          
-            //ToDo: Setup proper targeting for 'RANGED', and 'MELEE'
-        }
+        SetupTargetPool(true);
 
         //a)  Use skill on all applicable targets
-        if(skill.GetTargetMode() == TargetMode.ALL_ENEMIES || skill.GetTargetMode() == TargetMode.ALL_ALLIES)
+        if (skill.GetTargetMode() == TargetMode.ALL_ENEMIES || skill.GetTargetMode() == TargetMode.ALL_ALLIES)
         {
-            foreach(Unit target in _targetPool.ToList())
+            foreach (Unit target in _targetPool.ToList())
             {
                 _activeSkill.UseSkill(unit, target);
             }
             EndTurn();
+            //PlayTurnSequence(skill, _targetPool[0]);    // target doesn't matter here anyways
         }
         //b) Setup targeting arrow for target selection
         else
@@ -107,5 +84,4 @@ public class PlayerTurnManager : TurnManager
             InputController.Instance.NavigateEvent.AddListener(CycleTarget);
         }
     }
-
 }

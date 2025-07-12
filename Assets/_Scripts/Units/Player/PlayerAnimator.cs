@@ -23,6 +23,7 @@ public class PlayerAnimator : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
+    // -- Trigger Animations -- 
     public void PlayDamagedAnimation()
     {
         _animator.SetTrigger(DamagedHash);
@@ -35,6 +36,8 @@ public class PlayerAnimator : MonoBehaviour
     {
         _animator.SetTrigger(MagicHash);
     }
+
+    // -- Adjustable Parameters -- 
     public void SetCombatAnimations(bool inCombat)
     {
         _animator.SetBool(CombatHash, inCombat);
@@ -48,6 +51,7 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetFloat(MoveSpeedHash, moveSpeed);
     }
 
+    // -- Multiple Parameters
     public void EndCombatAnimations()
     {
         _animator.SetBool(DeadHash, false);

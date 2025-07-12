@@ -1,12 +1,12 @@
 
 public class EnemyTurnManager : TurnManager
 {
-    private EnemyUnit unit;
-    public EnemyTurnManager(EnemyUnit unit) : base(unit)
+
+    public void Start()
     {
-        this.unit = unit;
+        this.unit = GetComponent<EnemyUnit>();
     }
-    
+
     // --- Overriden methods ---
     // -------------------------
     public override void StartTurn()

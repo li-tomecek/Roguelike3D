@@ -3,7 +3,7 @@ public class EnemyUnit : Unit
 {
     protected override void Start()
     {
-        turnManager = new EnemyTurnManager(this);
+        turnManager = gameObject.AddComponent<EnemyTurnManager>();
         base.Start();
     }
     

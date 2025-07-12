@@ -239,8 +239,7 @@ public class CombatManager : MonoBehaviour
             foreach(PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
             {
                 unit.gameObject.SetActive(true);
-                unit.gameObject.GetComponent<Animator>().SetBool("IsDead", false);
-                unit.gameObject.GetComponent<Animator>().SetBool("InCombat", false);
+                unit.GetComponent<PlayerAnimator>().EndCombatAnimations();
                 
                 if (unit.GetHealth() <= 0)
                     unit.SetHealth(1);                              //revive "dead" units to 1HP
