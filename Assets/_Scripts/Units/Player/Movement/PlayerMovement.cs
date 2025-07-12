@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
         _animator = GetComponent<Animator>();
         IsGrounded();
     }
-
     void Update()
     {
         if (CombatManager.Instance.InCombat())
