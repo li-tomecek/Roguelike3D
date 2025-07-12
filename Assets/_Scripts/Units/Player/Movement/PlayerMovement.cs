@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController _controller;
-    private Animator _animator;
+    private PlayerAnimator _animator;
     [SerializeField] private MovementConfig _movementConfig;
 
     private float _speed;
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         _controller = gameObject.GetComponent<CharacterController>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<PlayerAnimator>();
         IsGrounded();
     }
     void Update()
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
         _movementVector.x = _directionalInput.x * _speed;
         _movementVector.z = _directionalInput.z * _speed;
 
-        _animator.SetFloat(MoveSpeedHash, _speed);
+        _animator.SetMovementSpeed(_speed);
     
 
         //2. Handle Jump

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* Handles logic related to the entire party:
- *  - Handles input for out-of-combat controls and has last arty memebers follow the first party member
+ *  - Handles input for out-of-combat controls and has last party memebers follow the first party member
  * 
  */
 
@@ -22,8 +22,6 @@ public class PartyControls : MonoBehaviour
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-    private int MeleeHash = Animator.StringToHash("MeleeAttack");
-
 
     void Awake()
     {
@@ -55,7 +53,7 @@ public class PartyControls : MonoBehaviour
             Debug.LogWarning("No InputController found");
         }
 
-        _partyMovement[0].gameObject.layer = LayerMask.NameToLayer("ControlledPlayer");     //so changing character order in the editor will automatically set the controller player
+        _partyMovement[0].gameObject.layer = LayerMask.NameToLayer("ControlledPlayer");     //so changing character order in the editor will automatically set the controlled player
     }
     private void Update()
     {
@@ -74,7 +72,8 @@ public class PartyControls : MonoBehaviour
     private void HandleMoveInput(Vector2 input)
     {
         _partyMovement[0].SetDirectionalInput(input);   //only the first party member is directly controlled via input
-        if (input == Vector2.zero)      //if the player is not moving
+        
+        if (input == Vector2.zero)                      //if the player is not moving
         {
             _following = false;
             foreach (PlayerMovement pm in _partyMovement)
@@ -107,7 +106,7 @@ public class PartyControls : MonoBehaviour
         
         _timeLastFired = Time.time;
         
-        _partyMembers[0].gameObject.GetComponent<Animator>().SetTrigger(MeleeHash);     //TODO: change this to a spell-cast animation
+        _partyMembers[0].GetComponent<PlayerAnimator>().PlayMeleeAnimation();     //TODO: change this to a spell-cast animation
         
         //Fire a projectile
         Instantiate(_projectilePrefab, 

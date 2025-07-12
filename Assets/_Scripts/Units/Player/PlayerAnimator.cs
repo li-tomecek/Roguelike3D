@@ -9,8 +9,8 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
-    
-    //ideally this is the only place in which the strings need to be changed
+
+    // Animation Hashes ~ ideally this is the only place in which the strings need to be changed
     private int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
     private int MeleeHash = Animator.StringToHash("MeleeAttack");
     private int DeadHash = Animator.StringToHash("IsDead");
@@ -38,6 +38,10 @@ public class PlayerAnimator : MonoBehaviour
     {
        _animator.SetBool(DeadHash, isDead);
     }
+    public void SetMovementSpeed(float moveSpeed)
+    {
+        _animator.SetFloat(MoveSpeedHash, moveSpeed);
+    }
 
     public void EndCombatAnimations()
     {
@@ -45,10 +49,6 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetBool(CombatHash, false);
     }
 
-    public void SetMovementSpeed(float moveSpeed)
-    {
-        _animator.SetFloat(MoveSpeedHash, moveSpeed);
-    }
     
     
     
