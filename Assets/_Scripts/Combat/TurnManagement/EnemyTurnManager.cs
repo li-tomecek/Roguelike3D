@@ -12,10 +12,12 @@ public class EnemyTurnManager : TurnManager
     public override void StartTurn()
     {
         base.StartTurn();
-        
+
         //this must be the last statement in the function
-        unit.UseDefaultSkill( CombatManager.Instance.GetRandomPlayerUnit()); //temp
-        EndTurn();
+        //unit.UseDefaultSkill( CombatManager.Instance.GetRandomPlayerUnit()); //temp
+        //EndTurn();
+        
+        StartCoroutine(PlayTurnSequence(unit.GetDefaultSkill(), CombatManager.Instance.GetRandomPlayerUnit()));
         
     }
 }
