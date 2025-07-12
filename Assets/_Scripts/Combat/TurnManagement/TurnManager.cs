@@ -59,7 +59,6 @@ public abstract class TurnManager : MonoBehaviour
 
     protected IEnumerator PlayTurnSequence(Skill skill, Unit target)
     {
-
         Quaternion originalRotation = unit.transform.rotation;
 
         //1. Face target
@@ -81,9 +80,9 @@ public abstract class TurnManager : MonoBehaviour
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     unit.gameObject.GetComponent<PlayerAnimator>().PlayMeleeAnimation();
 
-                foreach(Unit targetedUnit in _targetPool)
+                for (int i = 0; i < _targetPool.Count; i++)
                 {
-                    skill.UseSkill(unit, targetedUnit);
+                    skill.UseSkill(unit, _targetPool[i]);
                 }
                 break;
 
@@ -91,9 +90,9 @@ public abstract class TurnManager : MonoBehaviour
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     unit.gameObject.GetComponent<PlayerAnimator>().PlayMagicAnimation();
                 
-                foreach (Unit targetedUnit in _targetPool)
+                for (int i = 0; i < _targetPool.Count; i++)
                 {
-                    skill.UseSkill(unit, targetedUnit);
+                    skill.UseSkill(unit, _targetPool[i]);
                 }
                 break;
 

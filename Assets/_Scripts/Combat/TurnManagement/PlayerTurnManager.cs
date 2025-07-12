@@ -34,10 +34,9 @@ public class PlayerTurnManager : TurnManager
     private void ConfirmTarget()
     {
         //this is where you actually use the skill
-        _activeSkill.UseSkill(unit, _targetPool[_targetIndex]);
+        
         CombatInterface.Instance.HideArrow();
-        EndTurn();
-        //StartCoroutine(PlayTurnSequence(_activeSkill, _targetPool[_targetIndex]));  
+        StartCoroutine(PlayTurnSequence(_activeSkill, _targetPool[_targetIndex]));  
     }
 
     private void CycleTarget(Vector2 input)
@@ -67,12 +66,8 @@ public class PlayerTurnManager : TurnManager
         //a)  Use skill on all applicable targets
         if (skill.GetTargetMode() == TargetMode.ALL_ENEMIES || skill.GetTargetMode() == TargetMode.ALL_ALLIES)
         {
-            foreach (Unit target in _targetPool.ToList())
-            {
-                _activeSkill.UseSkill(unit, target);
-            }
-            EndTurn();
-            //PlayTurnSequence(skill, _targetPool[0]);    // target doesn't matter here anyways
+
+            StartCoroutine(PlayTurnSequence(skill, _targetPool[0]));    // target doesn't matter here anyways
         }
         //b) Setup targeting arrow for target selection
         else
