@@ -13,6 +13,7 @@ public class PlayerAnimator : MonoBehaviour
     // Animation Hashes ~ ideally this is the only place in which the strings need to be changed
     private int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
     private int MeleeHash = Animator.StringToHash("MeleeAttack");
+    private int MagicHash = Animator.StringToHash("MagicAttack");
     private int DeadHash = Animator.StringToHash("IsDead");
     private int CombatHash = Animator.StringToHash("InCombat");
     private int DamagedHash = Animator.StringToHash("TakeDamage");
@@ -29,6 +30,10 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayMeleeAnimation()
     {
         _animator.SetTrigger(MeleeHash);
+    }
+    public void PlayMagicAnimation()
+    {
+        _animator.SetTrigger(MagicHash);
     }
     public void SetCombatAnimations(bool inCombat)
     {

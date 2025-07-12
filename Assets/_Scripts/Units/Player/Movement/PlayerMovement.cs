@@ -19,9 +19,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     private bool _isGrounded;
 
-    //For animation
-    private int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
-
     void Awake()
     {
         _controller = gameObject.GetComponent<CharacterController>();

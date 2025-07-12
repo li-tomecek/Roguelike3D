@@ -105,8 +105,8 @@ public class PartyControls : MonoBehaviour
             return;
         
         _timeLastFired = Time.time;
-        
-        _partyMembers[0].GetComponent<PlayerAnimator>().PlayMeleeAnimation();     //TODO: change this to a spell-cast animation
+
+        _partyMembers[0].GetComponent<PlayerAnimator>().PlayMagicAnimation();
         
         //Fire a projectile
         Instantiate(_projectilePrefab, 

@@ -25,6 +25,8 @@ public abstract class TurnManager
         unit.IncrementBP();
     }
 
+
+
     public virtual void EndTurn()
     {
         CombatManager.Instance.NextTurn();
