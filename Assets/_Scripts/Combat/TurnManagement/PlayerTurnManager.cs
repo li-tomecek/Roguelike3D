@@ -33,8 +33,6 @@ public class PlayerTurnManager : TurnManager
     // -------------------------------
     private void ConfirmTarget()
     {
-        //this is where you actually use the skill
-        
         CombatInterface.Instance.HideArrow();
         StartCoroutine(PlayTurnSequence(_activeSkill, _targetPool[_targetIndex]));  
     }
@@ -66,7 +64,6 @@ public class PlayerTurnManager : TurnManager
         //a)  Use skill on all applicable targets
         if (skill.GetTargetMode() == TargetMode.ALL_ENEMIES || skill.GetTargetMode() == TargetMode.ALL_ALLIES)
         {
-
             StartCoroutine(PlayTurnSequence(skill, _targetPool[0]));    // target doesn't matter here anyways
         }
         //b) Setup targeting arrow for target selection

@@ -12,6 +12,8 @@ public abstract class TurnManager : MonoBehaviour
 
     public virtual void StartTurn()
     {
+        Debug.Log($"{unit.name}'s turn starting:");
+
         //Resolve any active effects
         Effect effect;
         for (int i = 0; i < unit.GetActiveEffects().Count; i++)
@@ -32,7 +34,6 @@ public abstract class TurnManager : MonoBehaviour
     {
         CombatManager.Instance.NextTurn();
     }
-
     protected void SetupTargetPool(bool isPlayer)
     {
         switch (_activeSkill.GetTargetMode())
@@ -60,7 +61,7 @@ public abstract class TurnManager : MonoBehaviour
     protected IEnumerator PlayTurnSequence(Skill skill, Unit target)
     {
         Quaternion originalRotation = unit.transform.rotation;
-
+        
         //1. Face target
         if (skill.GetTargetMode() == TargetMode.MELEE || skill.GetTargetMode() == TargetMode.RANGED)
             unit.gameObject.transform.LookAt(target.transform, Vector3.up);
@@ -71,14 +72,14 @@ public abstract class TurnManager : MonoBehaviour
             case TargetMode.MELEE:
                 //Run towards target here
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
-                    unit.gameObject.GetComponent<PlayerAnimator>().PlayMeleeAnimation();
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
 
                 skill.UseSkill(unit, target);
                 break;
 
             case TargetMode.ALL_ENEMIES:
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
-                    unit.gameObject.GetComponent<PlayerAnimator>().PlayMeleeAnimation();
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
 
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
@@ -88,8 +89,8 @@ public abstract class TurnManager : MonoBehaviour
 
             case TargetMode.ALL_ALLIES:
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
-                    unit.gameObject.GetComponent<PlayerAnimator>().PlayMagicAnimation();
-                
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMagicAnimation();
+
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
                     skill.UseSkill(unit, _targetPool[i]);
@@ -98,7 +99,7 @@ public abstract class TurnManager : MonoBehaviour
 
             default:
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
-                    unit.gameObject.GetComponent<PlayerAnimator>().PlayMagicAnimation();
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMagicAnimation();
 
                 skill.UseSkill(unit, target);
                 break;

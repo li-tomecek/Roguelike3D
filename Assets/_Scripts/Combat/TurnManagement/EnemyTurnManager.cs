@@ -13,10 +13,7 @@ public class EnemyTurnManager : TurnManager
     {
         base.StartTurn();
 
-        //this must be the last statement in the function
-        //unit.UseDefaultSkill( CombatManager.Instance.GetRandomPlayerUnit()); //temp
-        //EndTurn();
-        
+        //this must be the last statement in the function    
         StartCoroutine(PlayTurnSequence(unit.GetDefaultSkill(), CombatManager.Instance.GetRandomPlayerUnit()));
         
     }

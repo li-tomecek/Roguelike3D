@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /*
@@ -12,15 +13,30 @@ public class PlayerAnimator : MonoBehaviour
 
     // Animation Hashes ~ ideally this is the only place in which the strings need to be changed
     private int MoveSpeedHash = Animator.StringToHash("MoveSpeed");
+    
     private int MeleeHash = Animator.StringToHash("MeleeAttack");
     private int MagicHash = Animator.StringToHash("MagicAttack");
+    private int DamagedHash = Animator.StringToHash("TakeDamage");
+    
     private int DeadHash = Animator.StringToHash("IsDead");
     private int CombatHash = Animator.StringToHash("InCombat");
-    private int DamagedHash = Animator.StringToHash("TakeDamage");
 
     void Start()
     {
         _animator = GetComponent<Animator>();
+    }
+    // -- Wait for  triggered animations -- 
+    public IEnumerator WaitForMeleeAnimation()
+    {
+        PlayMeleeAnimation();
+        yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1);  //wait for transition
+        yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1);  //wait for animation
+    }
+    public IEnumerator WaitForMagicAnimation()
+    {
+        PlayMagicAnimation();
+        yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1);  //wait for transition
+        yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1);  //wait for animation
     }
 
     // -- Trigger Animations -- 
