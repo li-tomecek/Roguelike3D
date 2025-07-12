@@ -10889,6 +10889,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ranger
       objectReference: {fileID: 0}
+    - target: {fileID: 5690037525670380364, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
