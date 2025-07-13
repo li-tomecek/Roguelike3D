@@ -123,12 +123,12 @@ public class CombatManager : MonoBehaviour
         {
             _playerUnits[i].GetComponent<PlayerAnimator>().SetCombatAnimations(true);
 
-            routines.Add(StartCoroutine(_playerUnits[i].MoveToAndLook(_playerCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold, _enemyCombatPositions[1].transform.position, 180f)));
+            routines.Add(StartCoroutine(_playerUnits[i].MoveToAndLook(_playerCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold, _enemyCombatPositions[1].transform.position, 200f)));
         }
 
         for (int i = 0; i < _enemyUnits.Count; i++)
         {
-            routines.Add(StartCoroutine(_enemyUnits[i].MoveToAndLook(_enemyCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold, _playerCombatPositions[1].transform.position, 180f)));
+            routines.Add(StartCoroutine(_enemyUnits[i].MoveToAndLook(_enemyCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold, _playerCombatPositions[1].transform.position, 200f)));
         }
 
         for (int i = 0; i < routines.Count; i++)

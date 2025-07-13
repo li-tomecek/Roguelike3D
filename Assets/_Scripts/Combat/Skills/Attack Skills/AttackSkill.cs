@@ -29,13 +29,14 @@ public class AttackSkill : Skill
     public override float CalculateSkillPriority(EnemyUnit caster, Unit target)
     {
         int dmg = CalculateTotalDamage(caster, target);
-        float percentDamagedHP = (float)(target.GetHealth() - dmg) / target.GetStats().maxHealth;   //taking amount of damage dealt into account
+        float percentDamagedHP = Mathf.Max((float)(target.GetHealth() - dmg) / target.GetStats().maxHealth, 0f);   //taking amount of damage dealt into account
         float score;
 
         if (percentDamagedHP >= _hpThreshold)
             score = _minScore;
         else
-            score = _minScore + (_hpThreshold - percentDamagedHP) * ((1 - _minScore) / (_hpThreshold));     //linear increase from minScore to 1, as HP remaining decreases.
+            score = _minScore + (_hpThreshold - percentDamagedHP) * ((1 - _minScore) / (_hpThreshold));         //linear increase from minScore to 1, as HP remaining decreases.
+                                                                                                            
 
             return caster.C_Attack * score;
     }
