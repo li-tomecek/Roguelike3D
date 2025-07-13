@@ -12,7 +12,7 @@ public abstract class TurnManager : MonoBehaviour
 
     protected const float TRAVEL_TIME = 7f;
     protected const float ROTATE_TIME = 180f;
-    protected const float ATTACKER_RADIUS = 3f;   // how far the unit can be away from the target when melee attacking
+    protected const float ATTACKER_RADIUS = 2.5f;   // how far the unit can be away from the target when melee attacking
     protected const float RETURN_RADIUS = 0.02f;    // how far the unit can be away from its original positions when returning
 
     public virtual void StartTurn()

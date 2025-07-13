@@ -110,13 +110,13 @@ public abstract class Unit : MonoBehaviour
         while (!atDestination)
         {
             direction = targetPosition - this.transform.position;
-            atDestination = direction.magnitude <= acceptedRadius;
-            
+            atDestination = (direction.magnitude <= acceptedRadius);
+                       
             if (!atDestination)
             {
                 if ((direction.normalized * travelSpeed * Time.deltaTime).magnitude < direction.magnitude)      // so we dont overshoot and end up in a loop
                     direction = (direction.normalized * travelSpeed * Time.deltaTime);
-                
+
                 controller.Move(direction);
             }
 

@@ -57,7 +57,6 @@ public class PartyControls : MonoBehaviour
     }
     private void Update()
     {
-        Debug.DrawRay(_partyMembers[0].gameObject.transform.position, _partyMembers[0].transform.forward * 2f);
         if (_following)
         {
             for (int i = 1; i < _partyMovement.Count; i++)
