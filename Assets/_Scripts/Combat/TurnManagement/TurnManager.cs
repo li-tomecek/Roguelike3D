@@ -17,8 +17,6 @@ public abstract class TurnManager : MonoBehaviour
 
     public virtual void StartTurn()
     {
-        Debug.Log($"{unit.name}'s turn starting:");
-
         //Resolve any active effects
         Effect effect;
         for (int i = 0; i < unit.GetActiveEffects().Count; i++)

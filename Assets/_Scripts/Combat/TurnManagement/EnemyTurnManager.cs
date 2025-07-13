@@ -35,6 +35,7 @@ public class EnemyTurnManager : TurnManager
 
         //1. Get all possible skill-target combination scores
         calculatedMoves.AddRange(GetScoresForSkill(unit.GetDefaultSkill()));
+        
         foreach (Skill skill in unit.GetSkills())
         {
             calculatedMoves.AddRange(GetScoresForSkill(skill));
@@ -68,7 +69,7 @@ public class EnemyTurnManager : TurnManager
         {
             //use a random target within the pool to judge skill score
             score = skill.CalculateSkillPriority((EnemyUnit)unit, _targetPool[UnityEngine.Random.Range(0, _targetPool.Count)]);
-            tuples.Append(Tuple.Create(score, skill, unit));  // in this case, the target given for the tuple should not matter. Passing reference to self so that any miscalculations are obvious
+            tuples.Add(Tuple.Create(score, skill, unit));  // in this case, the target given for the tuple should not matter. Passing reference to self so that any miscalculations are obvious
 
             highestScore = Mathf.Max(highestScore, score);
         }
@@ -77,12 +78,12 @@ public class EnemyTurnManager : TurnManager
             foreach(Unit target in _targetPool)
             {
                 score = skill.CalculateSkillPriority((EnemyUnit) unit, target);
-                tuples.Append(Tuple.Create(score, skill, target));
+                tuples.Add(Tuple.Create(score, skill, target));
                 
                 highestScore = Mathf.Max(highestScore, score); 
             }
         }
 
-            return tuples;
+        return tuples;
     }
 }
