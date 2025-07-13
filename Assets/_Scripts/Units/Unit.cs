@@ -116,10 +116,6 @@ public abstract class Unit : MonoBehaviour
             this.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
             yield return null;
         }
-
-        if(this.GetComponent<PlayerAnimator>())
-            this.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
-
     }
 
     // --- Getters / Setters ---

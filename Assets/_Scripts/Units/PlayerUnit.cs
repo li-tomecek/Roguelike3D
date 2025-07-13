@@ -1,4 +1,7 @@
 
+using System.Collections;
+using UnityEngine;
+
 public class PlayerUnit : Unit
 {
     protected override void Awake()
@@ -10,5 +13,16 @@ public class PlayerUnit : Unit
     public PlayerTurnManager GetPlayerTurnManager()
     {
         return (PlayerTurnManager)turnManager;
+    }
+
+    public override IEnumerator MoveTo(Vector3 targetPosition, float travelSpeed, float acceptedRadius)
+    {
+      
+        this.GetComponent<PlayerAnimator>().SetMovementSpeed(travelSpeed);
+
+        yield return base.MoveTo(targetPosition, travelSpeed, acceptedRadius);
+
+        this.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
+
     }
 }

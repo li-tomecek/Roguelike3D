@@ -116,22 +116,26 @@ public class CombatManager : MonoBehaviour
     }
     private IEnumerator SendUnitsToPosition()
     {
-      
+
+        List<Coroutine> routines = new List<Coroutine>();
 
         for (int i = 0; i < _playerUnits.Count; i++)
         {
             _playerUnits[i].GetComponent<PlayerAnimator>().SetMovementSpeed(_travelSpeed);
             _playerUnits[i].GetComponent<PlayerAnimator>().SetCombatAnimations(true);
 
-            StartCoroutine(_playerUnits[i].MoveTo(_playerCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold));
+            routines.Add(StartCoroutine(_playerUnits[i].MoveTo(_playerCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold)));
         }
 
         for (int i = 0; i < _enemyUnits.Count; i++)
         {
-            StartCoroutine(_enemyUnits[i].MoveTo(_enemyCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold));
+            routines.Add(StartCoroutine(_enemyUnits[i].MoveTo(_enemyCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold)));
         }
 
-        yield return null;
+        for (int i = 0; i < routines.Count; i++)
+        {
+            yield return routines[i];
+        }
     }
     private void ApplyDisadvantageDamage(List<Unit> unitList)
     {
