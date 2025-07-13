@@ -1,5 +1,6 @@
 
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class PlayerUnit : Unit
@@ -24,5 +25,14 @@ public class PlayerUnit : Unit
 
         this.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
 
+    }
+
+    public override IEnumerator RotateTo(Vector3 lookVector, float rotationSpeed)
+    {
+        this.GetComponent<PlayerAnimator>().SetMovementSpeed(rotationSpeed);
+
+        yield return base.RotateTo(lookVector, rotationSpeed);
+
+        this.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
     }
 }

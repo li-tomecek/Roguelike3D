@@ -11,8 +11,9 @@ public abstract class TurnManager : MonoBehaviour
     protected int _targetIndex;
 
     protected const float TRAVEL_TIME = 7f;
-    protected const float ATTACKER_RADIUS = 2f;     // how far the unit can be away from the target when melee attacking
-    protected const float RETURN_RADIUS = 0.02f;     // how far the unit can be away from its original positions when returning
+    protected const float ROTATE_TIME = 180f;
+    protected const float ATTACKER_RADIUS = 3f;   // how far the unit can be away from the target when melee attacking
+    protected const float RETURN_RADIUS = 0.02f;    // how far the unit can be away from its original positions when returning
 
     public virtual void StartTurn()
     {
@@ -63,12 +64,13 @@ public abstract class TurnManager : MonoBehaviour
 
     protected IEnumerator PlayTurnSequence(Skill skill, Unit target)
     {
-        Quaternion originalRotation = unit.transform.rotation;
+        Vector3 originalForward = unit.transform.forward;
         Vector3 originalPosition = unit.transform.position;
-        
+
         //1. Face target
         if (skill.GetTargetMode() == TargetMode.MELEE || skill.GetTargetMode() == TargetMode.RANGED)
-            unit.gameObject.transform.LookAt(target.transform, Vector3.up);
+            //unit.gameObject.transform.LookAt(target.transform, Vector3.up);
+            yield return unit.RotateTo((target.transform.position - transform.position).normalized, ROTATE_TIME);
 
         //2. Move to Target (if applicable) ~ and play relevant animations ~  move back to position
         switch (skill.GetTargetMode())
@@ -134,7 +136,7 @@ public abstract class TurnManager : MonoBehaviour
         }
 
         //3. Reset Rotation
-        unit.gameObject.transform.rotation = originalRotation;
+        yield return unit.RotateTo(originalForward, ROTATE_TIME);
 
         EndTurn();
 

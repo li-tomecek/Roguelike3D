@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [System.Serializable]
 public struct Stats
@@ -90,9 +91,15 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    
+
     // --- Other Methods ---
     // ----------------------
+    public IEnumerator MoveToAndLook(Vector3 targetPosition, float travelSpeed, float acceptedRadius, Vector3 lookTarget, float rotationSpeed)
+    {
+        yield return MoveTo(targetPosition, travelSpeed, acceptedRadius);
+        
+        yield return RotateTo((lookTarget - transform.position).normalized, rotationSpeed);
+    }
     public virtual IEnumerator MoveTo(Vector3 targetPosition, float travelSpeed, float acceptedRadius)
     {
         Vector3 direction;
@@ -103,7 +110,7 @@ public abstract class Unit : MonoBehaviour
         while (!atDestination)
         {
             direction = targetPosition - this.transform.position;
-            atDestination = direction.magnitude < acceptedRadius;
+            atDestination = direction.magnitude <= acceptedRadius;
             
             if (!atDestination)
             {
@@ -114,6 +121,24 @@ public abstract class Unit : MonoBehaviour
             }
 
             this.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            yield return null;
+        }
+    }
+    public virtual IEnumerator RotateTo(Vector3 lookVector, float rotationSpeed)
+    {
+        //lookVector.y = transform.forward.y;
+
+        Quaternion start = Quaternion.LookRotation(transform.forward, Vector3.up);
+        Quaternion end = Quaternion.LookRotation(lookVector, Vector3.up);
+
+        float timer = 0f;
+        float rotateTime = Vector3.Angle(transform.forward, lookVector) / rotationSpeed;
+
+        while ((timer / rotateTime) < 1f)
+        {
+
+            transform.rotation = Quaternion.Slerp(start, end, (timer / rotateTime));
+            timer += Time.deltaTime;
             yield return null;
         }
     }
