@@ -24,10 +24,10 @@ public class Skill : ScriptableObject
         caster.DecrementBP(cost);
     }
 
-    public virtual Tuple<Unit, float> getOptimalTarget(List<Unit> targets)      //for enemy AI, to implement separately for each type of move.
+    public virtual float CalculateSkillPriority(EnemyUnit caster, Unit target)      //for enemy AI, to implement separately for each type of move.
     {
-        return Tuple.Create(targets[UnityEngine.Random.Range(0, targets.Count)], 0f);
-        //default implementation just returns a random target.
+        return 0f;
+        //default implementation just returns 0.
     }
     
     

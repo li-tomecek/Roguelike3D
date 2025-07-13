@@ -61,7 +61,6 @@ public abstract class TurnManager : MonoBehaviour
                 //ToDo: Setup proper targeting for 'RANGED', and 'MELEE'
         }
     }
-
     protected IEnumerator PlayTurnSequence(Skill skill, Unit target)
     {
         Vector3 originalForward = unit.transform.forward;

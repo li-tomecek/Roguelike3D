@@ -1,6 +1,17 @@
 
+using UnityEngine;
+
 public class EnemyUnit : Unit
 {
+
+    [Header("Skill-Scoring Constants")]
+    [Range(0.0f, 1.0f)] public float ScoreThreshold = 0.5f; //all move scores >= (ScoreThreshold * highestScore) are considered for possible moves
+    
+    //The sum of these does not necessarily have to be 1
+    [Range(0.0f, 1.0f)] public float C_Heal = 0.33f;
+    [Range(0.0f, 1.0f)] public float C_Attack = 0.33f;
+    [Range(0.0f, 1.0f)] public float C_StatMod = 0.33f;
+
     protected override void Awake()
     {
         turnManager = gameObject.AddComponent<EnemyTurnManager>();
