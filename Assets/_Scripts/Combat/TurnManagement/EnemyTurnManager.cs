@@ -38,7 +38,8 @@ public class EnemyTurnManager : TurnManager
         
         foreach (Skill skill in unit.GetSkills())
         {
-            calculatedMoves.AddRange(GetScoresForSkill(skill));
+            if (skill.GetCost() <= unit.GetBP())
+                calculatedMoves.AddRange(GetScoresForSkill(skill));
         }
 
         //2. Only Consider scores that meet the threshold.  ~ The smaller the threshold, the more skills are cosidered, and the "dumber" the AI is
