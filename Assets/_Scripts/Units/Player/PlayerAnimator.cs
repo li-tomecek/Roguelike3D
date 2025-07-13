@@ -26,6 +26,11 @@ public class PlayerAnimator : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
     // -- Wait for  triggered animations -- 
+    public IEnumerator WaitForCurrentAnimation()
+    {
+        yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1);  //wait for transition
+        yield return new WaitWhile(() => _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1);  //wait for animation
+    }
     public IEnumerator WaitForMeleeAnimation()
     {
         PlayMeleeAnimation();

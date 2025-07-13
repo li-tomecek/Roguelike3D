@@ -70,13 +70,12 @@ public abstract class TurnManager : MonoBehaviour
         if (skill.GetTargetMode() == TargetMode.MELEE || skill.GetTargetMode() == TargetMode.RANGED)
             unit.gameObject.transform.LookAt(target.transform, Vector3.up);
 
-        //2. Move to Target (if applicable) and play relevant animation
+        //2. Move to Target (if applicable) ~ and play relevant animations ~  move back to position
         switch (skill.GetTargetMode())
         {
             case TargetMode.MELEE:
                 
                 yield return unit.MoveTo(target.transform.position, TRAVEL_TIME, ATTACKER_RADIUS);
-                
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
                 else
@@ -84,6 +83,8 @@ public abstract class TurnManager : MonoBehaviour
                 
                 skill.UseSkill(unit, target);
 
+                if (unit.gameObject.GetComponent<PlayerAnimator>())
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
                 yield return unit.MoveTo(originalPosition, TRAVEL_TIME, RETURN_RADIUS);
 
                 break;
@@ -91,15 +92,18 @@ public abstract class TurnManager : MonoBehaviour
             case TargetMode.ALL_ENEMIES:
                 
                 yield return unit.MoveTo(originalPosition + Vector3.forward, TRAVEL_TIME, RETURN_RADIUS);
-
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
+                else
+                    yield return new WaitForSeconds(0.5f);
 
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
                     skill.UseSkill(unit, _targetPool[i]);
                 }
 
+                if (unit.gameObject.GetComponent<PlayerAnimator>())
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
                 yield return unit.MoveTo(originalPosition, TRAVEL_TIME, RETURN_RADIUS);
 
                 break;
@@ -112,6 +116,9 @@ public abstract class TurnManager : MonoBehaviour
                 {
                     skill.UseSkill(unit, _targetPool[i]);
                 }
+                if (unit.gameObject.GetComponent<PlayerAnimator>())
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
+
                 break;
 
             default:
@@ -119,6 +126,10 @@ public abstract class TurnManager : MonoBehaviour
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMagicAnimation();
 
                 skill.UseSkill(unit, target);
+                
+                if (unit.gameObject.GetComponent<PlayerAnimator>())
+                    yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
+
                 break;
         }
 
