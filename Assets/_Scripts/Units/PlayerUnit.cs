@@ -1,10 +1,10 @@
 
 public class PlayerUnit : Unit
 {
-    protected override void Start()
+    protected override void Awake()
     {
         turnManager = gameObject.AddComponent<PlayerTurnManager>();
-        base.Start();
+        base.Awake();
     }
     
     public PlayerTurnManager GetPlayerTurnManager()

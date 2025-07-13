@@ -3,7 +3,7 @@ using UnityEngine;
 
 /*
  * This class essentially acts as a way to control player animations more intuitively from other scripts.
- * It removes the need to update string literals for setting parameters of repeating animations accross scripts.
+ * It removes the need to update string literals for setting parameters of repeating animations across scripts.
  */
 
 [RequireComponent(typeof(Animator))]

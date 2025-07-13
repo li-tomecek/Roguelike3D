@@ -29,7 +29,6 @@ public abstract class TurnManager : MonoBehaviour
 
         unit.IncrementBP();
     }
-
     public virtual void EndTurn()
     {
         CombatManager.Instance.NextTurn();

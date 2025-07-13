@@ -17,7 +17,7 @@ public class HealSkill : Skill
         }
 
         heal = Mathf.Min(heal, target.GetStats().maxHealth - target.GetHealth());   //cannot heal for over 100 HP
-
+       
         //apply  healing
         target.TakeDamage(-heal);
 

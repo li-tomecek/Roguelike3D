@@ -116,79 +116,22 @@ public class CombatManager : MonoBehaviour
     }
     private IEnumerator SendUnitsToPosition()
     {
-        //for the animator
-        foreach(var unit in _combatSequence)
+      
+
+        for (int i = 0; i < _playerUnits.Count; i++)
         {
-            if (unit.gameObject.GetComponent<PlayerAnimator>())
-            {
-                unit.GetComponent<PlayerAnimator>().SetMovementSpeed(_travelSpeed);
-                unit.GetComponent<PlayerAnimator>().SetCombatAnimations(true);
-            }
+            _playerUnits[i].GetComponent<PlayerAnimator>().SetMovementSpeed(_travelSpeed);
+            _playerUnits[i].GetComponent<PlayerAnimator>().SetCombatAnimations(true);
+
+            StartCoroutine(_playerUnits[i].MoveTo(_playerCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold));
         }
-        
-        bool atDestination, finished = false;
-        Vector3 direction;
-            
-        while (!finished)
+
+        for (int i = 0; i < _enemyUnits.Count; i++)
         {
-            Unit unit;
-            finished = true;
-            //Move all player units into their start position
-            for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
-            { 
-                unit = _playerUnits[i];
-                            
-                direction = (_playerCombatPositions[i].transform.position - unit.transform.position);
-                direction.y = 0f;   //we don't want to adjust their height.
-                            
-                atDestination = direction.magnitude < _targetDistanceThreshold;
-                if (!atDestination)
-                {
-                    direction.Normalize();
-                    unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    direction = _enemyCombatPositions[1].transform.position - unit.transform.position;
-                    direction.y = 0f;
-                    unit.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
-
-                }
-
-                unit.transform.rotation =  Quaternion.LookRotation(direction, Vector3.up);   
-                finished &= atDestination;
-
-            }
-                    
-                
-            //Move all enemy units into their start position
-            for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
-            { 
-                unit = _enemyUnits[i];
-                        
-                direction = (_enemyCombatPositions[i].transform.position - unit.transform.position);
-                direction.y = 0f;   //we don't want to adjust their height
-                        
-                atDestination = direction.magnitude < _targetDistanceThreshold;
-                if (!atDestination)
-                {
-                    direction.Normalize();
-                    unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    direction = _playerCombatPositions[1].transform.position - unit.transform.position;
-                    direction.y = 0f;
-                }
-                        
-                unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-                            
-                finished &= atDestination;
-
-            }
-                        
-            yield return null;
+            StartCoroutine(_enemyUnits[i].MoveTo(_enemyCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold));
         }
+
+        yield return null;
     }
     private void ApplyDisadvantageDamage(List<Unit> unitList)
     {
@@ -291,4 +234,87 @@ public class CombatManager : MonoBehaviour
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];
     }   //temp
+
+
+
+
+
+
+
+    private IEnumerator OldSendUnitsToPosition()
+    {
+        //for the animator
+        foreach (var unit in _combatSequence)
+        {
+            if (unit.gameObject.GetComponent<PlayerAnimator>())
+            {
+                unit.GetComponent<PlayerAnimator>().SetMovementSpeed(_travelSpeed);
+                unit.GetComponent<PlayerAnimator>().SetCombatAnimations(true);
+            }
+        }
+
+        bool atDestination, finished = false;
+        Vector3 direction;
+
+        while (!finished)
+        {
+            Unit unit;
+            finished = true;
+            //Move all player units into their start position
+            for (int i = 0; (i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
+            {
+                unit = _playerUnits[i];
+
+                direction = (_playerCombatPositions[i].transform.position - unit.transform.position);
+                direction.y = 0f;   //we don't want to adjust their height.
+
+                atDestination = direction.magnitude < _targetDistanceThreshold;
+                if (!atDestination)
+                {
+                    direction.Normalize();
+                    unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    direction = _enemyCombatPositions[1].transform.position - unit.transform.position;
+                    direction.y = 0f;
+                    unit.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
+
+                }
+
+                unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+                finished &= atDestination;
+
+            }
+
+
+            //Move all enemy units into their start position
+            for (int i = 0; (i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
+            {
+                unit = _enemyUnits[i];
+
+                direction = (_enemyCombatPositions[i].transform.position - unit.transform.position);
+                direction.y = 0f;   //we don't want to adjust their height
+
+                atDestination = direction.magnitude < _targetDistanceThreshold;
+                if (!atDestination)
+                {
+                    direction.Normalize();
+                    unit.gameObject.GetComponent<CharacterController>().Move(direction * _travelSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    direction = _playerCombatPositions[1].transform.position - unit.transform.position;
+                    direction.y = 0f;
+                }
+
+                unit.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+
+                finished &= atDestination;
+
+            }
+
+            yield return null;
+        }
+    }
 }

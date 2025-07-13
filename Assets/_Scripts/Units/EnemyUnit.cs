@@ -1,10 +1,10 @@
 
 public class EnemyUnit : Unit
 {
-    protected override void Start()
+    protected override void Awake()
     {
         turnManager = gameObject.AddComponent<EnemyTurnManager>();
-        base.Start();
+        base.Awake();
     }
     
 }
