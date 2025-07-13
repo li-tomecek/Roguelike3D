@@ -10,6 +10,10 @@ public abstract class TurnManager : MonoBehaviour
     protected List<Unit> _targetPool;
     protected int _targetIndex;
 
+    protected const float TRAVEL_TIME = 7f;
+    protected const float ATTACKER_RADIUS = 2f;     // how far the unit can be away from the target when melee attacking
+    protected const float RETURN_RADIUS = 0.02f;     // how far the unit can be away from its original positions when returning
+
     public virtual void StartTurn()
     {
         Debug.Log($"{unit.name}'s turn starting:");
@@ -60,6 +64,7 @@ public abstract class TurnManager : MonoBehaviour
     protected IEnumerator PlayTurnSequence(Skill skill, Unit target)
     {
         Quaternion originalRotation = unit.transform.rotation;
+        Vector3 originalPosition = unit.transform.position;
         
         //1. Face target
         if (skill.GetTargetMode() == TargetMode.MELEE || skill.GetTargetMode() == TargetMode.RANGED)
@@ -69,14 +74,24 @@ public abstract class TurnManager : MonoBehaviour
         switch (skill.GetTargetMode())
         {
             case TargetMode.MELEE:
-                //Run towards target here
+                
+                yield return unit.MoveTo(target.transform.position, TRAVEL_TIME, ATTACKER_RADIUS);
+                
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
-
+                else
+                    yield return new WaitForSeconds(0.5f);
+                
                 skill.UseSkill(unit, target);
+
+                yield return unit.MoveTo(originalPosition, TRAVEL_TIME, RETURN_RADIUS);
+
                 break;
 
             case TargetMode.ALL_ENEMIES:
+                
+                yield return unit.MoveTo(originalPosition + Vector3.forward, TRAVEL_TIME, RETURN_RADIUS);
+
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
 
@@ -84,6 +99,9 @@ public abstract class TurnManager : MonoBehaviour
                 {
                     skill.UseSkill(unit, _targetPool[i]);
                 }
+
+                yield return unit.MoveTo(originalPosition, TRAVEL_TIME, RETURN_RADIUS);
+
                 break;
 
             case TargetMode.ALL_ALLIES:
