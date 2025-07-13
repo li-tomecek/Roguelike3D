@@ -30,6 +30,10 @@ public class LevelManager : MonoBehaviour
     public void SpawnReward()
     {
         _combatReward = Instantiate(_combatReward, gameObject.transform);
+        foreach (var door in Resources.FindObjectsOfTypeAll<Door>())
+        {
+            door.UnlockDoor();
+        }
     }
 
     public void ClaimReward()

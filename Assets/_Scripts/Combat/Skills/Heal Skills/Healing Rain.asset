@@ -17,5 +17,5 @@ MonoBehaviour:
   cost: 1
   targetMode: 4
   upgrades: []
-  _healAmt: 25
+  _healAmt: 20
   asPercentage: 1

@@ -11,10 +11,12 @@ public class PartyControls : MonoBehaviour
 {
     public static PartyControls Instance;
     [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
-
+  
     [Header("Party Movement")]
     [SerializeField] private float _jumpDelay;
     private List<PlayerMovement> _partyMovement = new List<PlayerMovement>();
+    private PlayerMovement _partyLeader;
+
 
     private bool _following = false;
 
@@ -53,7 +55,8 @@ public class PartyControls : MonoBehaviour
             Debug.LogWarning("No InputController found");
         }
 
-        _partyMovement[0].gameObject.layer = LayerMask.NameToLayer("ControlledPlayer");     //so changing character order in the editor will automatically set the controlled player
+        _partyLeader = _partyMovement[0];
+        _partyLeader.gameObject.layer = LayerMask.NameToLayer("ControlledPlayer");     //so changing character order in the editor will automatically set the controlled player
     }
     private void Update()
     {
@@ -70,7 +73,7 @@ public class PartyControls : MonoBehaviour
     // ------------------------------------
     private void HandleMoveInput(Vector2 input)
     {
-        _partyMovement[0].SetDirectionalInput(input);   //only the first party member is directly controlled via input
+        _partyLeader.SetDirectionalInput(input);   //only the first party member is directly controlled via input
         
         if (input == Vector2.zero)                      //if the player is not moving
         {
@@ -105,17 +108,17 @@ public class PartyControls : MonoBehaviour
         
         _timeLastFired = Time.time;
 
-        _partyMembers[0].GetComponent<PlayerAnimator>().PlayMagicAnimation();
+        _partyLeader.GetComponent<PlayerAnimator>().PlayMagicAnimation();
         
         //Fire a projectile
         Instantiate(_projectilePrefab, 
-            _partyMovement[0].GetProjectileOrigin().position, 
-            _partyMovement[0].GetProjectileOrigin().rotation);  
+            _partyLeader.GetProjectileOrigin().position, 
+            _partyLeader.GetProjectileOrigin().rotation);  
     }
 
     private void CastForInteract()
     {     
-        if (Physics.Raycast(_partyMovement[0].GetProjectileOrigin().position, _partyMembers[0].transform.forward, out RaycastHit hit, 2.5f))
+        if (Physics.Raycast(_partyLeader.GetProjectileOrigin().position, _partyLeader.transform.forward, out RaycastHit hit, 2.5f))
         {
             if (hit.transform.gameObject.GetComponent<IInteractable>() != null)
             {

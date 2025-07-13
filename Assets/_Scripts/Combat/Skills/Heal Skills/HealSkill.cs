@@ -26,4 +26,18 @@ public class HealSkill : Skill
 
         base.UseSkill(caster, target);
     }
+
+    public override float CalculateSkillPriority(EnemyUnit caster, Unit target)
+    {
+        float percentHP = (float)(target.GetHealth()) / target.GetStats().maxHealth;
+        float score;
+
+        if (percentHP > 0.5f)
+            score = (1 - percentHP);                         // HP Above 50%: score scales linearly with how little HP target has remaining
+        
+        else
+            score = (1 - (2 * Mathf.Pow(percentHP, 2f)));    // HP <= 50%: score scales quadratically with how little HP target has remaining
+
+        return caster.C_Heal * score;
+    }
 }

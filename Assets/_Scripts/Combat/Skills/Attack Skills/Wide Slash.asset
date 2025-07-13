@@ -21,3 +21,5 @@ MonoBehaviour:
   damage: 5
   useAttackStat: 1
   ignoresDefense: 0
+  _hpThreshold: 0.7
+  _minScore: 0.2

@@ -1147,7 +1147,7 @@ MonoBehaviour:
   - {fileID: 576914380}
   - {fileID: 1796797571}
   - {fileID: 286855451}
-  _travelSpeed: 7
+  _travelSpeed: 7.5
   _targetDistanceThreshold: 0.3
 --- !u!1001 &281725272
 PrefabInstance:
@@ -2773,7 +2773,7 @@ Transform:
   m_GameObject: {fileID: 446460031}
   serializedVersion: 2
   m_LocalRotation: {x: 0.14376022, y: -0.3288779, z: 0.050729483, w: 0.9319866}
-  m_LocalPosition: {x: 8.532994, y: -11.070291, z: 13.641884}
+  m_LocalPosition: {x: 7.05, y: -11.070291, z: 13.641884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2920,9 +2920,41 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_Heal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_Attack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_StatMod
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: stats.attack
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: stats.agility
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: ScoreThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: skills.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: 'skills.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a7ec89fb0a32fd42b59d8f678619c2f, type: 2}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: 'skills.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c22804e0b9e980e448467266b91a988e, type: 2}
     - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_Name
       value: Enemy 2
@@ -6934,9 +6966,41 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_Heal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_Attack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_StatMod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: stats.attack
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: stats.agility
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: ScoreThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: skills.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: 'skills.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ced059516705d2408f1bba17aedad12, type: 2}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: 'skills.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: bf8a4da369922d64e88883d995f30391, type: 2}
     - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_Name
       value: Enemy 3
@@ -10970,6 +11034,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 274480610}
     m_Modifications:
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_Heal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_Attack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: C_StatMod
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: stats.attack
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: ScoreThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: skills.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: 'skills.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d4d8448be19dae54291157bd169305a3, type: 2}
+    - target: {fileID: 3427137865842969608, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: 'skills.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a7ec89fb0a32fd42b59d8f678619c2f, type: 2}
     - target: {fileID: 3493954557133756239, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_Name
       value: Enemy 1

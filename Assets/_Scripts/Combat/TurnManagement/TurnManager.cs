@@ -10,15 +10,13 @@ public abstract class TurnManager : MonoBehaviour
     protected List<Unit> _targetPool;
     protected int _targetIndex;
 
-    protected const float TRAVEL_TIME = 7f;
-    protected const float ROTATE_TIME = 180f;
+    protected const float TRAVEL_TIME = 8f;
+    protected const float ROTATE_TIME = 200f;
     protected const float ATTACKER_RADIUS = 2.5f;   // how far the unit can be away from the target when melee attacking
     protected const float RETURN_RADIUS = 0.02f;    // how far the unit can be away from its original positions when returning
 
     public virtual void StartTurn()
     {
-        Debug.Log($"{unit.name}'s turn starting:");
-
         //Resolve any active effects
         Effect effect;
         for (int i = 0; i < unit.GetActiveEffects().Count; i++)
@@ -61,7 +59,6 @@ public abstract class TurnManager : MonoBehaviour
                 //ToDo: Setup proper targeting for 'RANGED', and 'MELEE'
         }
     }
-
     protected IEnumerator PlayTurnSequence(Skill skill, Unit target)
     {
         Vector3 originalForward = unit.transform.forward;
@@ -69,7 +66,6 @@ public abstract class TurnManager : MonoBehaviour
 
         //1. Face target
         if (skill.GetTargetMode() == TargetMode.MELEE || skill.GetTargetMode() == TargetMode.RANGED)
-            //unit.gameObject.transform.LookAt(target.transform, Vector3.up);
             yield return unit.RotateTo((target.transform.position - transform.position).normalized, ROTATE_TIME);
 
         //2. Move to Target (if applicable) ~ and play relevant animations ~  move back to position
@@ -81,7 +77,7 @@ public abstract class TurnManager : MonoBehaviour
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
                 else
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.7f);
                 
                 skill.UseSkill(unit, target);
 
@@ -97,7 +93,7 @@ public abstract class TurnManager : MonoBehaviour
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMeleeAnimation();
                 else
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(0.7f);
 
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
@@ -113,6 +109,8 @@ public abstract class TurnManager : MonoBehaviour
             case TargetMode.ALL_ALLIES:
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMagicAnimation();
+                else
+                    yield return new WaitForSeconds(0.7f);
 
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
@@ -126,8 +124,10 @@ public abstract class TurnManager : MonoBehaviour
             default:
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForMagicAnimation();
-
-                skill.UseSkill(unit, target);
+                else
+                    yield return new WaitForSeconds(0.7f);
+                
+                    skill.UseSkill(unit, target);
                 
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
@@ -139,8 +139,6 @@ public abstract class TurnManager : MonoBehaviour
         yield return unit.RotateTo(originalForward, ROTATE_TIME);
 
         EndTurn();
-
-        yield return null;
     }
 
 }

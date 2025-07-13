@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    private bool _isLocked = false;
+    private bool _isLocked = true;
     [SerializeField] Transform pivot;
     [SerializeField] float openRotationSpeed = 60f;
     [SerializeField] float openRotation = 90f;
