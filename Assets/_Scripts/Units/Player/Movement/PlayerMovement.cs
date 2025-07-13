@@ -4,7 +4,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController _controller;
+    private PlayerAnimator _animator;
     [SerializeField] private MovementConfig _movementConfig;
+
     private float _speed;
     private Vector3 _directionalInput;
     private Vector3 _movementVector;
@@ -16,17 +18,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _raycastHeight;
     [SerializeField] private LayerMask _groundLayer;
     private bool _isGrounded;
+
     void Awake()
     {
         _controller = gameObject.GetComponent<CharacterController>();
+        _animator = GetComponent<PlayerAnimator>();
         IsGrounded();
     }
-
     void Update()
     {
         if (CombatManager.Instance.InCombat())
             return;
-
+        
         //1. Set Movement Speed and Direction
         if (_directionalInput == Vector3.zero) 
         {
@@ -47,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
         
         _movementVector.x = _directionalInput.x * _speed;
         _movementVector.z = _directionalInput.z * _speed;
+
+        _animator.SetMovementSpeed(_speed);
     
 
         //2. Handle Jump

@@ -21,7 +21,8 @@ public class CombatManager : MonoBehaviour
     [Header("Combat Positions")]
     [SerializeField] private List<Transform> _playerCombatPositions;
     [SerializeField] private List<Transform> _enemyCombatPositions;
-    [SerializeField] private float _travelSpeed = 4f;
+    [SerializeField] private float _travelSpeed = 2f;
+    [SerializeField] private float _targetDistanceThreshold = 0.1f;
 
 
     private GameObject[] _obstacles;
@@ -31,6 +32,7 @@ public class CombatManager : MonoBehaviour
     private int _turnIndex;
     private bool _inCombat = false;
     private bool _playerAdvantage;
+
     //---------------------------------------------------
     //---------------------------------------------------
     void Awake()
@@ -114,36 +116,26 @@ public class CombatManager : MonoBehaviour
     }
     private IEnumerator SendUnitsToPosition()
     {
-            bool finished = false;
-            while (!finished)
-            {
-                    finished = true;
-                    //Move all player units into their start position
-                    for (int i = 0;(i < _playerUnits.Count && i < _playerCombatPositions.Count); i++)
-                    { 
-                            if (_playerUnits[i].gameObject.transform.position != _playerCombatPositions[i].position)
-                            {
-                                    _playerUnits[i].gameObject.transform.position = Vector3.MoveTowards(_playerUnits[i].transform.position,_playerCombatPositions[i].position,_travelSpeed * Time.deltaTime);
-                                    _playerUnits[i].transform.LookAt(_playerCombatPositions[i].position);
-                                    finished = false;
-                            } else
-                                    _playerUnits[i].transform.LookAt(_enemyCombatPositions[1].position);    
-                    }
-                
-                    //Move all enemy units into their start position
-                    for (int i = 0;(i < _enemyUnits.Count && i < _enemyCombatPositions.Count); i++)
-                    {
-                            if (_enemyUnits[i].gameObject.transform.position != _enemyCombatPositions[i].position)
-                            {
-                                    _enemyUnits[i].gameObject.transform.position = Vector3.MoveTowards(_enemyUnits[i].transform.position,_enemyCombatPositions[i].position,_travelSpeed * Time.deltaTime);
-                                    _enemyUnits[i].transform.LookAt(_enemyCombatPositions[i].position);
-                                    finished = false;
-                            } else
-                                    _enemyUnits[i].transform.LookAt(_playerCombatPositions[1].position);  
-                    } 
-                        
-                    yield return 0;
-            }
+
+        List<Coroutine> routines = new List<Coroutine>();
+
+        for (int i = 0; i < _playerUnits.Count; i++)
+        {
+            _playerUnits[i].GetComponent<PlayerAnimator>().SetMovementSpeed(_travelSpeed);
+            _playerUnits[i].GetComponent<PlayerAnimator>().SetCombatAnimations(true);
+
+            routines.Add(StartCoroutine(_playerUnits[i].MoveToAndLook(_playerCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold, _enemyCombatPositions[1].transform.position, 180f)));
+        }
+
+        for (int i = 0; i < _enemyUnits.Count; i++)
+        {
+            routines.Add(StartCoroutine(_enemyUnits[i].MoveToAndLook(_enemyCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold, _playerCombatPositions[1].transform.position, 180f)));
+        }
+
+        for (int i = 0; i < routines.Count; i++)
+        {
+            yield return routines[i];
+        }
     }
     private void ApplyDisadvantageDamage(List<Unit> unitList)
     {
@@ -193,7 +185,9 @@ public class CombatManager : MonoBehaviour
             
             foreach(PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
             {
-                unit.gameObject.SetActive(true);    
+                unit.gameObject.SetActive(true);
+                unit.GetComponent<PlayerAnimator>().EndCombatAnimations();
+                
                 if (unit.GetHealth() <= 0)
                     unit.SetHealth(1);                              //revive "dead" units to 1HP
                 
@@ -209,16 +203,23 @@ public class CombatManager : MonoBehaviour
 
     }
     public void RemoveFromCombat(Unit unit)
-    {
-        unit.gameObject.SetActive(false);   //temp    
+    {    
+        if (unit.gameObject.GetComponent<PlayerAnimator>())
+        {
+            unit.GetComponent<PlayerAnimator>().SetDeathAnimations(true);
+            unit.GetHealthBar().gameObject.SetActive(false);
+        }    
+        else
+            unit.gameObject.SetActive(false);
+
 
         if (_playerUnits.Contains(unit))
         {
-                _playerUnits.Remove(unit);
+            _playerUnits.Remove(unit);
         }
         else if (_enemyUnits.Contains(unit))
         {
-                _enemyUnits.Remove(unit);
+            _enemyUnits.Remove(unit);
         }
 
         if (_combatSequence.IndexOf(unit) < _turnIndex)
@@ -237,4 +238,5 @@ public class CombatManager : MonoBehaviour
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];
     }   //temp
+
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Precision Shot 2B
   m_EditorClassIdentifier: 
   name: Short Scope
-  description: A powerful single-target attack that can attack at any range..
+  description: A powerful single-target attack that can attack at any range.
   cost: 2
   targetMode: 5
   upgrades: []

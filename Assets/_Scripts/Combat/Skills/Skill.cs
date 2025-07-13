@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum TargetMode
 {
-    MELEE, RANGED, ALLY, ALL_ENEMIES, ALL_ALLIES, ANY_ENEMY
+    MELEE, RANGED, ALLY, ALL_ENEMIES, ALL_ALLIES
 }
 public class Skill : ScriptableObject
 {
@@ -20,6 +20,7 @@ public class Skill : ScriptableObject
    
     public virtual void UseSkill(Unit caster, Unit target)
     {
+        //Spend BP
         caster.DecrementBP(cost);
     }
 

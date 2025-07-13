@@ -14,10 +14,10 @@ public class AttackSkill : Skill
         int dmg = damage;
         
         if (useAttackStat)
-            dmg += (caster.GetStats().attack + caster.GetModifiers().attack);
+            dmg += (caster.GetStats().attack + caster.GetStats().attack);
  
         if(!ignoresDefense)
-            dmg = Mathf.Max(dmg - (target.GetStats().defense + target.GetModifiers().defense), 0);
+            dmg = Mathf.Max(dmg - (target.GetStats().defense + target.GetStats().defense), 0);
 
         //apply damage (or healing)
         target.TakeDamage(dmg);

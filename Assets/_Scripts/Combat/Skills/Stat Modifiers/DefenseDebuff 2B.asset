@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
   m_Name: DefenseDebuff 2B
   m_EditorClassIdentifier: 
-  name: Off Guard
+  name: Off Guard 2B
   description: Applies a defense debuff to all enemies for 2 turns.
   cost: 2
   targetMode: 3

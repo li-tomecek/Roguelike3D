@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Off Guard
   description: Applies a defense debuff to a target enemy for 2 turns.
   cost: 1
-  targetMode: 0
+  targetMode: 1
   upgrades:
   - {fileID: 11400000, guid: baa099edaa2ffcb4cb3627d43108e286, type: 2}
   - {fileID: 11400000, guid: a33895818d6f7eb448f95f1a41c3bab1, type: 2}
