@@ -117,8 +117,11 @@ public class PartyControls : MonoBehaviour
     }
 
     private void CastForInteract()
-    {     
-        if (Physics.Raycast(_partyLeader.GetProjectileOrigin().position, _partyLeader.transform.forward, out RaycastHit hit, 2.5f))
+    {
+        Vector3 start = _partyLeader.GetProjectileOrigin().position;
+        start.z = _partyLeader.transform.position.z;    // move it back
+        
+        if (Physics.Raycast(start, _partyLeader.transform.forward, out RaycastHit hit, 2.5f))
         {
             if (hit.transform.gameObject.GetComponent<IInteractable>() != null)
             {

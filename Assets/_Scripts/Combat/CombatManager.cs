@@ -122,6 +122,8 @@ public class CombatManager : MonoBehaviour
         for (int i = 0; i < _playerUnits.Count; i++)
         {
             _playerUnits[i].GetComponent<PlayerAnimator>().SetCombatAnimations(true);
+            _playerUnits[i].GetComponent<PlayerAnimator>().StartCombatAnimations();
+
 
             routines.Add(StartCoroutine(_playerUnits[i].MoveToAndLook(_playerCombatPositions[i].position, _travelSpeed, _targetDistanceThreshold, _enemyCombatPositions[1].transform.position, 200f)));
         }
