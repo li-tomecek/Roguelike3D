@@ -4,14 +4,16 @@ public class GameManager : Singleton<GameManager>
 {
     private IState _currentState;
     [SerializeField] private GameObject _party;
-    
-    //Maybe include LevelManager in here?
-    //Consider whether LevelManager, CombatManager, and CombatInterface ahould all be Singletons
 
     public void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
         DontDestroyOnLoad(_party.gameObject);   //Party information should persist between scenes
+    }
+
+    public void Update()
+    {
+        _currentState?.Update();
     }
     
     public void ChangeState(IState newState)
@@ -20,8 +22,4 @@ public class GameManager : Singleton<GameManager>
         _currentState = newState;
         _currentState.Enter();
     }
-    
-    
-    
-    
 }
