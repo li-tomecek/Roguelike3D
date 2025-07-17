@@ -9,10 +9,8 @@ using Random = UnityEngine.Random;
  *  Handles combat setup and turn sequence and management.
  *  Handles global combat logic aside from anything graphical.
  */
-public class CombatManager : MonoBehaviour
+public class CombatManager : Singleton<CombatManager>
 {
-    public static CombatManager Instance;
-
     [Header("Combat Units")]
     private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
@@ -35,17 +33,6 @@ public class CombatManager : MonoBehaviour
 
     //---------------------------------------------------
     //---------------------------------------------------
-    void Awake()
-    {
-            if (Instance == null)
-            {
-                    Instance = this;
-            }
-            else
-            {
-                    Destroy(gameObject);
-            }
-    }
 
     // --- Setup  ---
     // --------------
