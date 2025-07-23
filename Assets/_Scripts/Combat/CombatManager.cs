@@ -38,6 +38,10 @@ public class CombatManager : Singleton<CombatManager>
     // --------------
     public void BeginBattle(bool playerAdvantage)
     {
+
+        CameraController.Instance.ToggleCombatCamera();
+        InputController.Instance.ActivateMenuMap();
+
         _playerUnits = PartyControls.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
 
         _playerAdvantage = playerAdvantage;
@@ -154,7 +158,9 @@ public class CombatManager : Singleton<CombatManager>
     private void EndEncounter()
     {
         Debug.Log("Combat Finished.");
-        
+
+        CameraController.Instance.ToggleCombatCamera();
+
         //re-enable the map obstacles
         foreach (GameObject go in _obstacles)
         {

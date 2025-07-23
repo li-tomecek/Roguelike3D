@@ -19,7 +19,7 @@ public class CombatInterface : Singleton<CombatInterface>
 
     private ObjectPool _damageIndicators;
 
-    public void Awake()
+    public override void Awake()
     {
         base.Awake();
         Setup();

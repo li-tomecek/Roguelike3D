@@ -1,23 +1,11 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : Singleton<CameraController>
 {
-    public static CameraController Instance;
     [SerializeField] private CinemachineCamera _topDownCamera;
     [SerializeField] private CinemachineCamera _combatCamera;
 
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     public void ToggleCombatCamera()
     {
         if (_topDownCamera.enabled)
