@@ -9,10 +9,8 @@ using Random = UnityEngine.Random;
  *  Handles combat setup and turn sequence and management.
  *  Handles global combat logic aside from anything graphical.
  */
-public class CombatManager : MonoBehaviour
+public class CombatManager : Singleton<CombatManager>
 {
-    public static CombatManager Instance;
-
     [Header("Combat Units")]
     private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
@@ -35,17 +33,6 @@ public class CombatManager : MonoBehaviour
 
     //---------------------------------------------------
     //---------------------------------------------------
-    void Awake()
-    {
-            if (Instance == null)
-            {
-                    Instance = this;
-            }
-            else
-            {
-                    Destroy(gameObject);
-            }
-    }
 
     // --- Setup  ---
     // --------------
@@ -55,14 +42,12 @@ public class CombatManager : MonoBehaviour
 
         _playerAdvantage = playerAdvantage;
         _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-       
-        CameraController.Instance.ToggleCombatCamera();
-        InputController.Instance.ActivateMenuMap();
+        
         _inCombat = true;
         _turnIndex = -1;
 
 
-        //disable NavAgetn for all patrolling enemies
+        //disable NavAgent for all patrolling enemies
         foreach (Unit enemy in _enemyUnits)
         {
             if(enemy.TryGetComponent<Patrol>(out Patrol patroller))
@@ -78,11 +63,6 @@ public class CombatManager : MonoBehaviour
 
         _combatSequence = _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList(); 
 
-        //Start required coroutines
-        StartCoroutine(CombatSetupSequence());  
-    }
-    private IEnumerator CombatSetupSequence()
-    { 
         //activate hidden enemies
         foreach(Unit unit in _enemyUnits)
         {
@@ -94,7 +74,12 @@ public class CombatManager : MonoBehaviour
         {
             go.SetActive(false);
         }
-
+        
+        //Start required coroutines
+        StartCoroutine(CombatSetupSequence());  
+    }
+    private IEnumerator CombatSetupSequence()
+    { 
         //move to start positions
         yield return SendUnitsToPosition();
         
@@ -169,15 +154,12 @@ public class CombatManager : MonoBehaviour
     private void EndEncounter()
     {
         Debug.Log("Combat Finished.");
-
-        CameraController.Instance.ToggleCombatCamera();
-
+        
         //re-enable the map obstacles
         foreach (GameObject go in _obstacles)
         {
             go.SetActive(true);
         }
-
         
         if(_playerUnits.Count > 0)  //PLAYER WON
         {

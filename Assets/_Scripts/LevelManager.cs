@@ -2,26 +2,12 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
-    public static LevelManager Instance;
-
     [SerializeField] private PlayerUnit _rewardedUnit;
     [SerializeField] private List<PlayerUnit> _nextRoomRewards;
 
     [SerializeField] GameObject _combatReward;
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
     // --- Level Rewards ---
     // ---------------------

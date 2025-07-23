@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Drawing;
 using UnityEngine;
 
 /*
@@ -10,10 +8,8 @@ using UnityEngine;
  *  - ToDo: Turn Indicator
  */
 
-public class CombatInterface : MonoBehaviour
+public class CombatInterface : Singleton<CombatInterface>
 {
-    public static CombatInterface Instance;
-
     [SerializeField] private TargetSelectArrow _selectionArrowPrefab;
     [SerializeField] private PlayerTurnMenu _turnMenu;
     [SerializeField] private GameObject _damageIndicatorPrefab;
@@ -22,20 +18,12 @@ public class CombatInterface : MonoBehaviour
 
 
     private ObjectPool _damageIndicators;
-    
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            Setup();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
 
+    public void Awake()
+    {
+        base.Awake();
+        Setup();
+    }
     public void Setup()
     {
         _damageIndicators = new ObjectPool(_damageIndicatorPrefab, _pooledIndicatorAmount);
