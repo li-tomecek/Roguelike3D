@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
  * 
  */
 
-public class PartyControls : Singleton<PartyControls>
+public class PartyControls : Singleton<PartyControls>, ISaveable
 {
     [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
   
@@ -28,7 +29,6 @@ public class PartyControls : Singleton<PartyControls>
     {
         base.Awake();
     }
-    
     private void Start()
     {
         foreach(PlayerUnit unit in _partyMembers)
@@ -61,9 +61,10 @@ public class PartyControls : Singleton<PartyControls>
             }
         }
     }
-
+    
     // --- PARTY OUT-OF-COMBAT CONTROLS --- 
     // ------------------------------------
+    #region
     private void HandleMoveInput(Vector2 input)
     {
         _partyLeader.SetDirectionalInput(input);   //only the first party member is directly controlled via input
@@ -122,5 +123,36 @@ public class PartyControls : Singleton<PartyControls>
             }
         }
     }
+    #endregion
+    
+    // --- State Saving --- 
+    // --------------------
+    #region
+    public object CaptureState()
+    {
+        PartyData partyData = new PartyData();
+        
+        //all unit prefabs?
+        //all unit stats
+        //all unit current health
+        //all unit Skills
+        
+        return partyData;
+    }
+
+    public void RestoreState(object data)
+    {
+        try
+        {
+            //restore all player data
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+    }
+    #endregion
+    
+    
     public List<PlayerUnit> GetPartyMembers() { return _partyMembers; }
 }
