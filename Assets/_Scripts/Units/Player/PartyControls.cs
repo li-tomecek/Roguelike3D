@@ -9,7 +9,6 @@ using UnityEngine;
 
 public class PartyControls : Singleton<PartyControls>
 {
-    public static PartyControls Instance;
     [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
   
     [Header("Party Movement")]
@@ -24,6 +23,12 @@ public class PartyControls : Singleton<PartyControls>
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
+
+    public void Awake()
+    {
+        base.Awake();
+    }
+    
     private void Start()
     {
         foreach(PlayerUnit unit in _partyMembers)

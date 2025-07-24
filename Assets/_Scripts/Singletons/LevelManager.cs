@@ -19,7 +19,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     
     private void SetActiveScene(Scene scene, LoadSceneMode mode)
     {
-        SceneManager.SetActiveScene(scene);    //this was the persistent scene is not the one being unloaded
+        SceneManager.SetActiveScene(scene);    //so the persistent scene is not the one being unloaded
     }
     
     public void LoadLevel(string levelName)
