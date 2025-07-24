@@ -7,7 +7,7 @@ using UnityEngine;
  * 
  */
 
-public class PartyControls : MonoBehaviour
+public class PartyControls : Singleton<PartyControls>
 {
     public static PartyControls Instance;
     [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
@@ -24,18 +24,6 @@ public class PartyControls : MonoBehaviour
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     private void Start()
     {
         foreach(PlayerUnit unit in _partyMembers)

@@ -1,14 +1,33 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LevelManager : Singleton<LevelManager>
+public class LevelManager : Singleton<LevelManager>, ISaveable
 {
+    [Header("Level Rewards")]
     [SerializeField] private PlayerUnit _rewardedUnit;
     [SerializeField] private List<PlayerUnit> _nextRoomRewards;
-
     [SerializeField] GameObject _combatReward;
 
+    // --- Level Load/Unloading ---
+    // ----------------------------
+    public void Start()
+    {
+        SceneManager.sceneLoaded += SetActiveScene;
+    }
+    
+    private void SetActiveScene(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.SetActiveScene(scene);    //this was the persistent scene is not the one being unloaded
+    }
+    
+    public void LoadLevel(string levelName)
+    {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
+    }
+    
     // --- Level Rewards ---
     // ---------------------
     public PlayerUnit GetRewardedUnit() { return _rewardedUnit; }
@@ -21,7 +40,6 @@ public class LevelManager : Singleton<LevelManager>
             door.UnlockDoor();
         }
     }
-
     public void ClaimReward()
     {
         _combatReward.GetComponentInChildren<CombatReward>().CloseMenu();
