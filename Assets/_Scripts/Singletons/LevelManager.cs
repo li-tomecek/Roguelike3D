@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,9 +8,9 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     [Header("Level Information")]
     public string CurrentLevelName; 
     public float DifficultyValue;
+    public PlayerUnit RewardedUnit;
     
     [Header("Level Rewards")]
-    [SerializeField] private PlayerUnit _rewardedUnit;
     [SerializeField] private List<PlayerUnit> _nextRoomRewards;
     [SerializeField] GameObject _combatReward;
     
@@ -43,7 +42,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     // --- Level Rewards ---
     // ---------------------
     #region
-    public PlayerUnit GetRewardedUnit() { return _rewardedUnit; }
+    public PlayerUnit GetRewardedUnit() { return RewardedUnit; }
 
     public void SpawnReward()
     {
@@ -61,11 +60,11 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     #endregion
     
     // --- State Saving and Restoring ---
-    // --------------------
+    // ----------------------------------
     #region
     public object CaptureState()
     {
-        LevelData levelData = new LevelData(DifficultyValue, CurrentLevelName);
+        LevelData levelData = new LevelData(DifficultyValue, CurrentLevelName, RewardedUnit);
         return levelData;
     }
 
@@ -76,6 +75,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
             LevelData levelData = (LevelData)data;
             CurrentLevelName = levelData.LevelName;
             DifficultyValue = levelData.Difficulty;
+            RewardedUnit = levelData.RewardedUnit;
             
             LoadLevel(CurrentLevelName);
         }

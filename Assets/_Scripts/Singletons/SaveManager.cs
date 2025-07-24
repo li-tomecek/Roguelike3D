@@ -10,11 +10,12 @@ public class LevelData
 {
     public float Difficulty;
     public string LevelName;
-    //public RewardType
-    public LevelData(float diff, string levelName)
+    public PlayerUnit RewardedUnit;
+    public LevelData(float diff, string levelName, PlayerUnit rewardedUnit)
     {
         Difficulty = diff;
         LevelName = levelName;
+        RewardedUnit = rewardedUnit;
     }
 }
 [System.Serializable]
@@ -31,12 +32,21 @@ public class SaveManager : Singleton<SaveManager>
     
     public const string DATA_PATH = "/gameData.json";
 
-    public void Awake()
+    public override void Awake()
     {
+        base.Awake();
         _savePath = Application.persistentDataPath + DATA_PATH;
         gameData = new GameData();
     }
 
+    public void Update()    //TEMPORARY!!!
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+            SaveGame();
+        
+        if(Input.GetKeyDown(KeyCode.L))
+            LoadGame();
+    }
     public void SaveGame()
     {
         gameData.partyData = (PartyData) PartyControls.Instance.CaptureState();
@@ -58,7 +68,7 @@ public class SaveManager : Singleton<SaveManager>
             PartyControls.Instance.RestoreState(gameData.partyData);
             LevelManager.Instance.RestoreState(gameData.levelData);
             
-            Debug.Log("Game Loaded");
+            Debug.Log("Game Loaded from file");
         }
     }
     

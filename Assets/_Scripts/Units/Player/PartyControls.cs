@@ -24,11 +24,7 @@ public class PartyControls : Singleton<PartyControls>, ISaveable
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-
-    public void Awake()
-    {
-        base.Awake();
-    }
+    
     private void Start()
     {
         foreach(PlayerUnit unit in _partyMembers)
@@ -150,6 +146,8 @@ public class PartyControls : Singleton<PartyControls>, ISaveable
         {
             Debug.LogException(e);
         }
+        
+        //Set player at level start position
     }
     #endregion
     

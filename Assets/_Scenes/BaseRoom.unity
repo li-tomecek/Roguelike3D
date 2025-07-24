@@ -1616,8 +1616,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.47715867, y: 0, z: 0, w: 0.8788172}
-  m_LocalPosition: {x: 0, y: -1.3776388, z: 1.75}
+  m_LocalRotation: {x: 0.14376022, y: -0.3288779, z: 0.050729483, w: 0.9319866}
+  m_LocalPosition: {x: 7.05, y: -11.070291, z: 13.641884}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6639,9 +6639,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1348580576}
-  - component: {fileID: 1348580578}
   - component: {fileID: 1348580577}
   - component: {fileID: 1348580575}
+  - component: {fileID: 1348580578}
   m_Layer: 0
   m_Name: '[GLOBAL]'
   m_TagString: Untagged
@@ -6697,7 +6697,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b504b6a15109d439aef1697fe0d4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rewardedUnit: {fileID: 1592516811}
+  CurrentLevelName: 
+  DifficultyValue: 0
+  RewardedUnit: {fileID: 0}
   _nextRoomRewards: []
   _combatReward: {fileID: 4939334368783352287, guid: d45720706e550404981986b8a5c1cb45, type: 3}
 --- !u!114 &1348580578
@@ -6709,10 +6711,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1348580574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c76d30a3f72497747bbead39682a73c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 33b51ae1bede09d46b55dc4b2c477129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _party: {fileID: 963499474}
+  gameData:
+    levelData:
+      Difficulty: 0
+      LevelName: 
+      RewardedUnit: {fileID: 0}
 --- !u!1 &1354373698 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6229247520373792897, guid: 3ad7a1cffb2556547a8b7e60fd320431, type: 3}
@@ -11084,6 +11090,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6706839371540155791, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7203610971244030943, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -622.46344
@@ -11148,6 +11158,10 @@ PrefabInstance:
       propertyPath: '_patrolNodes.Array.data[3]'
       value: 
       objectReference: {fileID: 1919174075}
+    - target: {fileID: 9201435895279136892, guid: b3c0d58604f1d4a4faa96fddd9ea76e4, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
