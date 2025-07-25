@@ -36,6 +36,7 @@ public class CombatManager : Singleton<CombatManager>
 
     // --- Setup  ---
     // --------------
+    #region
     public void BeginBattle(bool playerAdvantage)
     {
 
@@ -140,9 +141,11 @@ public class CombatManager : Singleton<CombatManager>
 
         }
     }
+    #endregion
 
     // --- Turn Management -----
     // -------------------------
+    #region
     public void NextTurn()
     {
             if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
@@ -216,9 +219,11 @@ public class CombatManager : Singleton<CombatManager>
              
         _combatSequence.Remove(unit);
     }
+    #endregion
 
     // --- Getters / Setters ---
     // -------------------------
+    #region
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }
     public List<Unit> GetPlayerUnits() { return _playerUnits; }
     public List<Unit> GetCombatSequence() { return _combatSequence; } 
@@ -227,5 +232,5 @@ public class CombatManager : Singleton<CombatManager>
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];
     }   //temp
-
+    #endregion
 }

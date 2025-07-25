@@ -891,7 +891,7 @@ GameObject:
   - component: {fileID: 2713872889697976649}
   - component: {fileID: -8664443529749780595}
   - component: {fileID: 7682729367517444987}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cleric
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -973,16 +973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4575a00142c8443840dcecd62a5945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-    maxHealth: 20
-    attack: 4
-    defense: 5
-    agility: 2
-  modifiers:
-    maxHealth: 0
-    attack: 0
-    defense: 0
-    agility: 0
   skills:
   - {fileID: 11400000, guid: c22804e0b9e980e448467266b91a988e, type: 2}
   - {fileID: 11400000, guid: 8fdf7b914c295604a9121d495c8a0306, type: 2}

@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 public class LevelManager : Singleton<LevelManager>, ISaveable
 {
     [Header("Level Information")]
-    public string CurrentLevelName; 
-    public float DifficultyValue;
+    public string CurrentLevelName { get; private set; }
+    public float DifficultyValue { get; private set; }
     public PlayerUnit RewardedUnit;
+
+    public Level CurrentLevel { get; private set; }
     
     [Header("Level Rewards")]
     [SerializeField] private List<PlayerUnit> _nextRoomRewards;
@@ -37,6 +39,8 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
         
         SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
     }
+
+    public void SetLevel(Level level) { this.CurrentLevel = level; }
     #endregion
     
     // --- Level Rewards ---

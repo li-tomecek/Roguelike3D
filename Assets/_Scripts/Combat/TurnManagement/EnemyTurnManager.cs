@@ -24,8 +24,6 @@ public class EnemyTurnManager : TurnManager
 
         //this must be the last statement in the function    
         ChooseSkillAndTarget();
-        //StartCoroutine(PlayTurnSequence(unit.GetDefaultSkill(), CombatManager.Instance.GetRandomPlayerUnit()));
-
     }
 
     private void ChooseSkillAndTarget()

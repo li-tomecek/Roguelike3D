@@ -9,7 +9,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
         if (Instance == null)
         {
             Instance = this as T;
-            DontDestroyOnLoad(transform.gameObject);    //it gives me a warning  if i don't use transform
+            DontDestroyOnLoad(gameObject);  
         }
         else
         {

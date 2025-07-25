@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [System.Serializable]
 public struct Stats
@@ -143,8 +142,10 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+
     // --- Getters / Setters ---
     // -------------------------
+    #region
     public Stats GetStats() { return stats; }
     public Stats GetModifiers() { return modifiers; }
     public List<Effect> GetActiveEffects() { return _activeEffects; }
@@ -166,5 +167,5 @@ public abstract class Unit : MonoBehaviour
         if (index != -1)
             LevelManager.Instance.GetRewardedUnit().GetSkills()[index] = newSk;
     }
-
+    #endregion
 }

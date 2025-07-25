@@ -1,10 +1,25 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class CameraController : Singleton<CameraController>
-{
+public class CameraController : MonoBehaviour {
+
+    public static CameraController Instance;
+
     [SerializeField] private CinemachineCamera _topDownCamera;
     [SerializeField] private CinemachineCamera _combatCamera;
+
+
+    public void Awake()     //Singleton, but we do want to destoy on load so that each scene has its own custom combat camera setup
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        } else
+        {
+            Destroy(gameObject);
+        }   
+    }
+
 
     public void ToggleCombatCamera()
     {
@@ -25,12 +40,10 @@ public class CameraController : Singleton<CameraController>
     {
         _topDownCamera.enabled = false;
         _combatCamera.enabled = true;
-        Debug.Log("combat on");
     }
     
     public void DisableCombatCamera()
     {
-        Debug.Log("combat off"); 
         _topDownCamera.enabled = true; 
         _combatCamera.enabled = false;
     }

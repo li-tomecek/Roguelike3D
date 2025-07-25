@@ -1078,6 +1078,8 @@ GameObject:
   - component: {fileID: 274480610}
   - component: {fileID: 274480612}
   - component: {fileID: 274480611}
+  - component: {fileID: 274480613}
+  - component: {fileID: 274480614}
   m_Layer: 0
   m_Name: Combat
   m_TagString: Untagged
@@ -1149,6 +1151,56 @@ MonoBehaviour:
   - {fileID: 286855451}
   _travelSpeed: 7.5
   _targetDistanceThreshold: 0.3
+--- !u!114 &274480613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274480609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e226d7bccd70448a846c378b569285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerCombatPos:
+  - {fileID: 512308701}
+  - {fileID: 512308701}
+  - {fileID: 512308701}
+  _enemyCombatPos:
+  - {fileID: 576914380}
+  - {fileID: 1796797571}
+  - {fileID: 286855451}
+  _patrolNodes:
+  - {fileID: 1325721427}
+  - {fileID: 1893004451}
+  - {fileID: 1650762111}
+  - {fileID: 1919174075}
+--- !u!143 &274480614
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274480609}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &281725272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1537,11 +1589,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 330585546}
+  - component: {fileID: 330585549}
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
-  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1616,8 +1668,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14376022, y: -0.3288779, z: 0.050729483, w: 0.9319866}
-  m_LocalPosition: {x: 7.05, y: -11.070291, z: 13.641884}
+  m_LocalRotation: {x: 0.47715867, y: 0, z: 0, w: 0.8788172}
+  m_LocalPosition: {x: 0, y: -1.3776388, z: 1.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5290,6 +5342,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2713872889697976649, guid: 707c364524dc7c642b9edef9df25bba9, type: 3}
+      propertyPath: stats.attack
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713872889697976649, guid: 707c364524dc7c642b9edef9df25bba9, type: 3}
+      propertyPath: stats.agility
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713872889697976649, guid: 707c364524dc7c642b9edef9df25bba9, type: 3}
+      propertyPath: stats.defense
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2713872889697976649, guid: 707c364524dc7c642b9edef9df25bba9, type: 3}
+      propertyPath: stats.maxHealth
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6697,8 +6765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b504b6a15109d439aef1697fe0d4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentLevelName: 
-  DifficultyValue: 0
   RewardedUnit: {fileID: 0}
   _nextRoomRewards: []
   _combatReward: {fileID: 4939334368783352287, guid: d45720706e550404981986b8a5c1cb45, type: 3}
@@ -6714,11 +6780,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33b51ae1bede09d46b55dc4b2c477129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameData:
-    levelData:
-      Difficulty: 0
-      LevelName: 
-      RewardedUnit: {fileID: 0}
 --- !u!1 &1354373698 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6229247520373792897, guid: 3ad7a1cffb2556547a8b7e60fd320431, type: 3}
@@ -10977,6 +11038,10 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5778263436560695229, guid: e9d09f949051ce948992f97a389e5e7b, type: 3}
+      propertyPath: stats.agility
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11250,6 +11315,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2713872889697976649, guid: 8cb75b8b0eabc394994b73ec0ee4b2c6, type: 3}
+      propertyPath: stats.agility
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11355,11 +11424,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _chaseSpeed: 7
-  _patrolNodes:
-  - {fileID: 1325721427}
-  - {fileID: 1893004451}
-  - {fileID: 1650762111}
-  - {fileID: 1919174075}
+  PatrolNodes: []
   _patrolSpeed: 5
   agent: {fileID: 0}
 --- !u!1660057539 &9223372036854775807

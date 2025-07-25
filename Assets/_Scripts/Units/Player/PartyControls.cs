@@ -5,7 +5,7 @@ using UnityEngine;
 
 /* Handles logic related to the entire party:
  *  - Handles input for out-of-combat controls and has last party memebers follow the first party member
- * 
+ *  - Handles save-state logic for the player units
  */
 
 public class PartyControls : Singleton<PartyControls>, ISaveable

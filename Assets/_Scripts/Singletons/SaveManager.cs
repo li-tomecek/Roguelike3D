@@ -1,10 +1,28 @@
+using JetBrains.Annotations;
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
+
+[System.Serializable]
+public class UnitData
+{
+    public Stats Stats;
+    public int CurrentHealth;
+    public Skill Skill_1;
+    public Skill Skill_2;
+
+    //enemies will also need to save their AI constants. Or maybe, we just save the name for when we want to read them fom a cvs file.
+}
+// --------------------------------------------------------------------------
 
 [System.Serializable]
 public class PartyData
 {
-    
+    public List<UnitData> PartyUnits = new List<UnitData>();
+
 }
+// --------------------------------------------------------------------------
+
 [System.Serializable]
 public class LevelData
 {
@@ -18,17 +36,22 @@ public class LevelData
         RewardedUnit = rewardedUnit;
     }
 }
+// --------------------------------------------------------------------------
+
 [System.Serializable]
 public class GameData
 {
-    public PartyData partyData;
-    public LevelData levelData;
+    public PartyData PartyData;
+    public LevelData LevelData;
 }
+
+// --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 public class SaveManager : Singleton<SaveManager>
 {
     private string _savePath;
-    public GameData gameData;
+    public GameData GameData { get; private set; }
     
     public const string DATA_PATH = "/gameData.json";
 
@@ -36,7 +59,7 @@ public class SaveManager : Singleton<SaveManager>
     {
         base.Awake();
         _savePath = Application.persistentDataPath + DATA_PATH;
-        gameData = new GameData();
+        GameData = new GameData();
     }
 
     public void Update()    //TEMPORARY!!!
@@ -49,10 +72,10 @@ public class SaveManager : Singleton<SaveManager>
     }
     public void SaveGame()
     {
-        gameData.partyData = (PartyData) PartyControls.Instance.CaptureState();
-        gameData.levelData = (LevelData) LevelManager.Instance.CaptureState();
+        GameData.PartyData = (PartyData) PartyControls.Instance.CaptureState();
+        GameData.LevelData = (LevelData) LevelManager.Instance.CaptureState();
         
-        string json = JsonUtility.ToJson(gameData, true);
+        string json = JsonUtility.ToJson(GameData, true);
         System.IO.File.WriteAllText(_savePath, json);
         
         Debug.Log("Game Saved");
@@ -63,11 +86,13 @@ public class SaveManager : Singleton<SaveManager>
         if (System.IO.File.Exists(_savePath))
         {
             string json = System.IO.File.ReadAllText(_savePath);
-            gameData = JsonUtility.FromJson<GameData>(json);
+            GameData = JsonUtility.FromJson<GameData>(json);
             
-            PartyControls.Instance.RestoreState(gameData.partyData);
-            LevelManager.Instance.RestoreState(gameData.levelData);
+            PartyControls.Instance.RestoreState(GameData.PartyData);
+            LevelManager.Instance.RestoreState(GameData.LevelData);
             
+            //LevelManager.Instance
+
             Debug.Log("Game Loaded from file");
         }
     }
