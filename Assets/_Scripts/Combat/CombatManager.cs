@@ -226,7 +226,6 @@ public class CombatManager : Singleton<CombatManager>
     // --- Getters / Setters ---
     // -------------------------
     #region
-
     public void SetCombatPositions(List<Transform> playerCombat, List<Transform> enemyCombat)
     {
         _playerCombatPositions = playerCombat;

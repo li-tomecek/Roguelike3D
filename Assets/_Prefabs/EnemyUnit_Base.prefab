@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5765693469523488774}
   - component: {fileID: 3427137865842969608}
   - component: {fileID: 8106489039888114380}
+  - component: {fileID: 3546268027310143244}
   m_Layer: 7
   m_Name: EnemyUnit_Base
   m_TagString: Untagged
@@ -164,6 +165,10 @@ MonoBehaviour:
     agility: 0
   skills: []
   defaultSkill: {fileID: 11400000, guid: fdcadd6c50ce10e4597ddaae4cd6c7ed, type: 2}
+  MaxPriorityThreshold: 0.5
+  C_Heal: 1
+  C_Attack: 1
+  C_StatMod: 1
 --- !u!195 &8106489039888114380
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -186,6 +191,29 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3546268027310143244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3493954557133756239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812e026e79e7e7842acb1ec8bd185789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _state: 0
+  _sightDistance: 7
+  _collisionDistance: 0.7
+  _spherecastRadius: 1
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _chaseSpeed: 7
+  PatrolNodes: []
+  _patrolSpeed: 5
+  agent: {fileID: 0}
 --- !u!1 &9208743075525665910
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     {
         SceneManager.sceneLoaded += SetActiveScene;
         //LoadLevel("MainMenu");
+        LoadLevel("Level_A");
     }
     
     private void SetActiveScene(Scene scene, LoadSceneMode mode)

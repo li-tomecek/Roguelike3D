@@ -973,6 +973,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4575a00142c8443840dcecd62a5945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 20
+    attack: 4
+    defense: 5
+    agility: 3
+  modifiers:
+    maxHealth: 0
+    attack: 0
+    defense: 0
+    agility: 0
   skills:
   - {fileID: 11400000, guid: c22804e0b9e980e448467266b91a988e, type: 2}
   - {fileID: 11400000, guid: 8fdf7b914c295604a9121d495c8a0306, type: 2}

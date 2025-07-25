@@ -28,12 +28,14 @@ public class Level : MonoBehaviour
         }
 
         //3. Setup Enemy Patrol
-        CombatManager.Instance.GetEnemyUnits()[0].transform.position = _patrolNodes[0].position;
+        foreach (EnemyUnit unit in CombatManager.Instance.GetEnemyUnits())
+        {
+            unit.transform.position = _patrolNodes[0].position;
+        }
         CombatManager.Instance.GetEnemyUnits()[0].GetComponent<Patrol>().PatrolNodes = _patrolNodes;
         CombatManager.Instance.GetEnemyUnits()[0].GetComponent<Patrol>().SetState(EnemyState.Patrol);
 
         //4. SetupCombatPositions
         CombatManager.Instance.SetCombatPositions(PlayerCombatPos, EnemyCombatPos);
-        Debug.Log("Done loading level info");
     }
 }

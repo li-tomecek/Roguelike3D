@@ -5,12 +5,15 @@ using UnityEngine.AI;
 
 public enum EnemyState
 {
-    Patrol, Chase, InCombat
+    InCombat, Patrol, Chase
 }
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Patrol : MonoBehaviour
 {
+    [SerializeField] private EnemyState _state = EnemyState.InCombat;
+
+
     [Header("Target Detection")]
     [SerializeField] private float _sightDistance = 7f; //how far the sighline raycast will go
     [SerializeField] private float _collisionDistance = 0.7f;
@@ -28,7 +31,6 @@ public class Patrol : MonoBehaviour
 
     private CharacterController _controller;
 
-    private EnemyState _state;
     GameObject target;
     Vector3 _targetDirection;
 
@@ -38,7 +40,7 @@ public class Patrol : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         agent.speed = _patrolSpeed;
 
-        _state = EnemyState.InCombat;
+        //_state = EnemyState.InCombat;
 
         if (PatrolNodes.Count > 0)
             agent.SetDestination(PatrolNodes[0].position);

@@ -10,6 +10,7 @@ using UnityEngine;
 
 public class PartyControls : Singleton<PartyControls>, ISaveable
 {
+    #region
     [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
   
     [Header("Party Movement")]
@@ -24,7 +25,7 @@ public class PartyControls : Singleton<PartyControls>, ISaveable
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-    
+    #endregion
     private void Start()
     {
         foreach(PlayerUnit unit in _partyMembers)
@@ -150,7 +151,6 @@ public class PartyControls : Singleton<PartyControls>, ISaveable
         //Set player at level start position
     }
     #endregion
-    
     
     public List<PlayerUnit> GetPartyMembers() { return _partyMembers; }
 }
