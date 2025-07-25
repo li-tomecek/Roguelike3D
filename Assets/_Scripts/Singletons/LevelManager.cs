@@ -9,7 +9,6 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     public string CurrentLevelName { get; private set; }
     public float DifficultyValue { get; private set; }
     public PlayerUnit RewardedUnit;
-
     public Level CurrentLevel { get; private set; }
     
     [Header("Level Rewards")]
@@ -50,7 +49,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
 
     public void SpawnReward()
     {
-        _combatReward = Instantiate(_combatReward, gameObject.transform);
+        _combatReward = Instantiate(_combatReward, CurrentLevel.RewardPosition);
         foreach (var door in Resources.FindObjectsOfTypeAll<Door>())
         {
             door.UnlockDoor();

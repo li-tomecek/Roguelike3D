@@ -11,14 +11,15 @@ using Random = UnityEngine.Random;
  */
 public class CombatManager : Singleton<CombatManager>
 {
+    #region
     [Header("Combat Units")]
     private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
     [SerializeField] private float _percentDamageOnDisadvantage = 0.1f;
 
     [Header("Combat Positions")]
-    [SerializeField] private List<Transform> _playerCombatPositions;
-    [SerializeField] private List<Transform> _enemyCombatPositions;
+    private List<Transform> _playerCombatPositions;
+    private List<Transform> _enemyCombatPositions;
     [SerializeField] private float _travelSpeed = 2f;
     [SerializeField] private float _targetDistanceThreshold = 0.1f;
 
@@ -30,6 +31,7 @@ public class CombatManager : Singleton<CombatManager>
     private int _turnIndex;
     private bool _inCombat = false;
     private bool _playerAdvantage;
+    #endregion
 
     //---------------------------------------------------
     //---------------------------------------------------
@@ -224,6 +226,12 @@ public class CombatManager : Singleton<CombatManager>
     // --- Getters / Setters ---
     // -------------------------
     #region
+
+    public void SetCombatPositions(List<Transform> playerCombat, List<Transform> enemyCombat)
+    {
+        _playerCombatPositions = playerCombat;
+        _enemyCombatPositions = enemyCombat;
+    }
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }
     public List<Unit> GetPlayerUnits() { return _playerUnits; }
     public List<Unit> GetCombatSequence() { return _combatSequence; } 
