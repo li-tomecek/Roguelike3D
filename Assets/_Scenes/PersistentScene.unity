@@ -517,7 +517,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RewardedUnit: {fileID: 1449304453}
-  _nextRoomRewards: []
+  _nextRoomRewards:
+  - {fileID: 675238444}
+  - {fileID: 1888079660}
   _combatReward: {fileID: 4939334368783352287, guid: d45720706e550404981986b8a5c1cb45, type: 3}
 --- !u!4 &1641357354
 Transform:

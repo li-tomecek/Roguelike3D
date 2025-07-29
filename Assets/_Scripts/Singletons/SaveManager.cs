@@ -1,5 +1,3 @@
-using JetBrains.Annotations;
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -88,7 +86,7 @@ public class SaveManager : Singleton<SaveManager>
             string json = System.IO.File.ReadAllText(_savePath);
             GameData = JsonUtility.FromJson<GameData>(json);
             
-            PartyControls.Instance.RestoreState(GameData.PartyData);
+            //PartyControls.Instance.RestoreState(GameData.PartyData);
             LevelManager.Instance.RestoreState(GameData.LevelData);
             
             //LevelManager.Instance

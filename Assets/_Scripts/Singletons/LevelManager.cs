@@ -40,7 +40,11 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
         SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
     }
 
-    public void SetLevel(Level level) { this.CurrentLevel = level; }
+    public void SetLevel(Level level) 
+    { 
+        this.CurrentLevel = level; 
+        this.CurrentLevelName = SceneManager.GetActiveScene().name; 
+    }
     #endregion
     
     // --- Level Rewards ---

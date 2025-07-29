@@ -20,6 +20,10 @@ public class CameraController : MonoBehaviour {
         }   
     }
 
+    public void Start()
+    {
+        _topDownCamera.Follow = PartyControls.Instance.GetPartyMembers()[0].transform;
+    }
 
     public void ToggleCombatCamera()
     {
