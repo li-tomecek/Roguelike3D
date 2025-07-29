@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
-  m_Name: DefenseDebuff 2A
+  m_Name: Attack Debuff 2B
   m_EditorClassIdentifier: 
-  name: Off Guard 2A
-  description: Applies a significant defense debuff to a target enemy for 2 turns.
+  name: Dispirit
+  description: Applies an attack debuff to all enemies for 2 turns.
   cost: 2
-  targetMode: 0
+  targetMode: 3
   upgrades: []
-  amount: 5
+  amount: 3
   duration: 2
-  type: 1
+  type: 0
   isDebuff: 1
+  _minBase: 0.3
+  _maxBase: 0.7

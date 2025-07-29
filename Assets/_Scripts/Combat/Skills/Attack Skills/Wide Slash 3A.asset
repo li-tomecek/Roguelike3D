@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9752a591eb0715f4c9ba9e3df925390a, type: 3}
-  m_Name: Precision Shot 2B
+  m_Name: Wide Slash 3A
   m_EditorClassIdentifier: 
-  name: Short Scope
-  description: A powerful single-target attack that can attack at any range.
+  name: Sunder
+  description: Swings sword in an arc to inflict heavy damage to all enemies
   cost: 2
-  targetMode: 0
+  targetMode: 3
   upgrades: []
-  damage: 12
+  damage: 13
   useAttackStat: 1
   ignoresDefense: 0
   _hpThreshold: 0.7

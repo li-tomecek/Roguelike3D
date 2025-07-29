@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
-  m_Name: DefenseBuff 2B
+  m_Name: Attack Debuff 2A
   m_EditorClassIdentifier: 
-  name: Shield Wall
-  description: Provides a defense buff to all allie for 2 turns.
+  name: Taunt
+  description: Applies a significant attack debuff to a target enemy for 2 turns.
   cost: 2
-  targetMode: 4
+  targetMode: 0
   upgrades: []
-  amount: 3
+  amount: 5
   duration: 2
-  type: 1
-  isDebuff: 0
+  type: 0
+  isDebuff: 1
+  _minBase: 0.3
+  _maxBase: 0.7

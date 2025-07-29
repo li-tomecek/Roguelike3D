@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
-  m_Name: AttackBuff 2B
+  m_Name: Defense Buff 2A
   m_EditorClassIdentifier: 
-  name: Rally Strength
-  description: Provides an attack buff to all allies for 2 turns.
+  name: Fortify
+  description: Provides a significant defense buff to target ally for 2 turns.
   cost: 2
-  targetMode: 4
+  targetMode: 2
   upgrades: []
-  amount: 4
+  amount: 5
   duration: 2
-  type: 0
+  type: 1
   isDebuff: 0

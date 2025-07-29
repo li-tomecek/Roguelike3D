@@ -16,6 +16,7 @@ MonoBehaviour:
   description: Heal the enire party for 20% of their max HP
   cost: 1
   targetMode: 4
-  upgrades: []
+  upgrades:
+  - {fileID: 11400000, guid: e5dbd1c4a5abfd349964916a6c9446a0, type: 2}
   _healAmt: 20
   asPercentage: 1

@@ -9,16 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9752a591eb0715f4c9ba9e3df925390a, type: 3}
-  m_Name: Basic Melee
+  m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
+  m_Name: Attack Debuff
   m_EditorClassIdentifier: 
-  name: Melee Attack
-  description: A weak melee attack.
-  cost: 0
-  targetMode: 0
+  name: Unnerve
+  description: Applies an attack debuff to a target enemy for 2 turns.
+  cost: 1
+  targetMode: 1
   upgrades: []
-  damage: 5
-  useAttackStat: 1
-  ignoresDefense: 0
-  _hpThreshold: 0.7
-  _minScore: 0.2
+  amount: 3
+  duration: 2
+  type: 0
+  isDebuff: 1
+  _minBase: 0.3
+  _maxBase: 0.7

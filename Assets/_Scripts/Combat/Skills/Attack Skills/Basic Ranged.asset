@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Basic Ranged
   m_EditorClassIdentifier: 
   name: Ranged Attack
-  description: Deals 5 damage to target at range, ignoring defense. That's it.
+  description: A weak ranged attack.
   cost: 0
   targetMode: 1
   upgrades: []
   damage: 5
-  useAttackStat: 0
-  ignoresDefense: 1
+  useAttackStat: 1
+  ignoresDefense: 0
   _hpThreshold: 0.7
   _minScore: 0.2

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
-  m_Name: DefenseBuff
+  m_Name: Defense Debuff 2B
   m_EditorClassIdentifier: 
-  name: Reinforce
-  description: Provides a defense buff to target ally for 2 turns.
+  name: Ambush
+  description: Applies a defense debuff to all enemies for 2 turns.
   cost: 2
-  targetMode: 2
-  upgrades:
-  - {fileID: 11400000, guid: 7adb57211ad02804ca41f3d175fb2bac, type: 2}
-  - {fileID: 11400000, guid: 220519d0b80ce33499f7a66ae2943273, type: 2}
+  targetMode: 3
+  upgrades: []
   amount: 3
   duration: 2
   type: 1
-  isDebuff: 0
+  isDebuff: 1
+  _minBase: 0.3
+  _maxBase: 0.7

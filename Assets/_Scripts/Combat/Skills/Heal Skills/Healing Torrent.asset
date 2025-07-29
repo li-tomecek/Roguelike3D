@@ -9,16 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9752a591eb0715f4c9ba9e3df925390a, type: 3}
-  m_Name: Precision Shot 2B
+  m_Script: {fileID: 11500000, guid: 68775f8960b05c14fb58e97a0d4ecc7b, type: 3}
+  m_Name: Healing Torrent
   m_EditorClassIdentifier: 
-  name: Short Scope
-  description: A powerful single-target attack that can attack at any range.
+  name: Healing Torrent
+  description: Heal the enire party for 35% of their max HP
   cost: 2
-  targetMode: 0
+  targetMode: 4
   upgrades: []
-  damage: 12
-  useAttackStat: 1
-  ignoresDefense: 0
-  _hpThreshold: 0.7
-  _minScore: 0.2
+  _healAmt: 35
+  asPercentage: 1

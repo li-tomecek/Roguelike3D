@@ -9,15 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5be21ee989b3a64984bc70be3e57edd, type: 3}
-  m_Name: DefenseDebuff 2B
+  m_Script: {fileID: 11500000, guid: 68775f8960b05c14fb58e97a0d4ecc7b, type: 3}
+  m_Name: Healing Deluge
   m_EditorClassIdentifier: 
-  name: Off Guard 2B
-  description: Applies a defense debuff to all enemies for 2 turns.
+  name: Healing Deluge
+  description: Heal the target for 65% of their max HP
   cost: 2
-  targetMode: 3
+  targetMode: 2
   upgrades: []
-  amount: 3
-  duration: 2
-  type: 1
-  isDebuff: 1
+  _healAmt: 65
+  asPercentage: 1
