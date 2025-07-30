@@ -697,6 +697,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a51da7c5558f042958f07579f48406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _easyPrefab: {fileID: 3493954557133756239, guid: a58443738623616409ad9260ca381965, type: 3}
+  _mildPrefab: {fileID: 3493954557133756239, guid: e8e8c35446c5800498475e2b83351c3f, type: 3}
+  _moderatePrefab: {fileID: 3493954557133756239, guid: 9cd7e197fb259954ba31a19605c0a3ec, type: 3}
+  _hardPrefab: {fileID: 3493954557133756239, guid: 86544a86298a55944a97572ad5f3b61d, type: 3}
+  _easyThreshold: 0
+  _mildThreshold: 0.2
+  _moderateThreshold: 0.6
+  _hardThreshold: 1
 --- !u!1001 &1888079659
 PrefabInstance:
   m_ObjectHideFlags: 0
