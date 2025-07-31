@@ -19,6 +19,8 @@ public class Level : MonoBehaviour
 
         //1. Create new enemies based on difficulty value
         //CombatManager.Instance.GetEnemyUnits().Clear();         //just in case
+        //disable gameobject and place in combatManager enemy list
+
 
         //2. Put players at start position
         foreach (PlayerUnit unit in PartyControls.Instance.GetPartyMembers())

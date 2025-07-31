@@ -54,6 +54,8 @@ public abstract class Unit : MonoBehaviour
     {
         _health -= damage;
         _health = _health < 0 ? 0 : _health;
+       
+        //ToDo: make healthbar and animator subscribe to take damage event. Players can have a HUD including a health bar instead of just a slider
         healthBar.SetSliderPercent((float)_health / stats.maxHealth);
 
         if (damage > 0 && this.TryGetComponent<Animator>(out Animator animator))
@@ -152,18 +154,16 @@ public abstract class Unit : MonoBehaviour
     public virtual TurnManager GetTurnManager() { return turnManager; }
     public Skill GetDefaultSkill() { return defaultSkill; }
     public List<Skill> GetSkills() { return skills; }
-    
     public HealthBar GetHealthBar() { return healthBar; }
     public int GetHealth() { return _health; }
     public void SetHealth(int value) { _health = value; }
-    
     public int GetBP() { return _bp; }
     public void IncrementBP() { _bp++; }
     public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }
 
-    public void ReplaceSkill(Skill oldSK, Skill newSk)
+    public void ReplaceSkill(Skill oldSk, Skill newSk)
     {
-        int index = skills.FindIndex(s => s == oldSK);
+        int index = skills.FindIndex(s => s == oldSk);
         if (index != -1)
             LevelManager.Instance.GetRewardedUnit().GetSkills()[index] = newSk;
     }

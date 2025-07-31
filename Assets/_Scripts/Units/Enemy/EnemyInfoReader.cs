@@ -18,11 +18,11 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
     
     //Constants -- these change only if csv file itself changes
     private const string FILE_NAME = "EnemyInfo";
-    private const int NAME_ROW = 1;
-    private const int SKILLS_START_ROW = 6;
-    private const int AI_START_ROW = 8;
+    private const int DIFFICULTY_COLUMN = 0;
+    private const int NAME_COLUMN = 1;
+    private const int SKILLS_COLUMN = 6;
+    private const int AI_COLUMN = 8;
     
-    private string _fileContents;
     private string[] _rows;
     
     #endregion
@@ -32,8 +32,7 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         
         if (csvFile != null)            //Read the enemy info file
         {
-            _fileContents = csvFile.text;
-            _rows = _fileContents.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            _rows = csvFile.text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
             foreach (string row in _rows)
             {
                 Debug.Log(row);
@@ -49,15 +48,40 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
     public GameObject CreateEnemyDataFromRow(int rowIndex)
     {
         var columns = _rows[rowIndex].Split(',');
-        GameObject enemy = Instantiate(_easyPrefab);    //Temp ToDo: separate the different prefabs based on the read difficulty threshold
+        
+        //1. Create enemy GameObject based on difficulty prefab.
+        float difficulty = float.Parse(columns[DIFFICULTY_COLUMN]);
+        GameObject enemy;
+        
+        if (difficulty <= _easyThreshold) {
+            enemy = Instantiate(_easyPrefab);
+        } 
+        else if (difficulty <= _mildThreshold) {
+            enemy = Instantiate(_mildPrefab);
+        } 
+        else if (difficulty <= _moderateThreshold) {
+            enemy = Instantiate(_moderatePrefab);
+        }
+        else {
+            enemy = Instantiate(_hardPrefab);
+        }
+        
+        //2. Read and apply unit data
         EnemyUnit unitData = enemy.GetComponent<EnemyUnit>();
-        
-        //Parse the information of one row and put the read data into the specified enemy unit
-        unitData.name = columns[NAME_ROW];
-        
-        //not done here
-        
-        //disable gameobject and place in combatManager enemy list > this goes in whatever script is creating the object.
+        try
+        {
+            unitData.name = columns[NAME_COLUMN];
+            unitData.MaxPriorityThreshold = float.Parse(columns[AI_COLUMN]);
+            unitData.C_Heal = float.Parse(columns[AI_COLUMN + 1]);
+            unitData.C_Attack = float.Parse(columns[AI_COLUMN + 2]);
+            unitData.C_StatMod = float.Parse(columns[AI_COLUMN + 3]);
+        }
+        catch (IndexOutOfRangeException)
+        {
+            Debug.LogError("Could not read enemy data. A column index was out of bounds!");
+        }
+        //3. Assign the specified skills to the enemy
+        // = Resources.Load<TextAsset>(FILE_NAME);
         return enemy;
     }
 }
