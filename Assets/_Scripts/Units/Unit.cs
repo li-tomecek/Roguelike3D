@@ -20,9 +20,9 @@ public abstract class Unit : MonoBehaviour
     protected int _bp;
 
     //Skills
+    public static int MAX_SKILL_COUNT = 2;
     [SerializeField] protected List<Skill> skills;
     [SerializeField] protected Skill defaultSkill;
-
 
     //Effects
     private List<Effect> _activeEffects = new List<Effect>();
@@ -92,9 +92,9 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-
-    // --- Other Methods ---
-    // ----------------------
+    // --- Move and Rotate Methods ---
+    // -------------------------------
+    #region
     public IEnumerator MoveToAndLook(Vector3 targetPosition, float travelSpeed, float acceptedRadius, Vector3 lookTarget, float rotationSpeed)
     {
         yield return MoveTo(targetPosition, travelSpeed, acceptedRadius);
@@ -143,6 +143,7 @@ public abstract class Unit : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
 
 
     // --- Getters / Setters ---
@@ -160,12 +161,23 @@ public abstract class Unit : MonoBehaviour
     public int GetBP() { return _bp; }
     public void IncrementBP() { _bp++; }
     public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }
-
     public void ReplaceSkill(Skill oldSk, Skill newSk)
     {
         int index = skills.FindIndex(s => s == oldSk);
         if (index != -1)
-            LevelManager.Instance.GetRewardedUnit().GetSkills()[index] = newSk;
+            skills[index] = newSk;
+    }
+    public void TryAddSkill(Skill skill)
+    {
+        if (skills.Count < MAX_SKILL_COUNT)
+        {
+            //if there is an available space
+            skills.Add(skill);
+        }
+        else
+        {
+            Debug.LogError($"The skills list is already full");
+        }
     }
     #endregion
 }

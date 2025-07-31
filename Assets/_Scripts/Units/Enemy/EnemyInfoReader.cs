@@ -26,23 +26,20 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
     private string[] _rows;
     
     #endregion
-    public override void Awake()
+    public  void Awake()
     {
+        base.Awake();
+        
         TextAsset csvFile = Resources.Load<TextAsset>(FILE_NAME);
         
         if (csvFile != null)            //Read the enemy info file
         {
             _rows = csvFile.text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-            foreach (string row in _rows)
-            {
-                Debug.Log(row);
-            }
         }
         else
         {
             Debug.LogError($"There is no file \"{FILE_NAME}\" in Resources folder.");
-        }
-        
+        } 
     }
 
     public GameObject CreateEnemyDataFromRow(int rowIndex)
@@ -80,8 +77,20 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         {
             Debug.LogError("Could not read enemy data. A column index was out of bounds!");
         }
-        //3. Assign the specified skills to the enemy
-        // = Resources.Load<TextAsset>(FILE_NAME);
+        
+        //3. Try Applying Skills
+        try
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if(columns[SKILLS_COLUMN + i] != string.Empty)
+                    unitData.TryAddSkill(Resources.Load<Skill>("Skills/" + columns[SKILLS_COLUMN + i]));
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Could not read {unitData.name}'s skills from Resource folder");
+        }
         return enemy;
     }
 }

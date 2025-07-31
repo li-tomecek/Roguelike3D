@@ -213,7 +213,7 @@ MonoBehaviour:
   _chaseSpeed: 7
   PatrolNodes: []
   _patrolSpeed: 5
-  agent: {fileID: 0}
+  agent: {fileID: 8106489039888114380}
 --- !u!1 &9208743075525665910
 GameObject:
   m_ObjectHideFlags: 0
