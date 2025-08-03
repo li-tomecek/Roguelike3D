@@ -195,7 +195,7 @@ public class CombatManager : Singleton<CombatManager>
                 unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
             }
 
-            LevelManager.Instance.SpawnReward();
+            LevelManager.Instance.PostCombat();
         }
         else   //GAME OVER
         {

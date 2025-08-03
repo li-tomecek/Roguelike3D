@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Level : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class Level : MonoBehaviour
         CombatManager.Instance.GetEnemyUnits().Clear();         //just in case
         for (int i = 0; i < 3; i++)
         {
-            GameObject unit = EnemyInfoReader.Instance.CreateEnemyDataFromRow(9);   //9 is temporary for testing
+            GameObject unit = EnemyInfoReader.Instance.CreateEnemyWithinDifficulty();
             CombatManager.Instance.GetEnemyUnits().Add(unit.GetComponent<Unit>());
             unit.SetActive(false);
         }
@@ -47,5 +46,8 @@ public class Level : MonoBehaviour
 
         //4. SetupCombatPositions for CombatManager
         CombatManager.Instance.SetCombatPositions(PlayerCombatPos, EnemyCombatPos);
+
+        //5. Save Game
+        SaveManager.Instance.SaveGame();
     }
 }

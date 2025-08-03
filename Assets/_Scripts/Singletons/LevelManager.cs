@@ -9,6 +9,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     public string CurrentLevelName { get; private set; }
     public float DifficultyValue { get; private set; }
     public PlayerUnit RewardedUnit;
+    [SerializeField] private float _difficultyIncrement = 0.2f;  
     public Level CurrentLevel { get; private set; }
     
     [Header("Level Rewards")]
@@ -52,6 +53,12 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     #region
     public PlayerUnit GetRewardedUnit() { return RewardedUnit; }
 
+    public void PostCombat()
+    {
+        SpawnReward();
+        DifficultyValue += _difficultyIncrement;    //increase the difiiculty score to control enemy difficulty levels.
+        DifficultyValue = Math.Min(DifficultyValue, 1);
+    }
     public void SpawnReward()
     {
         _combatReward = Instantiate(_combatReward, CurrentLevel.RewardPosition);
@@ -64,6 +71,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     {
         _combatReward.GetComponentInChildren<CombatReward>().CloseMenu();
         Destroy(_combatReward);
+
     }
     #endregion
     

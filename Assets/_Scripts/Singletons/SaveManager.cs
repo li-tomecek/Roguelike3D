@@ -88,8 +88,6 @@ public class SaveManager : Singleton<SaveManager>
             
             //PartyControls.Instance.RestoreState(GameData.PartyData);
             LevelManager.Instance.RestoreState(GameData.LevelData);
-            
-            //LevelManager.Instance
 
             Debug.Log("Game Loaded from file");
         }

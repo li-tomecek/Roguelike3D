@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class EnemyInfoReader : Singleton<EnemyInfoReader>
 {
@@ -9,14 +11,15 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
     [SerializeField] private GameObject _mildPrefab;
     [SerializeField] private GameObject _moderatePrefab;
     [SerializeField] private GameObject _hardPrefab;
+
+    [Header("Difficulty Thresholds")]      //ToDo: Either read these values from file, or write to file so they dont both have to be adjusted.
+    [SerializeField][Range(0.0f, 1.0f)] private float _mildThreshold = 0.2f;
+    [SerializeField][Range(0.0f, 1.0f)] private float _moderateThreshold = 0.6f;
+    [SerializeField][Range(0.0f, 1.0f)] private float _hardThreshold = 1f;
+
+    private float _difficultyVariance = 0.2f;
     
-    [Header ("Difficulty Thresholds")]      //ToDo: Either read these values from file, or write to file so they dont both have to be adjustsed
-    [SerializeField] private float _easyThreshold = 0f;
-    [SerializeField] private float _mildThreshold = 0.2f;
-    [SerializeField] private float _moderateThreshold = 0.6f;
-    [SerializeField] private float _hardThreshold = 1f;
-    
-    //Constants -- these change only if csv file itself changes
+    //Constants -- these change only if the format of thet csv file itself changes
     private const string FILE_NAME = "EnemyInfo";
     private const int DIFFICULTY_COLUMN = 0;
     private const int NAME_COLUMN = 1;
@@ -39,9 +42,33 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         else
         {
             Debug.LogError($"There is no file \"{FILE_NAME}\" in Resources folder.");
-        } 
+        }
+
+        //the difficulty variance must be at least half of the size of the largesr difference between thresholds. Otherwise we risk getting an infinite loop when reading enemies
+        _difficultyVariance = Math.Max(_mildThreshold / 2f, Math.Abs(_moderateThreshold - _mildThreshold)/2f);
+        _difficultyVariance = Math.Max(_difficultyVariance, Math.Abs(_hardThreshold - _moderateThreshold)/2f);
+
+
+
     }
 
+    public GameObject CreateEnemyWithinDifficulty()
+    {
+        float rowDifficulty;
+        int rowIndex;
+        string[] cols;
+
+        do
+        {
+            rowIndex = UnityEngine.Random.Range(1, _rows.Length);       // Row 0 is the column names
+            cols = _rows[rowIndex].Split(',');
+            rowDifficulty = float.Parse(cols[DIFFICULTY_COLUMN]);
+        } 
+        while (rowDifficulty > (LevelManager.Instance.DifficultyValue + _difficultyVariance) 
+            || rowDifficulty < (LevelManager.Instance.DifficultyValue - _difficultyVariance));
+       
+        return CreateEnemyDataFromRow(rowIndex);
+    }
     public GameObject CreateEnemyDataFromRow(int rowIndex)
     {
         var columns = _rows[rowIndex].Split(',');
@@ -50,17 +77,17 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         float difficulty = float.Parse(columns[DIFFICULTY_COLUMN]);
         GameObject enemy;
         
-        if (difficulty <= _easyThreshold) {
-            enemy = Instantiate(_easyPrefab);
+        if (difficulty >= _hardThreshold) {
+            enemy = Instantiate(_hardPrefab);
         } 
-        else if (difficulty <= _mildThreshold) {
-            enemy = Instantiate(_mildPrefab);
-        } 
-        else if (difficulty <= _moderateThreshold) {
+        else if (difficulty >= _moderateThreshold) {
             enemy = Instantiate(_moderatePrefab);
+        } 
+        else if (difficulty >= _mildThreshold) {
+            enemy = Instantiate(_mildPrefab);
         }
         else {
-            enemy = Instantiate(_hardPrefab);
+            enemy = Instantiate(_easyPrefab);
         }
         
         //2. Read and apply unit data
@@ -91,6 +118,8 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         {
             Debug.LogError($"Could not read {unitData.name}'s skills from Resource folder.\n Exception: {e}");
         }
+
+        Debug.Log($"Diff: {LevelManager.Instance.DifficultyValue} ~ Chose {unitData.name} with difficulty {difficulty}");
         return enemy;
     }
 }

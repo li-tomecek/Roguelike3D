@@ -354,7 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b504b6a15109d439aef1697fe0d4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DifficultyValue: 0.3
   RewardedUnit: {fileID: 1449304453}
+  _difficultyIncrement: 0.2
   _nextRoomRewards:
   - {fileID: 675238444}
   - {fileID: 1888079660}
@@ -533,7 +535,7 @@ MonoBehaviour:
   _mildPrefab: {fileID: 3493954557133756239, guid: e8e8c35446c5800498475e2b83351c3f, type: 3}
   _moderatePrefab: {fileID: 3493954557133756239, guid: 9cd7e197fb259954ba31a19605c0a3ec, type: 3}
   _hardPrefab: {fileID: 3493954557133756239, guid: 86544a86298a55944a97572ad5f3b61d, type: 3}
-  _easyThreshold: 0
+  _difficultyVariance: 0.2
   _mildThreshold: 0.2
   _moderateThreshold: 0.6
   _hardThreshold: 1
