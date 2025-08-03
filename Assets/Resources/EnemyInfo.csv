@@ -1,0 +1,19 @@
+Difficulty Threshold,Unit Name,MaxHealth,Attack,Defense,Agility,Skill 1 ,Skill 2,MPT,CHeal,CAttack,CStatMod
+0,Goblin Medic,15,2,3,2,Healing Drop,,0,1,1,1
+0,Goblin Scout,15,3,2,3,Precision Shot,,0,1,1,1
+0,Goblin Grunt,15,2,3,3,Attack Buff,,0,1,1,1
+0,Goblin Grunt,15,3,2,2,Defense Buff,,0,1,1,1
+0,Goblin Grunt,15,2,3,3,Defense Debuff,,0,1,1,1
+0.2,Goblin Healer,20,5,4,3,Healing Drop,,0.4,1,0.3,0.3
+0.2,Goblin Caster,,,,,Healing Drop,Defense Buff,0.4,1,1,1
+0.2,Goblin Shaman,,,,,Defense Debuff,Attack Debuff,0.4,1,0.5,1
+0.2,Goblin Vanguard,,,,,Wide Slash,Attack Buff,0.4,1,1,1
+0.2,Goblin Archer,,,,,Precision Shot,,0.4,1,1,1
+0.6,Orc Healer,25,6,5,4,Healing Splash,,0.65,1,0.5,0.5
+0.6,Orc Caster,,,,,Healing Rain,Attack Debuff 2A,0.65,1,0.5,1
+0.6,Orc Vanguard,,,,,Wide Slash,Attack Buff 2A,0.65,1,1,0.7
+0.6,Orc Archer,,,,,Defense Debuff 2B,Precision Shot,0.65,1,0.7,1
+1,Orc Sawbones,25,7,6,5,Healing Torrent,,0.8,1,1,1
+1,Orc Apothecary,,,,,Healing Deluge,Attack Debuff 2A,0.8,0.7,0.5,1
+1,Orc Berserker,,,,,Wide Slash 2B,Attack Buff 2A,0.8,1,0.8,1
+1,Orc Sniper,,,,,Precision Shot 2A,Defense Debuff 2B,0.8,1,0.7,1

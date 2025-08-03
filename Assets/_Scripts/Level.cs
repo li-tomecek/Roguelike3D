@@ -18,7 +18,13 @@ public class Level : MonoBehaviour
         LevelManager.Instance.SetLevel(this);
 
         //1. Create new enemies based on difficulty value
-        //CombatManager.Instance.GetEnemyUnits().Clear();         //just in case
+        CombatManager.Instance.GetEnemyUnits().Clear();         //just in case
+        for (int i = 0; i < 3; i++)
+        {
+            GameObject unit = EnemyInfoReader.Instance.CreateEnemyWithinDifficulty();
+            CombatManager.Instance.GetEnemyUnits().Add(unit.GetComponent<Unit>());
+            unit.SetActive(false);
+        }
 
         //2. Put players at start position
         foreach (PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
@@ -32,10 +38,16 @@ public class Level : MonoBehaviour
         {
             unit.transform.position = _patrolNodes[0].position;
         }
-        CombatManager.Instance.GetEnemyUnits()[0].GetComponent<Patrol>().PatrolNodes = _patrolNodes;
-        CombatManager.Instance.GetEnemyUnits()[0].GetComponent<Patrol>().SetState(EnemyState.Patrol);
 
-        //4. SetupCombatPositions
+        GameObject patroller = CombatManager.Instance.GetEnemyUnits()[0].gameObject;
+        patroller.SetActive(true);
+        patroller.GetComponent<Patrol>().PatrolNodes = _patrolNodes;
+        patroller.GetComponent<Patrol>().SetState(EnemyState.Patrol);
+
+        //4. SetupCombatPositions for CombatManager
         CombatManager.Instance.SetCombatPositions(PlayerCombatPos, EnemyCombatPos);
+
+        //5. Save Game
+        SaveManager.Instance.SaveGame();
     }
 }

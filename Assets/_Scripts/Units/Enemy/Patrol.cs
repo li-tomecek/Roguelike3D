@@ -40,8 +40,6 @@ public class Patrol : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         agent.speed = _patrolSpeed;
 
-        //_state = EnemyState.InCombat;
-
         if (PatrolNodes.Count > 0)
             agent.SetDestination(PatrolNodes[0].position);
     }
@@ -98,4 +96,6 @@ public class Patrol : MonoBehaviour
     }
 
     public void SetState(EnemyState state) { this._state = state; }
+
+    public bool IsInCombat() { return (_state == EnemyState.InCombat); }
 }
