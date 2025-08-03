@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /* Handles logic related to the entire party:
  *  - Handles input for out-of-combat controls and has last party memebers follow the first party member
- * 
+ *  - Handles save-state logic for the player units
  */
 
-public class PartyControls : MonoBehaviour
+public class PartyControls : Singleton<PartyControls>, ISaveable
 {
-    public static PartyControls Instance;
+    #region
     [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
   
     [Header("Party Movement")]
@@ -24,18 +25,7 @@ public class PartyControls : MonoBehaviour
     [SerializeField] GameObject _projectilePrefab;
     [SerializeField] float _projectileCooldown = 0.5f;
     private float _timeLastFired = 0;
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+    #endregion
     private void Start()
     {
         foreach(PlayerUnit unit in _partyMembers)
@@ -68,9 +58,10 @@ public class PartyControls : MonoBehaviour
             }
         }
     }
-
+    
     // --- PARTY OUT-OF-COMBAT CONTROLS --- 
     // ------------------------------------
+    #region
     private void HandleMoveInput(Vector2 input)
     {
         _partyLeader.SetDirectionalInput(input);   //only the first party member is directly controlled via input
@@ -129,5 +120,37 @@ public class PartyControls : MonoBehaviour
             }
         }
     }
+    #endregion
+    
+    // --- State Saving --- 
+    // --------------------
+    #region
+    public object CaptureState()
+    {
+        PartyData partyData = new PartyData();
+        
+        //all unit prefabs?
+        //all unit stats
+        //all unit current health
+        //all unit Skills
+        
+        return partyData;
+    }
+
+    public void RestoreState(object data)
+    {
+        try
+        {
+            //restore all player data
+        }
+        catch (Exception e)
+        {
+            Debug.LogException(e);
+        }
+        
+        //Set player at level start position
+    }
+    #endregion
+    
     public List<PlayerUnit> GetPartyMembers() { return _partyMembers; }
 }

@@ -11,16 +11,17 @@ using Random = UnityEngine.Random;
  */
 public class CombatManager : Singleton<CombatManager>
 {
+    #region
     [Header("Combat Units")]
     private List<Unit> _playerUnits;
     [SerializeField] private List<Unit> _enemyUnits;
     [SerializeField] private float _percentDamageOnDisadvantage = 0.1f;
 
     [Header("Combat Positions")]
-    [SerializeField] private List<Transform> _playerCombatPositions;
-    [SerializeField] private List<Transform> _enemyCombatPositions;
+    private List<Transform> _playerCombatPositions;
+    private List<Transform> _enemyCombatPositions;
     [SerializeField] private float _travelSpeed = 2f;
-    [SerializeField] private float _targetDistanceThreshold = 0.1f;
+    [SerializeField] private float _targetDistanceThreshold = 0.2f;
 
 
     private GameObject[] _obstacles;
@@ -30,14 +31,20 @@ public class CombatManager : Singleton<CombatManager>
     private int _turnIndex;
     private bool _inCombat = false;
     private bool _playerAdvantage;
+    #endregion
 
     //---------------------------------------------------
     //---------------------------------------------------
 
     // --- Setup  ---
     // --------------
+    #region
     public void BeginBattle(bool playerAdvantage)
     {
+
+        CameraController.Instance.ToggleCombatCamera();
+        InputController.Instance.ActivateMenuMap();
+
         _playerUnits = PartyControls.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
 
         _playerAdvantage = playerAdvantage;
@@ -47,12 +54,19 @@ public class CombatManager : Singleton<CombatManager>
         _turnIndex = -1;
 
 
-        //disable NavAgent for all patrolling enemies
+        //disable patrol for all patrolling enemies
         foreach (Unit enemy in _enemyUnits)
         {
             if(enemy.TryGetComponent<Patrol>(out Patrol patroller))
             {
-                patroller.PatrolToCombat();
+                if (!patroller.IsInCombat())
+                {
+                    patroller.PatrolToCombat();
+                }
+                else
+                {
+                    enemy.transform.position = _enemyCombatPositions[0].position;   //for those that start in the combat state. put them in a starting position
+                }
             }
         }
 
@@ -136,9 +150,11 @@ public class CombatManager : Singleton<CombatManager>
 
         }
     }
+    #endregion
 
     // --- Turn Management -----
     // -------------------------
+    #region
     public void NextTurn()
     {
             if (_playerUnits.Count <= 0 || _enemyUnits.Count <= 0)
@@ -154,7 +170,9 @@ public class CombatManager : Singleton<CombatManager>
     private void EndEncounter()
     {
         Debug.Log("Combat Finished.");
-        
+
+        CameraController.Instance.ToggleCombatCamera();
+
         //re-enable the map obstacles
         foreach (GameObject go in _obstacles)
         {
@@ -177,7 +195,7 @@ public class CombatManager : Singleton<CombatManager>
                 unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
             }
 
-            LevelManager.Instance.SpawnReward();
+            LevelManager.Instance.PostCombat();
         }
         else   //GAME OVER
         {
@@ -210,9 +228,16 @@ public class CombatManager : Singleton<CombatManager>
              
         _combatSequence.Remove(unit);
     }
+    #endregion
 
     // --- Getters / Setters ---
     // -------------------------
+    #region
+    public void SetCombatPositions(List<Transform> playerCombat, List<Transform> enemyCombat)
+    {
+        _playerCombatPositions = playerCombat;
+        _enemyCombatPositions = enemyCombat;
+    }
     public List<Unit> GetEnemyUnits() { return _enemyUnits; }
     public List<Unit> GetPlayerUnits() { return _playerUnits; }
     public List<Unit> GetCombatSequence() { return _combatSequence; } 
@@ -221,5 +246,5 @@ public class CombatManager : Singleton<CombatManager>
     {
             return _playerUnits[Random.Range(0, _playerUnits.Count)];
     }   //temp
-
+    #endregion
 }

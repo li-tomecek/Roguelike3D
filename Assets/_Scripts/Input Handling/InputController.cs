@@ -3,9 +3,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class InputController : MonoBehaviour
+public class InputController : Singleton<InputController>
 {
-    public static InputController Instance;
     private ControlScheme _controlScheme;
 
     private InputActionMap _movementControlsMap;
@@ -22,19 +21,13 @@ public class InputController : MonoBehaviour
     public UnityEvent SubmitEvent;                  //If I want to use listeners instead
     public UnityEvent CancelEvent;
 
-    void Awake()
+    public override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            _controlScheme = new ControlScheme();
-            _movementControlsMap = _controlScheme.Player;
-            _menuControlsMap = _controlScheme.UI;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        base.Awake();
+
+        _controlScheme = new ControlScheme();
+        _movementControlsMap = _controlScheme.Player;
+        _menuControlsMap = _controlScheme.UI;
     }
 
     void OnEnable()

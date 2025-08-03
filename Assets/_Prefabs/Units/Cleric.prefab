@@ -891,7 +891,7 @@ GameObject:
   - component: {fileID: 2713872889697976649}
   - component: {fileID: -8664443529749780595}
   - component: {fileID: 7682729367517444987}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Cleric
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -977,7 +977,7 @@ MonoBehaviour:
     maxHealth: 20
     attack: 4
     defense: 5
-    agility: 2
+    agility: 3
   modifiers:
     maxHealth: 0
     attack: 0

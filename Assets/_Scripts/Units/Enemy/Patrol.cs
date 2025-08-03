@@ -5,12 +5,15 @@ using UnityEngine.AI;
 
 public enum EnemyState
 {
-    Patrol, Chase, InCombat
+    InCombat, Patrol, Chase
 }
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Patrol : MonoBehaviour
 {
+    [SerializeField] private EnemyState _state = EnemyState.InCombat;
+
+
     [Header("Target Detection")]
     [SerializeField] private float _sightDistance = 7f; //how far the sighline raycast will go
     [SerializeField] private float _collisionDistance = 0.7f;
@@ -19,7 +22,7 @@ public class Patrol : MonoBehaviour
     [SerializeField] private float _chaseSpeed;
 
     [Header("Patrol")]
-    [SerializeField] private List<Transform> _patrolNodes;
+    public List<Transform> PatrolNodes;
     [SerializeField] private float _patrolSpeed;
 
     public NavMeshAgent agent;
@@ -28,7 +31,6 @@ public class Patrol : MonoBehaviour
 
     private CharacterController _controller;
 
-    private EnemyState _state;
     GameObject target;
     Vector3 _targetDirection;
 
@@ -38,10 +40,8 @@ public class Patrol : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         agent.speed = _patrolSpeed;
 
-        _state = EnemyState.Patrol;
-
-        if (_patrolNodes.Count > 0)
-            agent.SetDestination(_patrolNodes[0].position);
+        if (PatrolNodes.Count > 0)
+            agent.SetDestination(PatrolNodes[0].position);
     }
 
     void FixedUpdate()
@@ -69,10 +69,10 @@ public class Patrol : MonoBehaviour
             agent.speed = _chaseSpeed;
         } 
         //Patrol
-        else if(_patrolNodes.Count > 1 && agent.remainingDistance <= _collisionDistance)
+        else if(PatrolNodes.Count > 1 && agent.remainingDistance <= _collisionDistance)
         {
-            _nodeIndex = (_nodeIndex + 1) % _patrolNodes.Count;
-            agent.SetDestination(_patrolNodes[_nodeIndex].position);
+            _nodeIndex = (_nodeIndex + 1) % PatrolNodes.Count;
+            agent.SetDestination(PatrolNodes[_nodeIndex].position);
         }
     }
 
@@ -95,4 +95,7 @@ public class Patrol : MonoBehaviour
         _state = EnemyState.InCombat;
     }
 
+    public void SetState(EnemyState state) { this._state = state; }
+
+    public bool IsInCombat() { return (_state == EnemyState.InCombat); }
 }

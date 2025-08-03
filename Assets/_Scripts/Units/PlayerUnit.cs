@@ -26,7 +26,6 @@ public class PlayerUnit : Unit
         this.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
 
     }
-
     public override IEnumerator RotateTo(Vector3 lookVector, float rotationSpeed)
     {
         this.GetComponent<PlayerAnimator>().SetMovementSpeed(rotationSpeed);
