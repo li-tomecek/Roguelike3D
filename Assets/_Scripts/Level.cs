@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Level : MonoBehaviour
 {
@@ -21,10 +22,9 @@ public class Level : MonoBehaviour
         CombatManager.Instance.GetEnemyUnits().Clear();         //just in case
         for (int i = 0; i < 3; i++)
         {
-            GameObject unit = EnemyInfoReader.Instance.CreateEnemyDataFromRow(9);   //2 is temporary for testing
+            GameObject unit = EnemyInfoReader.Instance.CreateEnemyDataFromRow(9);   //9 is temporary for testing
             CombatManager.Instance.GetEnemyUnits().Add(unit.GetComponent<Unit>());
             unit.SetActive(false);
-            Debug.Log($"Created {unit.name}");
         }
 
         //2. Put players at start position
@@ -45,7 +45,7 @@ public class Level : MonoBehaviour
         patroller.GetComponent<Patrol>().PatrolNodes = _patrolNodes;
         patroller.GetComponent<Patrol>().SetState(EnemyState.Patrol);
 
-        //4. SetupCombatPositions
+        //4. SetupCombatPositions for CombatManager
         CombatManager.Instance.SetCombatPositions(PlayerCombatPos, EnemyCombatPos);
     }
 }

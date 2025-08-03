@@ -26,7 +26,7 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
     private string[] _rows;
     
     #endregion
-    public  void Awake()
+    public override void Awake()
     {
         base.Awake();
         
@@ -46,7 +46,7 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
     {
         var columns = _rows[rowIndex].Split(',');
         
-        //1. Create enemy GameObject based on difficulty prefab.
+        //1. Create enemy GameObject based on difficulty.
         float difficulty = float.Parse(columns[DIFFICULTY_COLUMN]);
         GameObject enemy;
         
@@ -89,7 +89,7 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         }
         catch (Exception e)
         {
-            Debug.LogError($"Could not read {unitData.name}'s skills from Resource folder");
+            Debug.LogError($"Could not read {unitData.name}'s skills from Resource folder.\n Exception: {e}");
         }
         return enemy;
     }

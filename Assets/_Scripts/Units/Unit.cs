@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -105,12 +106,11 @@ public abstract class Unit : MonoBehaviour
     {
         Vector3 direction;
         bool atDestination = false;
-
-        targetPosition.y = transform.position.y;
         
         while (!atDestination)
         {
-            direction = targetPosition - this.transform.position;
+            direction = targetPosition - gameObject.transform.position;
+            direction.y = 0f;               //so we do not adjust the height of the unit while moving
             atDestination = (direction.magnitude <= acceptedRadius);
                        
             if (!atDestination)
@@ -119,8 +119,8 @@ public abstract class Unit : MonoBehaviour
                     direction = (direction.normalized * travelSpeed * Time.deltaTime);
 
                 controller.Move(direction);
-            }
-
+            }      
+            
             this.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
             yield return null;
         }
