@@ -23,6 +23,7 @@ public class CombatInterface : Singleton<CombatInterface>
     {
         base.Awake();
         Setup();
+        CombatManager.Instance.OnGameOver.AddListener(OpenGameOverScreen);
     }
     public void Setup()
     {

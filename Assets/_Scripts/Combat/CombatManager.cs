@@ -34,7 +34,8 @@ public class CombatManager : Singleton<CombatManager>
     private bool _playerAdvantage;
 
     public UnityEvent OnCombatStart = new UnityEvent();
-    public UnityEvent OnCombatEnd = new UnityEvent();
+    public UnityEvent OnGameOver = new UnityEvent();
+    public UnityEvent OnCombatWin = new UnityEvent();
 
     #endregion
 
@@ -48,19 +49,14 @@ public class CombatManager : Singleton<CombatManager>
     {
         OnCombatStart.Invoke();
 
-        CameraController.Instance.ToggleCombatCamera();
         InputController.Instance.ActivateMenuMap();
 
-        _playerUnits = PartyControls.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
-
         _playerAdvantage = playerAdvantage;
-        _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         
         _inCombat = true;
         _turnIndex = -1;
 
-
-        //disable patrol for all patrolling enemies
+        //Set non-patrol enemy positions
         foreach (Unit enemy in _enemyUnits)
         {
             if(enemy.TryGetComponent<Patrol>(out Patrol patroller))
@@ -77,19 +73,22 @@ public class CombatManager : Singleton<CombatManager>
         }
 
         //Add and units to combatSequence List and order them by agility
+        _playerUnits = PartyControls.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
+
         _combatSequence.Clear();
         _combatSequence.AddRange(_playerUnits);
         _combatSequence.AddRange(_enemyUnits);
 
-        _combatSequence = _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList(); 
+        _combatSequence = _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();
 
         //activate hidden enemies
-        foreach(Unit unit in _enemyUnits)
+        foreach (Unit unit in _enemyUnits)
         {
             unit.gameObject.SetActive(true);
         }
 
         //Deactivate obstacles that will block vision and position setup
+        _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         foreach (GameObject go in _obstacles)
         {
             go.SetActive(false);
@@ -102,12 +101,6 @@ public class CombatManager : Singleton<CombatManager>
     { 
         //move to start positions
         yield return SendUnitsToPosition();
-        
-        ////activate enemy health bars
-        //foreach (EnemyUnit unit in _enemyUnits)
-        //{
-        //    unit.GetHealthBar().gameObject.SetActive(true);
-        //}
         
         //Apply disadvantage damage
         if (_playerAdvantage)    // all enemies start with damage equal to 10% of max health
@@ -175,10 +168,6 @@ public class CombatManager : Singleton<CombatManager>
     }
     private void EndEncounter()
     {
-        Debug.Log("Combat Finished.");
-
-        CameraController.Instance.ToggleCombatCamera();
-
         //re-enable the map obstacles
         foreach (GameObject go in _obstacles)
         {
@@ -187,6 +176,8 @@ public class CombatManager : Singleton<CombatManager>
         
         if(_playerUnits.Count > 0)  //PLAYER WON
         {
+            OnCombatWin.Invoke();
+
             _inCombat = false;
             InputController.Instance.ActivateMovementMap();
             
@@ -203,6 +194,7 @@ public class CombatManager : Singleton<CombatManager>
         }
         else   //GAME OVER
         {
+            OnGameOver.Invoke();
             CombatInterface.Instance.OpenGameOverScreen();
         }
 
