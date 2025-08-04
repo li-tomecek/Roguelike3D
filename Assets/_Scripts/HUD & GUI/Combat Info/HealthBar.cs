@@ -1,13 +1,18 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Slider _healthSlider;
+    [SerializeField] private TextMeshProUGUI _nameText;
 
-    private void Start()
+    private void Awake()
     {
        gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+        CombatManager.Instance.OnCombatStart.AddListener(() => gameObject.SetActive(true));
+        
+        gameObject.SetActive(false);  //hide health bar until combat
     }
 
     private void Update()
@@ -15,14 +20,13 @@ public class HealthBar : MonoBehaviour
         gameObject.transform.rotation = Camera.main.transform.rotation;
     }
 
-
     public void SetSliderPercent(float value)
     {
-        healthSlider.value = Mathf.Clamp(value, 0, 1);
+        _healthSlider.value = Mathf.Clamp(value, 0, 1);
     }
 
-    //public void SetNameText(string name)
-    //{
-    //    nameText.text = name;
-    //}
+    public void SetNameText(string name)
+    {
+        _nameText.text = name;
+    }
 }

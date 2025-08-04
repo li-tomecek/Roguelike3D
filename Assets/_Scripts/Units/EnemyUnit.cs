@@ -12,10 +12,16 @@ public class EnemyUnit : Unit
     [Range(0.0f, 1.0f)] public float C_Attack = 1f;
     [Range(0.0f, 1.0f)] public float C_StatMod = 1f;
 
+
+    protected HealthBar healthBar;
+
     protected override void Awake()
     {
         turnManager = gameObject.AddComponent<EnemyTurnManager>();
+        healthBar = gameObject.GetComponentInChildren<HealthBar>();
+
         base.Awake();
     }
-    
+    public HealthBar GetHealthBar() { return healthBar; }
+
 }

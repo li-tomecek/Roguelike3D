@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /*
@@ -31,6 +32,10 @@ public class CombatManager : Singleton<CombatManager>
     private int _turnIndex;
     private bool _inCombat = false;
     private bool _playerAdvantage;
+
+    public UnityEvent OnCombatStart = new UnityEvent();
+    public UnityEvent OnCombatEnd = new UnityEvent();
+
     #endregion
 
     //---------------------------------------------------
@@ -41,6 +46,7 @@ public class CombatManager : Singleton<CombatManager>
     #region
     public void BeginBattle(bool playerAdvantage)
     {
+        OnCombatStart.Invoke();
 
         CameraController.Instance.ToggleCombatCamera();
         InputController.Instance.ActivateMenuMap();
@@ -97,11 +103,11 @@ public class CombatManager : Singleton<CombatManager>
         //move to start positions
         yield return SendUnitsToPosition();
         
-        //activate health bars
-        foreach (Unit unit in _combatSequence)
-        {
-            unit.GetHealthBar().gameObject.SetActive(true);
-        }
+        ////activate enemy health bars
+        //foreach (EnemyUnit unit in _enemyUnits)
+        //{
+        //    unit.GetHealthBar().gameObject.SetActive(true);
+        //}
         
         //Apply disadvantage damage
         if (_playerAdvantage)    // all enemies start with damage equal to 10% of max health
@@ -191,8 +197,6 @@ public class CombatManager : Singleton<CombatManager>
                 
                 if (unit.GetHealth() <= 0)
                     unit.SetHealth(1);                              //revive "dead" units to 1HP
-                
-                unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
             }
 
             LevelManager.Instance.PostCombat();
@@ -208,7 +212,7 @@ public class CombatManager : Singleton<CombatManager>
         if (unit.gameObject.GetComponent<PlayerAnimator>())
         {
             unit.GetComponent<PlayerAnimator>().SetDeathAnimations(true);
-            unit.GetHealthBar().gameObject.SetActive(false);
+            //unit.GetHealthBar().gameObject.SetActive(false);
         }    
         else
             unit.gameObject.SetActive(false);

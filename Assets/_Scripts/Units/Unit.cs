@@ -29,7 +29,6 @@ public abstract class Unit : MonoBehaviour
     private List<Effect> _activeEffects = new List<Effect>();
 
     protected TurnManager turnManager;
-    protected HealthBar healthBar;
     protected CharacterController controller;
     
     //---------------------------------------------------
@@ -38,9 +37,6 @@ public abstract class Unit : MonoBehaviour
     protected virtual void Awake()
     {
         _health = stats.maxHealth;
-        healthBar = gameObject.GetComponentInChildren<HealthBar>();
-        healthBar.gameObject.SetActive(false);  //hide health bar until combat
-
         controller = gameObject.GetComponent<CharacterController>();
     }
 
@@ -57,7 +53,7 @@ public abstract class Unit : MonoBehaviour
         _health = _health < 0 ? 0 : _health;
        
         //ToDo: make healthbar and animator subscribe to take damage event. Players can have a HUD including a health bar instead of just a slider
-        healthBar.SetSliderPercent((float)_health / stats.maxHealth);
+        //healthBar.SetSliderPercent((float)_health / stats.maxHealth);
 
         if (damage > 0 && this.TryGetComponent<Animator>(out Animator animator))
             animator.SetTrigger("Take Damage");
@@ -155,7 +151,6 @@ public abstract class Unit : MonoBehaviour
     public virtual TurnManager GetTurnManager() { return turnManager; }
     public Skill GetDefaultSkill() { return defaultSkill; }
     public List<Skill> GetSkills() { return skills; }
-    public HealthBar GetHealthBar() { return healthBar; }
     public int GetHealth() { return _health; }
     public void SetHealth(int value) { _health = value; }
     public int GetBP() { return _bp; }

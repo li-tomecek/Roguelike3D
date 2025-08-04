@@ -148,7 +148,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0479, y: 1.1601}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 106.3761, y: 41.2358}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7544691144149561577
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &3453608928888564806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +226,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e1592409d21ee4e9d6d3834ebe073f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 2139854646881920093}
+  _healthSlider: {fileID: 0}
+  _nameText: {fileID: 0}
 --- !u!1 &4463647219767733137
 GameObject:
   m_ObjectHideFlags: 0
