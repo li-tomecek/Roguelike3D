@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -173,38 +174,25 @@ public class CombatManager : Singleton<CombatManager>
         {
             go.SetActive(true);
         }
-        
-        if(_playerUnits.Count > 0)  //PLAYER WON
+
+        if (_playerUnits.Count > 0)  //PLAYER WON
         {
             OnCombatWin.Invoke();
-
             _inCombat = false;
-            InputController.Instance.ActivateMovementMap();
-            
-            foreach(PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
-            {
-                unit.gameObject.SetActive(true);
-                unit.GetComponent<PlayerAnimator>().EndCombatAnimations();
-                
-                if (unit.GetHealth() <= 0)
-                    unit.SetHealth(1);                              //revive "dead" units to 1HP
-            }
 
             LevelManager.Instance.PostCombat();
         }
-        else   //GAME OVER
+        else                        //GAME OVER
         {
             OnGameOver.Invoke();
             CombatInterface.Instance.OpenGameOverScreen();
         }
-
     }
     public void RemoveFromCombat(Unit unit)
     {    
         if (unit.gameObject.GetComponent<PlayerAnimator>())
         {
             unit.GetComponent<PlayerAnimator>().SetDeathAnimations(true);
-            //unit.GetHealthBar().gameObject.SetActive(false);
         }    
         else
             unit.gameObject.SetActive(false);

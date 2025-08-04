@@ -13,15 +13,15 @@ public class EnemyUnit : Unit
     [Range(0.0f, 1.0f)] public float C_StatMod = 1f;
 
 
-    protected HealthBar healthBar;
+    protected HealthBar_World healthBar;
 
     protected override void Awake()
     {
         turnManager = gameObject.AddComponent<EnemyTurnManager>();
-        healthBar = gameObject.GetComponentInChildren<HealthBar>();
+        healthBar = gameObject.GetComponentInChildren<HealthBar_World>();
 
         base.Awake();
     }
-    public HealthBar GetHealthBar() { return healthBar; }
+    public HealthBar_World GetHealthBar() { return healthBar; }
 
 }

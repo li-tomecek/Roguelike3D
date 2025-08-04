@@ -10,7 +10,17 @@ public class PlayerUnit : Unit
         turnManager = gameObject.AddComponent<PlayerTurnManager>();
         base.Awake();
     }
-    
+
+    public void Start()
+    {
+        CombatManager.Instance.OnCombatWin.AddListener(Resurrect);
+    }
+
+    private void Resurrect()
+    {
+        if (_health <= 0)
+            _health = 1;
+    }
     public PlayerTurnManager GetPlayerTurnManager()
     {
         return (PlayerTurnManager)turnManager;

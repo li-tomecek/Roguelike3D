@@ -7,6 +7,7 @@ using UnityEngine;
  */
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Unit))]
 public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
@@ -25,6 +26,8 @@ public class PlayerAnimator : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
+        gameObject.GetComponent<Unit>().OnDamageTaken.AddListener(PlayDamagedAnimation); 
+        CombatManager.Instance.OnCombatWin.AddListener(EndCombatAnimations);
     }
     // -- Wait for  triggered animations -- 
     public IEnumerator WaitForCurrentAnimation()

@@ -16,14 +16,12 @@ public class CombatInterface : Singleton<CombatInterface>
     [SerializeField] private int _pooledIndicatorAmount;
     [SerializeField] private GameObject _gameOverPrefab;
 
-
     private ObjectPool _damageIndicators;
 
     public override void Awake()
     {
         base.Awake();
         Setup();
-        CombatManager.Instance.OnGameOver.AddListener(OpenGameOverScreen);
     }
     public void Setup()
     {

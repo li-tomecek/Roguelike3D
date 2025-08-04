@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public struct Stats
@@ -30,7 +31,10 @@ public abstract class Unit : MonoBehaviour
 
     protected TurnManager turnManager;
     protected CharacterController controller;
-    
+
+    public UnityEvent OnDamageTaken = new UnityEvent();                  //to update when the unit takes damage. used for animations
+    public UnityEvent<float> OnHealthChanged = new UnityEvent<float>();  //to update when the unit's health value has changed
+        
     //---------------------------------------------------
     //---------------------------------------------------
 
@@ -55,8 +59,10 @@ public abstract class Unit : MonoBehaviour
         //ToDo: make healthbar and animator subscribe to take damage event. Players can have a HUD including a health bar instead of just a slider
         //healthBar.SetSliderPercent((float)_health / stats.maxHealth);
 
-        if (damage > 0 && this.TryGetComponent<Animator>(out Animator animator))
-            animator.SetTrigger("Take Damage");
+        if (damage > 0)
+        {
+            OnDamageTaken.Invoke();
+        }
 
         if (_health <= 0)
         {
@@ -64,6 +70,8 @@ public abstract class Unit : MonoBehaviour
             Debug.Log($"{name} is Dead.");
            
         }
+
+        OnHealthChanged.Invoke((float) _health / stats.maxHealth);
     }
     public void ApplyModifier(EffectType type, int value)
     {
