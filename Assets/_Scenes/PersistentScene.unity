@@ -587,7 +587,10 @@ MonoBehaviour:
   OnCombatStart:
     m_PersistentCalls:
       m_Calls: []
-  OnCombatEnd:
+  OnGameOver:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCombatWin:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1728901176

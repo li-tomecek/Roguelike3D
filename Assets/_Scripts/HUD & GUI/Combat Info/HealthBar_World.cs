@@ -17,7 +17,6 @@ public class HealthBar_World : MonoBehaviour
         {
             Unit unit = gameObject.GetComponentInParent<Unit>();
             unit.OnHealthChanged.AddListener(x => SetSliderPercent(x));
-            SetNameText(unit.name);
         }
 
         gameObject.SetActive(false);  //hide health bar until combat
