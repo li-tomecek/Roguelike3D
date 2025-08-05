@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour {
 
     public void Start()
     {
-        _topDownCamera.Follow = PartyControls.Instance.GetPartyMembers()[0].transform;
+        _topDownCamera.Follow = PartyController.Instance.GetPartyMembers()[0].transform;
         
         CombatManager.Instance.OnCombatStart.AddListener(EnableCombatCamera);
         CombatManager.Instance.OnGameOver.AddListener(DisableCombatCamera);

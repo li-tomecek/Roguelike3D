@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class PlayerTurnManager : TurnManager
 {
-
     public void Start()
     {
         this.unit = GetComponent<PlayerUnit>();

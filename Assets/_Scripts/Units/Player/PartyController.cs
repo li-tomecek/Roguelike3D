@@ -2,13 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 /* Handles logic related to the entire party:
  *  - Handles input for out-of-combat controls and has last party memebers follow the first party member
  *  - Handles save-state logic for the player units
  */
 
-public class PartyControls : Singleton<PartyControls>, ISaveable
+public class PartyController : Singleton<PartyController>, ISaveable
 {
     #region
     [SerializeField] private List<PlayerUnit> _partyMembers = new List<PlayerUnit>();
@@ -28,6 +29,7 @@ public class PartyControls : Singleton<PartyControls>, ISaveable
     #endregion
     private void Start()
     {
+       
         foreach(PlayerUnit unit in _partyMembers)
         {
             _partyMovement.Add(unit.gameObject.GetComponent<PlayerMovement>());
@@ -47,7 +49,22 @@ public class PartyControls : Singleton<PartyControls>, ISaveable
 
         _partyLeader = _partyMovement[0];
         _partyLeader.gameObject.layer = LayerMask.NameToLayer("ControlledPlayer");     //so changing character order in the editor will automatically set the controlled player
+        SetupHUD();
     }
+
+    private void SetupHUD()
+    {
+        if(GetComponentInChildren<Party_HUD>() != null)
+        {
+            Party_HUD HUD = GetComponentInChildren<Party_HUD>();
+            foreach (PlayerUnit unit in _partyMembers)
+            {
+                HUD.SetupElement(unit);
+            }
+        }
+    }
+
+
     private void Update()
     {
         if (_following)

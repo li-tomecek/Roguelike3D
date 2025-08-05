@@ -74,7 +74,7 @@ public class CombatManager : Singleton<CombatManager>
         }
 
         //Add and units to combatSequence List and order them by agility
-        _playerUnits = PartyControls.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
+        _playerUnits = PartyController.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
 
         _combatSequence.Clear();
         _combatSequence.AddRange(_playerUnits);

@@ -32,8 +32,9 @@ public abstract class Unit : MonoBehaviour
     protected TurnManager turnManager;
     protected CharacterController controller;
 
-    public UnityEvent OnDamageTaken = new UnityEvent();                  //to update when the unit takes damage. used for animations
-    public UnityEvent<float> OnHealthChanged = new UnityEvent<float>();  //to update when the unit's health value has changed
+    public UnityEvent OnDamageTaken = new UnityEvent();                     //to update when the unit takes damage. used for animations
+    public UnityEvent<float> OnHealthChanged = new UnityEvent<float>();     //to update when the unit's health value has changed
+    public UnityEvent<int> OnBPChanged = new UnityEvent<int>();             //to update when the unit uses or gains BP
         
     //---------------------------------------------------
     //---------------------------------------------------
@@ -162,8 +163,14 @@ public abstract class Unit : MonoBehaviour
     public int GetHealth() { return _health; }
     public void SetHealth(int value) { _health = value; }
     public int GetBP() { return _bp; }
-    public void IncrementBP() { _bp++; }
-    public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }
+    public void IncrementBP() { 
+        _bp++; 
+        OnBPChanged.Invoke(_bp); 
+    }
+    public void DecrementBP(int amt) { 
+        _bp = Mathf.Max(_bp -amt, 0); 
+        OnBPChanged.Invoke(_bp); 
+    }
     public void ReplaceSkill(Skill oldSk, Skill newSk)
     {
         int index = skills.FindIndex(s => s == oldSk);

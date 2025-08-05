@@ -27,7 +27,7 @@ public class Level : MonoBehaviour
         }
 
         //2. Put players at start position
-        foreach (PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
+        foreach (PlayerUnit unit in PartyController.Instance.GetPartyMembers())
         {
             unit.transform.position = StartPosition.position;
             unit.transform.rotation = StartPosition.rotation;

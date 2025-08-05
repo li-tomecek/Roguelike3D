@@ -70,7 +70,7 @@ public class SaveManager : Singleton<SaveManager>
     }
     public void SaveGame()
     {
-        GameData.PartyData = (PartyData) PartyControls.Instance.CaptureState();
+        GameData.PartyData = (PartyData) PartyController.Instance.CaptureState();
         GameData.LevelData = (LevelData) LevelManager.Instance.CaptureState();
         
         string json = JsonUtility.ToJson(GameData, true);
