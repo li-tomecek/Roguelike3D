@@ -19,12 +19,14 @@ public class PlayerTurnManager : TurnManager
     {
         base.StartTurn();
         CombatInterface.Instance.GetTurnMenu().SetupMenu((PlayerUnit)unit);
+        ((PlayerUnit)unit).OnTurnStart.Invoke();
     }
 
     public override void EndTurn()
     {
         InputController.Instance.SubmitEvent.RemoveAllListeners();
         InputController.Instance.NavigateEvent.RemoveAllListeners();
+        ((PlayerUnit)unit).OnTurnEnd.Invoke();
         base.EndTurn();
     }
     

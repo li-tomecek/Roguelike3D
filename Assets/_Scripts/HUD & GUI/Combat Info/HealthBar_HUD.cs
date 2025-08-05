@@ -7,9 +7,22 @@ public class HealthBar_HUD : HealthBar
    [SerializeField] private Image _background;
    [SerializeField] private TextMeshProUGUI _BPText;
 
-    public void SetTurn()
+    public void SetTurn(bool isTurn)
     {
-        // change backgorund alpha value
+        if (isTurn)
+        {
+            Color color = _background.color;
+            color.a = 0.75f;
+            
+            _background.color = color;
+        } else
+        {
+            Color color = _background.color;
+            color.a = 0f;
+
+            _background.color = color;
+        }
+
     }
 
     public void UpdateBPText(int amount)
