@@ -1,16 +1,29 @@
 
 using System.Collections;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerUnit : Unit
 {
+    public UnityEvent OnTurnStart = new UnityEvent();
+    public UnityEvent OnTurnEnd = new UnityEvent();
+
     protected override void Awake()
     {
         turnManager = gameObject.AddComponent<PlayerTurnManager>();
         base.Awake();
     }
-    
+
+    public void Start()
+    {
+        CombatManager.Instance.OnCombatWin.AddListener(Resurrect);
+    }
+
+    private void Resurrect()
+    {
+        if (_health <= 0)
+            _health = 1;
+    }
     public PlayerTurnManager GetPlayerTurnManager()
     {
         return (PlayerTurnManager)turnManager;

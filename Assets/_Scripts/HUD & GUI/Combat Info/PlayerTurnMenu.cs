@@ -35,7 +35,7 @@ public class PlayerTurnMenu : MonoBehaviour
         //1. Name and BP
         _unit = unit;
         _unitNameText.SetText(unit.name);
-        _unitBPText.SetText($"BP: {_unit.GetBP()}");
+        UpdateBPText();
 
         //2. Skill Buttons
         if (unit.GetSkills()[0] != null)
@@ -81,6 +81,16 @@ public class PlayerTurnMenu : MonoBehaviour
 
     }
 
+    public void UpdateBPText()
+    {
+        string txt = "BP:";
+        for (int i = 0; i < _unit.GetBP(); i++)
+        {
+            txt += " X";
+        }
+        _unitBPText.text = txt;
+    }
+
 
     // --- Button On Click Methods ---
     // -------------------------------
@@ -110,7 +120,6 @@ public class PlayerTurnMenu : MonoBehaviour
         CloseMenu();    //this has to come first!
         _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetSkills()[skillIndex]);   //ToDo: exception handling here! Or just a regular check
     }
-
     
     
     

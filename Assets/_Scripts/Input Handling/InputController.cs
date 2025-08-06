@@ -45,6 +45,12 @@ public class InputController : Singleton<InputController>
         _controlScheme.UI.Cancel.performed += OnCancelPerformed;
     }
 
+    public void Start()
+    {
+        CombatManager.Instance.OnCombatStart.AddListener(ActivateMenuMap);
+        CombatManager.Instance.OnCombatWin.AddListener(ActivateMovementMap);
+    }
+
     // CHANGE ACTIVE MAP
     public void ActivateMovementMap()
     {

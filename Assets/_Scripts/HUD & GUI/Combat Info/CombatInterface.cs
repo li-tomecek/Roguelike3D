@@ -16,7 +16,6 @@ public class CombatInterface : Singleton<CombatInterface>
     [SerializeField] private int _pooledIndicatorAmount;
     [SerializeField] private GameObject _gameOverPrefab;
 
-
     private ObjectPool _damageIndicators;
 
     public override void Awake()

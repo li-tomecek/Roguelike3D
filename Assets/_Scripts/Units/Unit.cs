@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public struct Stats
@@ -13,6 +14,7 @@ public struct Stats
 [RequireComponent(typeof(CharacterController))]
 public abstract class Unit : MonoBehaviour
 {
+    #region
     [Header("Combat")]
     //Stats
     [SerializeField] protected Stats stats;
@@ -29,18 +31,18 @@ public abstract class Unit : MonoBehaviour
     private List<Effect> _activeEffects = new List<Effect>();
 
     protected TurnManager turnManager;
-    protected HealthBar healthBar;
     protected CharacterController controller;
-    
+
+    public UnityEvent OnDamageTaken = new UnityEvent();                     //to update when the unit takes damage. used for animations
+    public UnityEvent<float> OnHealthChanged = new UnityEvent<float>();     //to update when the unit's health value has changed
+    public UnityEvent<int> OnBPChanged = new UnityEvent<int>();             //to update when the unit uses or gains BP
+    #endregion
     //---------------------------------------------------
     //---------------------------------------------------
 
     protected virtual void Awake()
     {
         _health = stats.maxHealth;
-        healthBar = gameObject.GetComponentInChildren<HealthBar>();
-        healthBar.gameObject.SetActive(false);  //hide health bar until combat
-
         controller = gameObject.GetComponent<CharacterController>();
     }
 
@@ -57,10 +59,12 @@ public abstract class Unit : MonoBehaviour
         _health = _health < 0 ? 0 : _health;
        
         //ToDo: make healthbar and animator subscribe to take damage event. Players can have a HUD including a health bar instead of just a slider
-        healthBar.SetSliderPercent((float)_health / stats.maxHealth);
+        //healthBar.SetSliderPercent((float)_health / stats.maxHealth);
 
-        if (damage > 0 && this.TryGetComponent<Animator>(out Animator animator))
-            animator.SetTrigger("Take Damage");
+        if (damage > 0)
+        {
+            OnDamageTaken.Invoke();
+        }
 
         if (_health <= 0)
         {
@@ -68,6 +72,8 @@ public abstract class Unit : MonoBehaviour
             Debug.Log($"{name} is Dead.");
            
         }
+
+        OnHealthChanged.Invoke((float) _health / stats.maxHealth);
     }
     public void ApplyModifier(EffectType type, int value)
     {
@@ -155,12 +161,17 @@ public abstract class Unit : MonoBehaviour
     public virtual TurnManager GetTurnManager() { return turnManager; }
     public Skill GetDefaultSkill() { return defaultSkill; }
     public List<Skill> GetSkills() { return skills; }
-    public HealthBar GetHealthBar() { return healthBar; }
     public int GetHealth() { return _health; }
     public void SetHealth(int value) { _health = value; }
     public int GetBP() { return _bp; }
-    public void IncrementBP() { _bp++; }
-    public void DecrementBP(int amt) { _bp = Mathf.Max(_bp -amt, 0); }
+    public void IncrementBP() { 
+        _bp++; 
+        OnBPChanged.Invoke(_bp); 
+    }
+    public void DecrementBP(int amt) { 
+        _bp = Mathf.Max(_bp -amt, 0); 
+        OnBPChanged.Invoke(_bp); 
+    }
     public void ReplaceSkill(Skill oldSk, Skill newSk)
     {
         int index = skills.FindIndex(s => s == oldSk);

@@ -1,28 +1,20 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private Slider healthSlider;
-
-    private void Start()
-    {
-       gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
-    }
-
-    private void Update()
-    {
-        gameObject.transform.rotation = Camera.main.transform.rotation;
-    }
+    [SerializeField] protected Slider _healthSlider;
+    [SerializeField] protected TextMeshProUGUI _nameText;
 
 
     public void SetSliderPercent(float value)
     {
-        healthSlider.value = Mathf.Clamp(value, 0, 1);
+        _healthSlider.value = Mathf.Clamp(value, 0, 1);
     }
 
-    //public void SetNameText(string name)
-    //{
-    //    nameText.text = name;
-    //}
+    public void SetNameText(string name)
+    {
+        _nameText.text = name;
+    }
 }

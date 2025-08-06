@@ -95,6 +95,7 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         try
         {
             unitData.name = columns[NAME_COLUMN];
+            unitData.GetHealthBar().SetNameText(columns[NAME_COLUMN]);
             unitData.MaxPriorityThreshold = float.Parse(columns[AI_COLUMN]);
             unitData.C_Heal = float.Parse(columns[AI_COLUMN + 1]);
             unitData.C_Attack = float.Parse(columns[AI_COLUMN + 2]);
@@ -119,7 +120,6 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
             Debug.LogError($"Could not read {unitData.name}'s skills from Resource folder.\n Exception: {e}");
         }
 
-        Debug.Log($"Diff: {LevelManager.Instance.DifficultyValue} ~ Chose {unitData.name} with difficulty {difficulty}");
         return enemy;
     }
 }

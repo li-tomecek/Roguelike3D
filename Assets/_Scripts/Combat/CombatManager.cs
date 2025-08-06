@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Build;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 /*
@@ -31,6 +33,11 @@ public class CombatManager : Singleton<CombatManager>
     private int _turnIndex;
     private bool _inCombat = false;
     private bool _playerAdvantage;
+
+    public UnityEvent OnCombatStart = new UnityEvent();
+    public UnityEvent OnGameOver = new UnityEvent();
+    public UnityEvent OnCombatWin = new UnityEvent();
+
     #endregion
 
     //---------------------------------------------------
@@ -41,20 +48,16 @@ public class CombatManager : Singleton<CombatManager>
     #region
     public void BeginBattle(bool playerAdvantage)
     {
+        OnCombatStart.Invoke();
 
-        CameraController.Instance.ToggleCombatCamera();
         InputController.Instance.ActivateMenuMap();
 
-        _playerUnits = PartyControls.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
-
         _playerAdvantage = playerAdvantage;
-        _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         
         _inCombat = true;
         _turnIndex = -1;
 
-
-        //disable patrol for all patrolling enemies
+        //Set non-patrol enemy positions
         foreach (Unit enemy in _enemyUnits)
         {
             if(enemy.TryGetComponent<Patrol>(out Patrol patroller))
@@ -71,19 +74,22 @@ public class CombatManager : Singleton<CombatManager>
         }
 
         //Add and units to combatSequence List and order them by agility
+        _playerUnits = PartyController.Instance.GetPartyMembers().Cast<Unit>().ToList(); //Get player units from party manager
+
         _combatSequence.Clear();
         _combatSequence.AddRange(_playerUnits);
         _combatSequence.AddRange(_enemyUnits);
 
-        _combatSequence = _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList(); 
+        _combatSequence = _combatSequence.OrderByDescending(x => x.GetStats().agility).ToList();
 
         //activate hidden enemies
-        foreach(Unit unit in _enemyUnits)
+        foreach (Unit unit in _enemyUnits)
         {
             unit.gameObject.SetActive(true);
         }
 
         //Deactivate obstacles that will block vision and position setup
+        _obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         foreach (GameObject go in _obstacles)
         {
             go.SetActive(false);
@@ -96,12 +102,6 @@ public class CombatManager : Singleton<CombatManager>
     { 
         //move to start positions
         yield return SendUnitsToPosition();
-        
-        //activate health bars
-        foreach (Unit unit in _combatSequence)
-        {
-            unit.GetHealthBar().gameObject.SetActive(true);
-        }
         
         //Apply disadvantage damage
         if (_playerAdvantage)    // all enemies start with damage equal to 10% of max health
@@ -169,46 +169,30 @@ public class CombatManager : Singleton<CombatManager>
     }
     private void EndEncounter()
     {
-        Debug.Log("Combat Finished.");
-
-        CameraController.Instance.ToggleCombatCamera();
-
         //re-enable the map obstacles
         foreach (GameObject go in _obstacles)
         {
             go.SetActive(true);
         }
-        
-        if(_playerUnits.Count > 0)  //PLAYER WON
+
+        if (_playerUnits.Count > 0)  //PLAYER WON
         {
+            OnCombatWin.Invoke();
             _inCombat = false;
-            InputController.Instance.ActivateMovementMap();
-            
-            foreach(PlayerUnit unit in PartyControls.Instance.GetPartyMembers())
-            {
-                unit.gameObject.SetActive(true);
-                unit.GetComponent<PlayerAnimator>().EndCombatAnimations();
-                
-                if (unit.GetHealth() <= 0)
-                    unit.SetHealth(1);                              //revive "dead" units to 1HP
-                
-                unit.GetHealthBar().gameObject.SetActive(false);    //hide all health bars
-            }
 
             LevelManager.Instance.PostCombat();
         }
-        else   //GAME OVER
+        else                        //GAME OVER
         {
+            OnGameOver.Invoke();
             CombatInterface.Instance.OpenGameOverScreen();
         }
-
     }
     public void RemoveFromCombat(Unit unit)
     {    
         if (unit.gameObject.GetComponent<PlayerAnimator>())
         {
             unit.GetComponent<PlayerAnimator>().SetDeathAnimations(true);
-            unit.GetHealthBar().gameObject.SetActive(false);
         }    
         else
             unit.gameObject.SetActive(false);
