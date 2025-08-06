@@ -1,31 +1,46 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>, ISaveable
 {
     [Header("Level Information")]
-    public string CurrentLevelName { get; private set; }
-    public float DifficultyValue { get; private set; }
-    public PlayerUnit RewardedUnit;
-    [SerializeField] private float _difficultyIncrement = 0.2f;  
+    public int CurrentLevelIndex { get; private set; }
     public Level CurrentLevel { get; private set; }
-    
+    public float DifficultyValue { get; private set; }
+    [SerializeField] private float _difficultyIncrement = 0.2f;  
+
     [Header("Level Rewards")]
+    public PlayerUnit RewardedUnit;
     [SerializeField] private List<PlayerUnit> _nextRoomRewards;
     [SerializeField] GameObject _combatReward;
     
+    
+    private List<int> _playableLevelIndices = new List<int>();
     private const string PERSISTENT_SCENE_NAME = "PersistentScene";
+    private const int PLAYABLE_LEVEL_START_INDEX = 1;
 
+    public SceneAsset _thisIsVERYIncorrect;
+    
     // --- Level Load/Unloading ---
     // ----------------------------
     #region
     public void Start()
     {
+        
         SceneManager.sceneLoaded += SetActiveScene;
         //LoadLevel("MainMenu");
-        LoadLevel("Level_C");
+        LoadLevel(GetRandomPlayableLevelIndex());
+    }
+
+    private int GetRandomPlayableLevelIndex()
+    {
+        int index = Random.Range(PLAYABLE_LEVEL_START_INDEX, SceneManager.sceneCountInBuildSettings);
+        Debug.Log(index);
+        return index;
     }
     
     private void SetActiveScene(Scene scene, LoadSceneMode mode)
@@ -33,18 +48,18 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
         SceneManager.SetActiveScene(scene);    //so the persistent scene is not the one being unloaded
     }
     
-    public void LoadLevel(string levelName)
+    public void LoadLevel(int buildIndex)
     {
         if(SceneManager.GetActiveScene() != SceneManager.GetSceneByName(PERSISTENT_SCENE_NAME))     //do not unload the persistent scene
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         
-        SceneManager.LoadScene(levelName, LoadSceneMode.Additive);
+        SceneManager.LoadScene(buildIndex, LoadSceneMode.Additive);
     }
 
     public void SetLevel(Level level) 
     { 
         this.CurrentLevel = level; 
-        this.CurrentLevelName = SceneManager.GetActiveScene().name; 
+        this.CurrentLevelIndex = SceneManager.GetActiveScene().buildIndex; 
     }
     #endregion
     
@@ -80,7 +95,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     #region
     public object CaptureState()
     {
-        LevelData levelData = new LevelData(DifficultyValue, CurrentLevelName, RewardedUnit);
+        LevelData levelData = new LevelData(DifficultyValue, CurrentLevelIndex, RewardedUnit);
         return levelData;
     }
 
@@ -89,11 +104,11 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
         try
         {
             LevelData levelData = (LevelData)data;
-            CurrentLevelName = levelData.LevelName;
+            CurrentLevelIndex = levelData.LevelBuildIndex;
             DifficultyValue = levelData.Difficulty;
             RewardedUnit = levelData.RewardedUnit;
             
-            LoadLevel(CurrentLevelName);
+            LoadLevel(CurrentLevelIndex);
         }
         catch (Exception e)
         {

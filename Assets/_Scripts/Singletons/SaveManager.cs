@@ -25,12 +25,12 @@ public class PartyData
 public class LevelData
 {
     public float Difficulty;
-    public string LevelName;
+    public int LevelBuildIndex;
     public PlayerUnit RewardedUnit;
-    public LevelData(float diff, string levelName, PlayerUnit rewardedUnit)
+    public LevelData(float diff, int levelIndex, PlayerUnit rewardedUnit)
     {
         Difficulty = diff;
-        LevelName = levelName;
+        LevelBuildIndex = levelIndex;
         RewardedUnit = rewardedUnit;
     }
 }
