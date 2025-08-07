@@ -30,7 +30,6 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     #region
     public void Start()
     {
-        
         SceneManager.sceneLoaded += SetActiveScene;
         //LoadLevel("MainMenu");
         LoadLevel(GetRandomPlayableLevelIndex());
@@ -39,8 +38,8 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     private int GetRandomPlayableLevelIndex()
     {
         int index = Random.Range(PLAYABLE_LEVEL_START_INDEX, SceneManager.sceneCountInBuildSettings);
-        Debug.Log(index);
-        return index;
+        return 3;
+        //return index;
     }
     
     private void SetActiveScene(Scene scene, LoadSceneMode mode)
