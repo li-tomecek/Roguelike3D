@@ -79,6 +79,11 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("Game Saved");
     }
 
+    public bool CanFindSaveData()
+    {
+        return System.IO.File.Exists(_savePath);
+    }
+
     public void LoadGame()
     {
         if (System.IO.File.Exists(_savePath))

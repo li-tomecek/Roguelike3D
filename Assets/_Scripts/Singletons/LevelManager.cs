@@ -7,42 +7,42 @@ using Random = UnityEngine.Random;
 
 public class LevelManager : Singleton<LevelManager>, ISaveable
 {
+    #region
     [Header("Level Information")]
     public int CurrentLevelIndex { get; private set; }
     public Level CurrentLevel { get; private set; }
     public float DifficultyValue { get; private set; }
-    [SerializeField] private float _difficultyIncrement = 0.2f;  
+    [SerializeField] private float _difficultyIncrement = 0.2f;
 
     [Header("Level Rewards")]
     public PlayerUnit RewardedUnit;
     [SerializeField] GameObject _combatRewardPrefab;
     GameObject _spawnedReward;
-    
-    
+
+
     private List<int> _playableLevelIndices = new List<int>();
     private const string PERSISTENT_SCENE_NAME = "PersistentScene";
-    private const int PLAYABLE_LEVEL_START_INDEX = 1;
+    private const int PLAYABLE_LEVEL_START_INDEX = 2;
+    private const int MAIN_MENU_SCENE_INDEX = 1;
+    #endregion
 
-    
     // --- Level Load/Unloading ---
     // ----------------------------
     #region
     public void Start()
     {
         SceneManager.sceneLoaded += SetActiveScene;
-        //LoadLevel("MainMenu");
-        LoadLevel(GetRandomPlayableLevelIndex());
+        LoadLevel(MAIN_MENU_SCENE_INDEX);
+    }
+    private void SetActiveScene(Scene scene, LoadSceneMode mode)
+    {
+        SceneManager.SetActiveScene(scene);    //so the persistent scene is not the one being unloaded
     }
 
     public int GetRandomPlayableLevelIndex()
     {
         int index = Random.Range(PLAYABLE_LEVEL_START_INDEX, SceneManager.sceneCountInBuildSettings);
         return index;
-    }
-    
-    private void SetActiveScene(Scene scene, LoadSceneMode mode)
-    {
-        SceneManager.SetActiveScene(scene);    //so the persistent scene is not the one being unloaded
     }
     
     public void LoadLevel(int buildIndex)
