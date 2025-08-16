@@ -15,14 +15,14 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
 
     [Header("Level Rewards")]
     public PlayerUnit RewardedUnit;
-    [SerializeField] GameObject _combatReward;
+    [SerializeField] GameObject _combatRewardPrefab;
+    GameObject _spawnedReward;
     
     
     private List<int> _playableLevelIndices = new List<int>();
     private const string PERSISTENT_SCENE_NAME = "PersistentScene";
     private const int PLAYABLE_LEVEL_START_INDEX = 1;
 
-    public SceneAsset _thisIsVERYIncorrect;
     
     // --- Level Load/Unloading ---
     // ----------------------------
@@ -51,6 +51,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         
         SceneManager.LoadScene(buildIndex, LoadSceneMode.Additive);
+        Debug.Log($"DIFFICULTY: {DifficultyValue}\nREWARDED: {RewardedUnit}");
     }
 
     public void SetLevel(Level level) 
@@ -73,7 +74,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     }
     public void SpawnReward()
     {
-        _combatReward = Instantiate(_combatReward, CurrentLevel.RewardPosition);
+        _spawnedReward = Instantiate(_combatRewardPrefab, CurrentLevel.RewardPosition);
         foreach (var door in Resources.FindObjectsOfTypeAll<Door>())
         {
             door.UnlockDoor();
@@ -81,8 +82,8 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     }
     public void ClaimReward()
     {
-        _combatReward.GetComponentInChildren<CombatReward>().CloseMenu();
-        Destroy(_combatReward);
+        _spawnedReward.GetComponentInChildren<CombatReward>().CloseMenu();
+        Destroy(_spawnedReward);
 
     }
     #endregion

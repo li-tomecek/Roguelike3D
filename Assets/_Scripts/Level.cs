@@ -34,7 +34,7 @@ public class Level : MonoBehaviour
         }
 
         InputController.Instance.DisableAllInputMaps();
-        StartCoroutine(PartyController.Instance.SetPartyDirectionForDuration(Vector2.up, 1));
+        StartCoroutine(PartyController.Instance.SetPartyDirectionForDuration(Vector2.up, 0.5f));
         InputController.Instance.ActivateMovementMap();
 
         //3. Setup Enemy Patrol

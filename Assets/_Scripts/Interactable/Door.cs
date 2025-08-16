@@ -20,12 +20,12 @@ public class Door : MonoBehaviour, IInteractable
     {
         if (!_isLocked)
         {
+            LevelManager.Instance.RewardedUnit = _rewardedUnit;
             StartCoroutine(OpenAndEnterDoor());
         }
     }
     public IEnumerator OpenAndEnterDoor()
     {
-        //disable controls
         InputController.Instance.DisableAllInputMaps();
         
         yield return OpenDoor();
@@ -33,10 +33,9 @@ public class Door : MonoBehaviour, IInteractable
         Vector3 movePosition = transform.position;
         movePosition.z += 2f;
         yield return PartyController.Instance.SetPartyDirectionForDuration(Vector2.up, 1);
+        
         LevelManager.Instance.LoadLevel(LevelManager.Instance.GetRandomPlayableLevelIndex());
-
         InputController.Instance.ActivateMovementMap();
-
     }
 
     public IEnumerator OpenDoor()
