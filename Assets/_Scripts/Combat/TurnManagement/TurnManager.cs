@@ -98,6 +98,8 @@ public abstract class TurnManager : MonoBehaviour
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
                     skill.UseSkill(unit, _targetPool[i]);
+                    if (i > 0)
+                        unit.IncrementBP(skill.GetCost()); //temp, so it doesnt cost for each target
                 }
 
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
@@ -115,6 +117,8 @@ public abstract class TurnManager : MonoBehaviour
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
                     skill.UseSkill(unit, _targetPool[i]);
+                    if (i > 0)
+                        unit.IncrementBP(skill.GetCost()); //temp, so it doesnt cost for each target
                 }
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
