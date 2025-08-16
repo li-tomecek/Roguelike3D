@@ -69,6 +69,7 @@ public abstract class TurnManager : MonoBehaviour
             yield return unit.RotateTo((target.transform.position - transform.position).normalized, ROTATE_TIME);
 
         //2. Move to Target (if applicable) ~ and play relevant animations ~  move back to position
+        int bp = unit.GetBP();
         switch (skill.GetTargetMode())
         {
             case TargetMode.MELEE:
@@ -98,9 +99,8 @@ public abstract class TurnManager : MonoBehaviour
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
                     skill.UseSkill(unit, _targetPool[i]);
-                    if (i > 0)
-                        unit.IncrementBP(skill.GetCost()); //temp, so it doesnt cost for each target
                 }
+                unit.SetBP(bp - skill.GetCost()); //temp, so it doesnt cost bp for each target
 
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
@@ -117,9 +117,9 @@ public abstract class TurnManager : MonoBehaviour
                 for (int i = 0; i < _targetPool.Count; i++)
                 {
                     skill.UseSkill(unit, _targetPool[i]);
-                    if (i > 0)
-                        unit.IncrementBP(skill.GetCost()); //temp, so it doesnt cost for each target
                 }
+                unit.SetBP(bp - skill.GetCost()); //temp, so it doesnt cost bp for each target
+
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
 
