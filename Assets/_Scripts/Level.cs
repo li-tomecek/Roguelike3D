@@ -17,14 +17,24 @@ public class Level : MonoBehaviour
     {
         LevelManager.Instance.SetLevel(this);
 
-        //1. Create new enemies based on difficulty value
-        CombatManager.Instance.GetEnemyUnits().Clear();         //just in case
+        //1. Create new enemies based on difficulty value, or based off of loaded save data
+        CombatManager.Instance.GetEnemyUnits().Clear();
+
+        if(!EnemyInfoReader.Instance.ShouldUseSaveData())
+            EnemyInfoReader.Instance.chosenRowIndices.Clear();
+
         for (int i = 0; i < 3; i++)
         {
-            GameObject unit = EnemyInfoReader.Instance.CreateEnemyWithinDifficulty();
+            GameObject unit;
+            if (EnemyInfoReader.Instance.ShouldUseSaveData())
+                unit = EnemyInfoReader.Instance.CreateEnemyDataFromRow(EnemyInfoReader.Instance.chosenRowIndices[i]);
+            else
+                unit = EnemyInfoReader.Instance.CreateEnemyWithinDifficulty();
+                
             CombatManager.Instance.GetEnemyUnits().Add(unit.GetComponent<Unit>());
             unit.SetActive(false);
         }
+        EnemyInfoReader.Instance.SetShouldUseSaveData(false);
 
         //2. Put players at start position and play walk animation
         foreach (PlayerUnit unit in PartyController.Instance.GetPartyMembers())

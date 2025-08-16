@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -27,12 +29,15 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
     private const int AI_COLUMN = 8;
     
     private string[] _rows;
+
+    public List<int> chosenRowIndices = new List<int>();
+    private bool _useSaveData = false;
     
     #endregion
     public override void Awake()
     {
         base.Awake();
-        
+
         TextAsset csvFile = Resources.Load<TextAsset>(FILE_NAME);
         
         if (csvFile != null)            //Read the enemy info file
@@ -63,7 +68,8 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
         } 
         while (rowDifficulty > (LevelManager.Instance.DifficultyValue + _difficultyVariance) 
             || rowDifficulty < (LevelManager.Instance.DifficultyValue - _difficultyVariance));
-       
+
+        chosenRowIndices.Add(rowIndex);     //we only want to save it if its new
         return CreateEnemyDataFromRow(rowIndex);
     }
     public GameObject CreateEnemyDataFromRow(int rowIndex)
@@ -119,4 +125,7 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
 
         return enemy;
     }
+
+    public void SetShouldUseSaveData(bool useSaveData) { _useSaveData = useSaveData; }
+    public bool ShouldUseSaveData() { return _useSaveData; }
 }
