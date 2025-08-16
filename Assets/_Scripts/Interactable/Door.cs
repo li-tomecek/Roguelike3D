@@ -1,10 +1,13 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    private bool _isLocked = false;
+    private bool _isLocked = true;
     private PlayerUnit _rewardedUnit;
+    [SerializeField] private TextMeshProUGUI _unitNameTxt;
+
 
     [Header("Animation")]
     [SerializeField] Transform pivot;
@@ -15,6 +18,8 @@ public class Door : MonoBehaviour, IInteractable
     public void Start()
     {
         _rewardedUnit = PartyController.Instance.GetPartyMembers()[Random.Range(0, PartyController.Instance.GetPartyMembers().Count)];
+        _unitNameTxt.text = _rewardedUnit.name;
+        _unitNameTxt.enabled = false;
     }
     public void Interact()
     {
@@ -37,7 +42,6 @@ public class Door : MonoBehaviour, IInteractable
         LevelManager.Instance.LoadLevel(LevelManager.Instance.GetRandomPlayableLevelIndex());
         InputController.Instance.ActivateMovementMap();
     }
-
     public IEnumerator OpenDoor()
     {
         float totalRotation = 0;
@@ -47,11 +51,11 @@ public class Door : MonoBehaviour, IInteractable
             totalRotation += openRotationSpeed * Time.deltaTime;
             yield return null;
         } 
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
     public void UnlockDoor()
     {
         _isLocked = false;
+        _unitNameTxt.enabled = true;
+
     }
 }

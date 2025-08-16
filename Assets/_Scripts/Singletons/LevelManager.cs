@@ -51,7 +51,6 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         
         SceneManager.LoadScene(buildIndex, LoadSceneMode.Additive);
-        Debug.Log($"DIFFICULTY: {DifficultyValue}\nREWARDED: {RewardedUnit}");
     }
 
     public void SetLevel(Level level) 

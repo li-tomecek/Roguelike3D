@@ -682,7 +682,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _difficultyIncrement: 0.2
   RewardedUnit: {fileID: 1449304453}
-  _combatRewardPrefab: {fileID: 0}
+  _combatRewardPrefab: {fileID: 4939334368783352287, guid: d45720706e550404981986b8a5c1cb45, type: 3}
 --- !u!4 &1641357354
 Transform:
   m_ObjectHideFlags: 0
