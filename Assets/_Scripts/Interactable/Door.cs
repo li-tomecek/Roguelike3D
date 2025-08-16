@@ -3,22 +3,42 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    private bool _isLocked = true;
+    private bool _isLocked = false;
+    private PlayerUnit _rewardedUnit;
+
+    [Header("Animation")]
     [SerializeField] Transform pivot;
     [SerializeField] float openRotationSpeed = 60f;
     [SerializeField] float openRotation = 90f;
 
+
+    public void Start()
+    {
+        _rewardedUnit = PartyController.Instance.GetPartyMembers()[Random.Range(0, PartyController.Instance.GetPartyMembers().Count)];
+    }
     public void Interact()
     {
-        if (_isLocked)
+        if (!_isLocked)
         {
-            Debug.Log("The door is locked.");
-            //ToDo: Make the door shake or give some sort of visual feedback to the player that it is locked.
-            return;
+            StartCoroutine(OpenAndEnterDoor());
         }
-        
-        StartCoroutine(OpenDoor());
     }
+    public IEnumerator OpenAndEnterDoor()
+    {
+        //disable controls
+        InputController.Instance.DisableAllInputMaps();
+        
+        yield return OpenDoor();
+        
+        Vector3 movePosition = transform.position;
+        movePosition.z += 2f;
+        yield return PartyController.Instance.SetPartyDirectionForDuration(Vector2.up, 1);
+        LevelManager.Instance.LoadLevel(LevelManager.Instance.GetRandomPlayableLevelIndex());
+
+        InputController.Instance.ActivateMovementMap();
+
+    }
+
     public IEnumerator OpenDoor()
     {
         float totalRotation = 0;

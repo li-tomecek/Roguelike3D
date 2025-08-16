@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
+using UnityEngine.Windows;
 
 /* Handles logic related to the entire party:
  *  - Handles input for out-of-combat controls and has last party memebers follow the first party member
@@ -51,7 +52,6 @@ public class PartyController : Singleton<PartyController>, ISaveable
         _partyLeader.gameObject.layer = LayerMask.NameToLayer("ControlledPlayer");     //so changing character order in the editor will automatically set the controlled player
         SetupHUD();
     }
-
     private void SetupHUD()
     {
         if(GetComponentInChildren<Party_HUD>() != null)
@@ -63,8 +63,6 @@ public class PartyController : Singleton<PartyController>, ISaveable
             }
         }
     }
-
-
     private void Update()
     {
         if (_following)
@@ -123,7 +121,6 @@ public class PartyController : Singleton<PartyController>, ISaveable
             _partyLeader.GetProjectileOrigin().position, 
             _partyLeader.GetProjectileOrigin().rotation);  
     }
-
     private void CastForInteract()
     {
         Vector3 start = _partyLeader.GetProjectileOrigin().position;
@@ -137,6 +134,22 @@ public class PartyController : Singleton<PartyController>, ISaveable
             }
         }
     }
+
+    public IEnumerator SetPartyDirectionForDuration(Vector2 directionalInput, float duration)
+    {
+        _partyLeader.SetDirectionalInput(directionalInput);
+        _following = true;
+        
+        yield return new WaitForSeconds(duration);
+        
+        foreach (PlayerMovement mv in _partyMovement)
+        {
+            mv.SetDirectionalInput(Vector2.zero);
+        }
+        _following = false;
+    }
+    
+    
     #endregion
     
     // --- State Saving --- 
@@ -145,8 +158,7 @@ public class PartyController : Singleton<PartyController>, ISaveable
     public object CaptureState()
     {
         PartyData partyData = new PartyData();
-        
-        //all unit prefabs?
+       
         //all unit stats
         //all unit current health
         //all unit Skills

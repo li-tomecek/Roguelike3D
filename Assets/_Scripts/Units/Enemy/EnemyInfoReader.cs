@@ -44,12 +44,9 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
             Debug.LogError($"There is no file \"{FILE_NAME}\" in Resources folder.");
         }
 
-        //the difficulty variance must be at least half of the size of the largesr difference between thresholds. Otherwise we risk getting an infinite loop when reading enemies
+        //the difficulty variance must be at least half of the size of the largest difference between thresholds. Otherwise we risk getting an infinite loop when reading enemies
         _difficultyVariance = Math.Max(_mildThreshold / 2f, Math.Abs(_moderateThreshold - _mildThreshold)/2f);
         _difficultyVariance = Math.Max(_difficultyVariance, Math.Abs(_hardThreshold - _moderateThreshold)/2f);
-
-
-
     }
 
     public GameObject CreateEnemyWithinDifficulty()
@@ -60,7 +57,7 @@ public class EnemyInfoReader : Singleton<EnemyInfoReader>
 
         do
         {
-            rowIndex = UnityEngine.Random.Range(1, _rows.Length);       // Row 0 is the column names
+            rowIndex = UnityEngine.Random.Range(1, _rows.Length);       // Row 0 is the column names, so we dont include it
             cols = _rows[rowIndex].Split(',');
             rowDifficulty = float.Parse(cols[DIFFICULTY_COLUMN]);
         } 

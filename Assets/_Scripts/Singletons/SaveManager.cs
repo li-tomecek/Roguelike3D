@@ -9,7 +9,7 @@ public class UnitData
     public Skill Skill_1;
     public Skill Skill_2;
 
-    //enemies will also need to save their AI constants. Or maybe, we just save the name for when we want to read them fom a cvs file.
+    //enemies will also need to save their AI constants. Or maybe, we just save the name or index for when we want to read them fom a cvs file.
 }
 // --------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ public class SaveManager : Singleton<SaveManager>
             string json = System.IO.File.ReadAllText(_savePath);
             GameData = JsonUtility.FromJson<GameData>(json);
             
-            //PartyControls.Instance.RestoreState(GameData.PartyData);
+            PartyController.Instance.RestoreState(GameData.PartyData);
             LevelManager.Instance.RestoreState(GameData.LevelData);
 
             Debug.Log("Game Loaded from file");

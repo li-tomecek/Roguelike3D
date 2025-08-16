@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Healing Torrent
   m_EditorClassIdentifier: 
   name: Healing Torrent
-  description: Heal the enire party for 35% of their max HP
+  description: Heal the entire party for 35% of their max HP
   cost: 2
   targetMode: 4
   upgrades: []

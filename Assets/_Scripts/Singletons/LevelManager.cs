@@ -15,7 +15,6 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
 
     [Header("Level Rewards")]
     public PlayerUnit RewardedUnit;
-    [SerializeField] private List<PlayerUnit> _nextRoomRewards;
     [SerializeField] GameObject _combatReward;
     
     
@@ -35,11 +34,10 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
         LoadLevel(GetRandomPlayableLevelIndex());
     }
 
-    private int GetRandomPlayableLevelIndex()
+    public int GetRandomPlayableLevelIndex()
     {
         int index = Random.Range(PLAYABLE_LEVEL_START_INDEX, SceneManager.sceneCountInBuildSettings);
-        return 3;
-        //return index;
+        return index;
     }
     
     private void SetActiveScene(Scene scene, LoadSceneMode mode)
