@@ -9,7 +9,7 @@ public class UnitData
     public Skill Skill_1;
     public Skill Skill_2;
 
-    //enemies will also need to save their AI constants. Or maybe, we just save the name for when we want to read them fom a cvs file.
+    //enemies will also need to save their AI constants. Or maybe, we just save the name or index for when we want to read them fom a cvs file.
 }
 // --------------------------------------------------------------------------
 
@@ -25,12 +25,12 @@ public class PartyData
 public class LevelData
 {
     public float Difficulty;
-    public string LevelName;
+    public int LevelBuildIndex;
     public PlayerUnit RewardedUnit;
-    public LevelData(float diff, string levelName, PlayerUnit rewardedUnit)
+    public LevelData(float diff, int levelIndex, PlayerUnit rewardedUnit)
     {
         Difficulty = diff;
-        LevelName = levelName;
+        LevelBuildIndex = levelIndex;
         RewardedUnit = rewardedUnit;
     }
 }
@@ -79,6 +79,11 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("Game Saved");
     }
 
+    public bool CanFindSaveData()
+    {
+        return System.IO.File.Exists(_savePath);
+    }
+
     public void LoadGame()
     {
         if (System.IO.File.Exists(_savePath))
@@ -86,7 +91,7 @@ public class SaveManager : Singleton<SaveManager>
             string json = System.IO.File.ReadAllText(_savePath);
             GameData = JsonUtility.FromJson<GameData>(json);
             
-            //PartyControls.Instance.RestoreState(GameData.PartyData);
+            PartyController.Instance.RestoreState(GameData.PartyData);
             LevelManager.Instance.RestoreState(GameData.LevelData);
 
             Debug.Log("Game Loaded from file");

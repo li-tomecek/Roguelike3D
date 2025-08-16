@@ -1,23 +1,46 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
     private bool _isLocked = true;
+    private PlayerUnit _rewardedUnit;
+    [SerializeField] private TextMeshProUGUI _unitNameTxt;
+
+
+    [Header("Animation")]
     [SerializeField] Transform pivot;
     [SerializeField] float openRotationSpeed = 60f;
     [SerializeField] float openRotation = 90f;
 
+
+    public void Start()
+    {
+        _rewardedUnit = PartyController.Instance.GetPartyMembers()[Random.Range(0, PartyController.Instance.GetPartyMembers().Count)];
+        _unitNameTxt.text = _rewardedUnit.name;
+        _unitNameTxt.enabled = false;
+    }
     public void Interact()
     {
-        if (_isLocked)
+        if (!_isLocked)
         {
-            Debug.Log("The door is locked.");
-            //ToDo: Make the door shake or give some sort of visual feedback to the player that it is locked.
-            return;
+            LevelManager.Instance.RewardedUnit = _rewardedUnit;
+            StartCoroutine(OpenAndEnterDoor());
         }
+    }
+    public IEnumerator OpenAndEnterDoor()
+    {
+        InputController.Instance.DisableAllInputMaps();
         
-        StartCoroutine(OpenDoor());
+        yield return OpenDoor();
+        
+        Vector3 movePosition = transform.position;
+        movePosition.z += 2f;
+        yield return PartyController.Instance.SetPartyDirectionForDuration(Vector2.up, 1);
+        
+        LevelManager.Instance.LoadLevel(LevelManager.Instance.GetRandomPlayableLevelIndex());
+        InputController.Instance.ActivateMovementMap();
     }
     public IEnumerator OpenDoor()
     {
@@ -28,11 +51,11 @@ public class Door : MonoBehaviour, IInteractable
             totalRotation += openRotationSpeed * Time.deltaTime;
             yield return null;
         } 
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
     public void UnlockDoor()
     {
         _isLocked = false;
+        _unitNameTxt.enabled = true;
+
     }
 }

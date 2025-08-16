@@ -11,7 +11,7 @@ public abstract class TurnManager : MonoBehaviour
     protected int _targetIndex;
 
     protected const float TRAVEL_TIME = 8f;
-    protected const float ROTATE_TIME = 200f;
+    protected const float ROTATE_TIME = 245f;
     protected const float ATTACKER_RADIUS = 2.5f;   // how far the unit can be away from the target when melee attacking
     protected const float RETURN_RADIUS = 0.02f;    // how far the unit can be away from its original positions when returning
 
@@ -69,6 +69,7 @@ public abstract class TurnManager : MonoBehaviour
             yield return unit.RotateTo((target.transform.position - transform.position).normalized, ROTATE_TIME);
 
         //2. Move to Target (if applicable) ~ and play relevant animations ~  move back to position
+        int bp = unit.GetBP();
         switch (skill.GetTargetMode())
         {
             case TargetMode.MELEE:
@@ -99,6 +100,7 @@ public abstract class TurnManager : MonoBehaviour
                 {
                     skill.UseSkill(unit, _targetPool[i]);
                 }
+                unit.SetBP(bp - skill.GetCost()); //temp, so it doesnt cost bp for each target
 
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
@@ -116,6 +118,8 @@ public abstract class TurnManager : MonoBehaviour
                 {
                     skill.UseSkill(unit, _targetPool[i]);
                 }
+                unit.SetBP(bp - skill.GetCost()); //temp, so it doesnt cost bp for each target
+
                 if (unit.gameObject.GetComponent<PlayerAnimator>())
                     yield return unit.gameObject.GetComponent<PlayerAnimator>().WaitForCurrentAnimation();
 

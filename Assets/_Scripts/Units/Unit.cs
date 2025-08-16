@@ -168,6 +168,10 @@ public abstract class Unit : MonoBehaviour
         _bp++; 
         OnBPChanged.Invoke(_bp); 
     }
+    public void SetBP(int amt) {
+        _bp = Mathf.Max(amt, 0);
+        OnBPChanged.Invoke(_bp); 
+    }
     public void DecrementBP(int amt) { 
         _bp = Mathf.Max(_bp -amt, 0); 
         OnBPChanged.Invoke(_bp); 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Healing Rain
   m_EditorClassIdentifier: 
   name: Healing Rain
-  description: Heal the enire party for 20% of their max HP
+  description: Heal the entire party for 20% of their max HP
   cost: 1
   targetMode: 4
   upgrades:

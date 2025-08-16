@@ -680,12 +680,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b504b6a15109d439aef1697fe0d4b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RewardedUnit: {fileID: 1449304453}
   _difficultyIncrement: 0.2
-  _nextRoomRewards:
-  - {fileID: 675238444}
-  - {fileID: 1888079660}
-  _combatReward: {fileID: 4939334368783352287, guid: d45720706e550404981986b8a5c1cb45, type: 3}
+  RewardedUnit: {fileID: 1449304453}
+  _combatRewardPrefab: {fileID: 4939334368783352287, guid: d45720706e550404981986b8a5c1cb45, type: 3}
 --- !u!4 &1641357354
 Transform:
   m_ObjectHideFlags: 0
@@ -833,7 +830,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyUnits: []
   _percentDamageOnDisadvantage: 0.15
-  _travelSpeed: 6
+  _travelSpeed: 7
   _targetDistanceThreshold: 0.1
   OnCombatStart:
     m_PersistentCalls:

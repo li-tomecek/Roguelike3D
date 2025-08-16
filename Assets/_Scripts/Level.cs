@@ -26,12 +26,16 @@ public class Level : MonoBehaviour
             unit.SetActive(false);
         }
 
-        //2. Put players at start position
+        //2. Put players at start position and play walk animation
         foreach (PlayerUnit unit in PartyController.Instance.GetPartyMembers())
         {
             unit.transform.position = StartPosition.position;
             unit.transform.rotation = StartPosition.rotation;
         }
+
+        InputController.Instance.DisableAllInputMaps();
+        StartCoroutine(PartyController.Instance.SetPartyDirectionForDuration(Vector2.up, 0.5f));
+        InputController.Instance.ActivateMovementMap();
 
         //3. Setup Enemy Patrol
         foreach (EnemyUnit unit in CombatManager.Instance.GetEnemyUnits())

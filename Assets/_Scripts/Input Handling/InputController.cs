@@ -52,6 +52,11 @@ public class InputController : Singleton<InputController>
     }
 
     // CHANGE ACTIVE MAP
+    public void DisableAllInputMaps()
+    {
+        _movementControlsMap.Disable();
+        _menuControlsMap.Disable();
+    }
     public void ActivateMovementMap()
     {
         _movementControlsMap.Enable();
