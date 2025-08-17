@@ -1,10 +1,13 @@
 
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerUnit : Unit
 {
+    private GameStats _gameStats;
+
     public UnityEvent OnTurnStart = new UnityEvent();
     public UnityEvent OnTurnEnd = new UnityEvent();
 
@@ -17,6 +20,7 @@ public class PlayerUnit : Unit
     public void Start()
     {
         CombatManager.Instance.OnCombatWin.AddListener(Resurrect);
+        OnDeath.AddListener(IncrementDeathCounter);
     }
 
     private void Resurrect()
@@ -28,7 +32,6 @@ public class PlayerUnit : Unit
     {
         return (PlayerTurnManager)turnManager;
     }
-
     public override IEnumerator MoveTo(Vector3 targetPosition, float travelSpeed, float acceptedRadius)
     {
       
@@ -47,4 +50,18 @@ public class PlayerUnit : Unit
 
         this.GetComponent<PlayerAnimator>().SetMovementSpeed(0f);
     }
+
+    public void IncrementDeathCounter() { _gameStats.deaths++; }
+    public void IncrementKillCounter() { _gameStats.kills++; }
+    public void IncrementUpgradeCounter() { _gameStats.upgrades++; }
+
+    public GameStats GetGameStats() { return _gameStats; }
+    internal void SetGameStats(GameStats gameStats) {_gameStats = gameStats; }
+}
+
+public struct GameStats
+{
+    public int deaths;
+    public int kills;
+    public int upgrades;
 }

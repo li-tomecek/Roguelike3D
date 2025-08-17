@@ -160,7 +160,7 @@ public class PartyController : Singleton<PartyController>, ISaveable
         PartyData partyData = new PartyData();
         foreach(PlayerUnit unit in _partyMembers)
         {
-            PlayerUnitData data = new PlayerUnitData(unit.GetStats(), unit.GetHealth(), unit.GetSkills());
+            PlayerUnitData data = new PlayerUnitData(unit.GetStats(), unit.GetHealth(), unit.GetSkills(), unit.GetGameStats());
             partyData.PartyUnits.Add(data);
         } 
         return partyData;
@@ -174,8 +174,10 @@ public class PartyController : Singleton<PartyController>, ISaveable
             for(int i = 0; i < partyData.PartyUnits.Count; i++)
             {
                 _partyMembers[i].SetStats(partyData.PartyUnits[i].Stats);
+                _partyMembers[i].SetGameStats(partyData.PartyUnits[i].GameStats);
                 _partyMembers[i].SetHealth(partyData.PartyUnits[i].CurrentHealth);
                 _partyMembers[i].SetSkills(partyData.PartyUnits[i].Skills);
+
             }
         }
         catch (Exception e)

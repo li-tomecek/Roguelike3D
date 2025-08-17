@@ -7,13 +7,14 @@ public class PlayerUnitData
     public Stats Stats;
     public int CurrentHealth;
     public List<Skill> Skills;
-   
+    public GameStats GameStats;   
 
-    public PlayerUnitData(Stats stats, int health, List<Skill> skills)
+    public PlayerUnitData(Stats stats, int health, List<Skill> skills, GameStats gameStats)
     {
         Stats = stats;
         CurrentHealth = health;
         Skills = skills;
+        GameStats = gameStats;
     }
 
 }

@@ -21,6 +21,25 @@ public class EnemyUnit : Unit
 
         base.Awake();
     }
+
+    public void Start()
+    {
+        OnDeath.AddListener(TryIncreaseKillersCounter);
+    }
+
+    public void TryIncreaseKillersCounter()
+    {
+        try
+        {
+            PlayerUnit killer = (PlayerUnit)CombatManager.Instance.GetUnitWithCurrentTurn();
+            killer.IncrementKillCounter();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Could not increase killer's counter: " + e);
+            throw;
+        }
+    }
     public HealthBar_World GetHealthBar() { return healthBar; }
 
 }
