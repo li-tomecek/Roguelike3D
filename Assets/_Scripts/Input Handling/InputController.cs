@@ -16,6 +16,7 @@ public class InputController : Singleton<InputController>
     public event Action JumpEvent;
     public event Action AttackEvent;
     public event Action InteractEvent;
+    public event Action PauseEvent;
 
     //MENU CONTROLS
     public UnityEvent<Vector2> NavigateEvent;       //menu selections
@@ -44,6 +45,8 @@ public class InputController : Singleton<InputController>
         _controlScheme.UI.Navigate.performed += OnNavigatePerformed;
         _controlScheme.UI.Submit.performed += OnSubmitPerformed;
         _controlScheme.UI.Cancel.performed += OnCancelPerformed;
+
+        _controlScheme.Player.Pause.performed += OnPausePerformed;
     }
 
     public void Start()
@@ -85,6 +88,7 @@ public class InputController : Singleton<InputController>
     private void OnJumpPerformed(InputAction.CallbackContext context) { JumpEvent?.Invoke(); }
     private void OnAttackPerformed(InputAction.CallbackContext context) { AttackEvent?.Invoke(); }
     private void OnInteractPerformed(InputAction.CallbackContext context) {InteractEvent?.Invoke(); }
+    private void OnPausePerformed(InputAction.CallbackContext context) { PauseEvent?.Invoke(); }
 
 
     // MENU NAVIGATION CONTROLS
