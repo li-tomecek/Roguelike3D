@@ -212,6 +212,11 @@ public class CombatManager : Singleton<CombatManager>
              
         _combatSequence.Remove(unit);
     }
+
+    public Unit GetUnitWithCurrentTurn()
+    {
+        return _combatSequence[_turnIndex];
+    }
     #endregion
 
     // --- Getters / Setters ---

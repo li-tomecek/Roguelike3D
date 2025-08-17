@@ -36,6 +36,7 @@ public abstract class Unit : MonoBehaviour
     public UnityEvent OnDamageTaken = new UnityEvent();                     //to update when the unit takes damage. used for animations
     public UnityEvent<float> OnHealthChanged = new UnityEvent<float>();     //to update when the unit's health value has changed
     public UnityEvent<int> OnBPChanged = new UnityEvent<int>();             //to update when the unit uses or gains BP
+    public UnityEvent OnDeath = new UnityEvent();                 //to update when the unit faints/dies in battle
     #endregion
     //---------------------------------------------------
     //---------------------------------------------------
@@ -70,7 +71,8 @@ public abstract class Unit : MonoBehaviour
         {
             CombatManager.Instance.RemoveFromCombat(this);
             Debug.Log($"{name} is Dead.");
-           
+            OnDeath.Invoke();
+
         }
 
         OnHealthChanged.Invoke((float) _health / stats.maxHealth);

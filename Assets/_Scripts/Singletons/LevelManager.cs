@@ -59,8 +59,13 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
         this.CurrentLevel = level; 
         this.CurrentLevelIndex = SceneManager.GetActiveScene().buildIndex; 
     }
+
+    public void LoadMainMenu()
+    {
+        LoadLevel(MAIN_MENU_SCENE_INDEX);
+    }
     #endregion
-    
+
     // --- Level Rewards ---
     // ---------------------
     #region
@@ -83,6 +88,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     public void ClaimReward()
     {
         _spawnedReward.GetComponentInChildren<CombatReward>().CloseMenu();
+        RewardedUnit.IncrementUpgradeCounter();
         Destroy(_spawnedReward);
 
     }
