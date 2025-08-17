@@ -17,13 +17,19 @@ public class PlayerTurnMenu : MonoBehaviour
     [SerializeField] private Button _skill1Btn;
     [SerializeField] private Button _skill2Btn;
 
+    private GameObject _descriptionPanel;
+    [SerializeField] private TextMeshProUGUI _descriptionText;
+
+
     private PlayerUnit _unit;
     private void Start()
     {
         _actionPanel = GameObject.Find("ActionPanel");
         _skillsPanel = GameObject.Find("SkillsPanel");
+        _descriptionPanel = GameObject.Find("DescriptionPanel");
         
         _skillsPanel.SetActive(false);
+        _descriptionPanel.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -120,9 +126,19 @@ public class PlayerTurnMenu : MonoBehaviour
         CloseMenu();    //this has to come first!
         _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetSkills()[skillIndex]);   //ToDo: exception handling here! Or just a regular check
     }
+
+    public void OnSkillButtonCursorEnter(int skillIndex)
+    {
+        _descriptionText.text = _unit.GetSkills()[skillIndex].description;
+        _descriptionPanel.SetActive(true);
+    }
     
-    
-    
+    public void OnSkillButtonCursorExit()
+    {
+        _descriptionPanel.SetActive(false);
+    }
+
+
     // --- Input Reading Methods ---
     //------------------------------
     public void BackToActionMenu()
