@@ -110,6 +110,7 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual IEnumerator MoveTo(Vector3 targetPosition, float travelSpeed, float acceptedRadius)
     {
+        InputController.Instance.DisableActiveMap();
         Vector3 direction;
         bool atDestination = false;
         
@@ -130,9 +131,11 @@ public abstract class Unit : MonoBehaviour
             this.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
             yield return null;
         }
+        InputController.Instance.EnableActiveMap();
     }
     public virtual IEnumerator RotateTo(Vector3 lookVector, float rotationSpeed)
     {
+        InputController.Instance.DisableActiveMap();
         //lookVector.y = transform.forward.y;
 
         Quaternion start = Quaternion.LookRotation(transform.forward, Vector3.up);
@@ -148,6 +151,7 @@ public abstract class Unit : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+        InputController.Instance.EnableActiveMap();
     }
     #endregion
 

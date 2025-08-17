@@ -43,9 +43,9 @@ public class Level : MonoBehaviour
             unit.transform.rotation = StartPosition.rotation;
         }
 
-        InputController.Instance.DisableAllInputMaps();
+        InputController.Instance.DisableActiveMap();
         StartCoroutine(PartyController.Instance.SetPartyDirectionForDuration(Vector2.up, 0.5f));
-        InputController.Instance.ActivateMovementMap();
+        InputController.Instance.EnableActiveMap();
 
         //3. Setup Enemy Patrol
         foreach (EnemyUnit unit in CombatManager.Instance.GetEnemyUnits())
