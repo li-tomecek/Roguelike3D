@@ -64,7 +64,6 @@ public class CombatReward : MonoBehaviour, IInteractable
         {
             optionPanels[i].SetupPanelForUpgrade(upgrades[i]);
         }
-
     }
 
     public void TrySetSkillUpgrades(int amount)
@@ -79,14 +78,12 @@ public class CombatReward : MonoBehaviour, IInteractable
             }
             
             int j = UnityEngine.Random.Range(0, possibleSkillUgrades.Count);
-            Debug.Log($"Possible skill ups: {possibleSkillUgrades.Count} ~~ Choice: {j}");
 
             choice = possibleSkillUgrades[j];
             possibleSkillUgrades.RemoveAt(j);           //probably not the most efficient way to do this
 
             SkillUpgrade newUpgrade = new SkillUpgrade(choice);
             upgrades.Add(newUpgrade);
-            Debug.Log($"created skill upgrade {choice.Item1.name} > {choice.Item2.name}");
         }
     }
 

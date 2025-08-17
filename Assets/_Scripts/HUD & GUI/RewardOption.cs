@@ -62,8 +62,6 @@ public class RewardOption : MonoBehaviour
 
     public void ChooseThisUpgrade()
     {
-        ////LevelManager.Instance.GetRewardedUnit().ReplaceSkill(_associatedSkills.Item2, _associatedSkills.Item1);
-        ///LevelManager.Instance.ClaimReward();
         if (upgrade is SkillUpgrade)
         {
             SkillUpgrade skUp = (SkillUpgrade)upgrade;

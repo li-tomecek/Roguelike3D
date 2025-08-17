@@ -18,29 +18,29 @@ public class Level : MonoBehaviour
     void Start()
     {
         LevelManager.Instance.SetLevel(this);
-        LevelManager.Instance.SpawnReward();
-        ////1. Create new enemies based on difficulty value, or based off of loaded save data
-        //CreateLevelEnemies();
+
+        //1. Create new enemies based on difficulty value, or based off of loaded save data
+        CreateLevelEnemies();
 
         //2. Player Setup
         PartySetup();
 
-        ////3. Setup Enemy Patrol
-        //foreach (EnemyUnit unit in CombatManager.Instance.GetEnemyUnits())
-        //{
-        //    unit.transform.position = _patrolNodes[0].position;
-        //}
+        //3. Setup Enemy Patrol
+        foreach (EnemyUnit unit in CombatManager.Instance.GetEnemyUnits())
+        {
+            unit.transform.position = _patrolNodes[0].position;
+        }
 
-        //GameObject patroller = CombatManager.Instance.GetEnemyUnits()[0].gameObject;
-        //patroller.SetActive(true);
-        //patroller.GetComponent<Patrol>().PatrolNodes = _patrolNodes;
-        //patroller.GetComponent<Patrol>().SetState(EnemyState.Patrol);
+        GameObject patroller = CombatManager.Instance.GetEnemyUnits()[0].gameObject;
+        patroller.SetActive(true);
+        patroller.GetComponent<Patrol>().PatrolNodes = _patrolNodes;
+        patroller.GetComponent<Patrol>().SetState(EnemyState.Patrol);
 
-        ////4. SetupCombatPositions for CombatManager
-        //CombatManager.Instance.SetCombatPositions(PlayerCombatPos, EnemyCombatPos);
+        //4. SetupCombatPositions for CombatManager
+        CombatManager.Instance.SetCombatPositions(PlayerCombatPos, EnemyCombatPos);
 
-        ////5. Save Game
-        //SaveManager.Instance.SaveGame();
+        //5. Save Game
+        SaveManager.Instance.SaveGame();
     }
 
     private void CreateLevelEnemies()
