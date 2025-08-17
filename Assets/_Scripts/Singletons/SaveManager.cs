@@ -69,15 +69,6 @@ public class SaveManager : Singleton<SaveManager>
         _savePath = Application.persistentDataPath + DATA_PATH;
         GameData = new GameData();
     }
-
-    public void Update()    //TEMPORARY!!!
-    {
-        if(Input.GetKeyDown(KeyCode.K))
-            SaveGame();
-        
-        if(Input.GetKeyDown(KeyCode.L))
-            LoadGame();
-    }
     public void SaveGame()
     {
         GameData.PartyData = (PartyData) PartyController.Instance.CaptureState();

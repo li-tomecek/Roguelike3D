@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1955462693567336743}
   - component: {fileID: 3595937861435413172}
   - component: {fileID: 5983708288077418643}
-  - component: {fileID: 3257551781918374134}
   - component: {fileID: 2203034658001184208}
+  - component: {fileID: 5836354659447498428}
   m_Layer: 0
   m_Name: Reward
   m_TagString: Untagged
@@ -88,27 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &3257551781918374134
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4939334368783352287}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2203034658001184208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,3 +101,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rewardMenu: {fileID: 814383453259102966, guid: 25cefae9766707643b6878d4b17f91c5, type: 3}
+--- !u!136 &5836354659447498428
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4939334368783352287}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.82
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
