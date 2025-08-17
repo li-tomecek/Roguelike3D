@@ -61,6 +61,8 @@ public abstract class TurnManager : MonoBehaviour
     }
     protected IEnumerator PlayTurnSequence(Skill skill, Unit target)
     {
+        InputController.Instance.DisableActiveMap();
+
         Vector3 originalForward = unit.transform.forward;
         Vector3 originalPosition = unit.transform.position;
 
@@ -143,6 +145,7 @@ public abstract class TurnManager : MonoBehaviour
         yield return unit.RotateTo(originalForward, ROTATE_TIME);
 
         EndTurn();
+        InputController.Instance.EnableActiveMap();
     }
 
 }

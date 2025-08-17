@@ -9,6 +9,7 @@ public class InputController : Singleton<InputController>
 
     private InputActionMap _movementControlsMap;
     private InputActionMap _menuControlsMap;
+    private InputActionMap _activeMap;
 
     //MOVEMENT CONTROLS
     public event Action<Vector2> MoveEvent;
@@ -52,20 +53,30 @@ public class InputController : Singleton<InputController>
     }
 
     // CHANGE ACTIVE MAP
-    public void DisableAllInputMaps()
+    public void DisableActiveMap()
     {
-        _movementControlsMap.Disable();
-        _menuControlsMap.Disable();
+        if (_activeMap != null)
+            _activeMap.Disable();
+    }
+    public void EnableActiveMap()
+    {
+        if(_activeMap != null)
+            _activeMap.Enable();
     }
     public void ActivateMovementMap()
     {
         _movementControlsMap.Enable();
         _menuControlsMap.Disable();
+
+        _activeMap = _movementControlsMap;
     }
     public void ActivateMenuMap()
     {
         _menuControlsMap.Enable();
         _movementControlsMap.Disable();
+
+        _activeMap = _menuControlsMap;
+
     }
 
     // PLAYER MOVEMENT CONTROLS

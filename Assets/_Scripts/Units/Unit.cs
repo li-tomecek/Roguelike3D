@@ -110,6 +110,7 @@ public abstract class Unit : MonoBehaviour
     }
     public virtual IEnumerator MoveTo(Vector3 targetPosition, float travelSpeed, float acceptedRadius)
     {
+        InputController.Instance.DisableActiveMap();
         Vector3 direction;
         bool atDestination = false;
         
@@ -130,9 +131,11 @@ public abstract class Unit : MonoBehaviour
             this.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
             yield return null;
         }
+        InputController.Instance.EnableActiveMap();
     }
     public virtual IEnumerator RotateTo(Vector3 lookVector, float rotationSpeed)
     {
+        InputController.Instance.DisableActiveMap();
         //lookVector.y = transform.forward.y;
 
         Quaternion start = Quaternion.LookRotation(transform.forward, Vector3.up);
@@ -148,6 +151,7 @@ public abstract class Unit : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+        InputController.Instance.EnableActiveMap();
     }
     #endregion
 
@@ -156,13 +160,18 @@ public abstract class Unit : MonoBehaviour
     // -------------------------
     #region
     public Stats GetStats() { return stats; }
+    public void SetStats(Stats s) {stats = s; }
     public Stats GetModifiers() { return modifiers; }
     public List<Effect> GetActiveEffects() { return _activeEffects; }
     public virtual TurnManager GetTurnManager() { return turnManager; }
     public Skill GetDefaultSkill() { return defaultSkill; }
     public List<Skill> GetSkills() { return skills; }
+    public void SetSkills(List<Skill> s) {skills = s; }
     public int GetHealth() { return _health; }
-    public void SetHealth(int value) { _health = value; }
+    public void SetHealth(int value) { 
+        _health = value;
+        OnHealthChanged.Invoke((float)_health / stats.maxHealth);
+    }
     public int GetBP() { return _bp; }
     public void IncrementBP() { 
         _bp++; 

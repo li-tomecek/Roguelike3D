@@ -12,7 +12,6 @@ public class EnemyUnit : Unit
     [Range(0.0f, 1.0f)] public float C_Attack = 1f;
     [Range(0.0f, 1.0f)] public float C_StatMod = 1f;
 
-
     protected HealthBar_World healthBar;
 
     protected override void Awake()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -92,7 +93,7 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
     #region
     public object CaptureState()
     {
-        LevelData levelData = new LevelData(DifficultyValue, CurrentLevelIndex, RewardedUnit);
+        LevelData levelData = new LevelData(DifficultyValue, CurrentLevelIndex, RewardedUnit, EnemyInfoReader.Instance.chosenRowIndices);
         return levelData;
     }
 
@@ -104,7 +105,10 @@ public class LevelManager : Singleton<LevelManager>, ISaveable
             CurrentLevelIndex = levelData.LevelBuildIndex;
             DifficultyValue = levelData.Difficulty;
             RewardedUnit = levelData.RewardedUnit;
-            
+
+            EnemyInfoReader.Instance.chosenRowIndices = levelData.enemyDataIndices;
+            EnemyInfoReader.Instance.SetShouldUseSaveData(true);
+
             LoadLevel(CurrentLevelIndex);
         }
         catch (Exception e)

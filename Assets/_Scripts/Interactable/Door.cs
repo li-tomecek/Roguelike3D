@@ -31,7 +31,7 @@ public class Door : MonoBehaviour, IInteractable
     }
     public IEnumerator OpenAndEnterDoor()
     {
-        InputController.Instance.DisableAllInputMaps();
+        InputController.Instance.DisableActiveMap();
         
         yield return OpenDoor();
         

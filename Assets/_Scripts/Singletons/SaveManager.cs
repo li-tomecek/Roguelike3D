@@ -2,21 +2,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class UnitData
+public class PlayerUnitData
 {
     public Stats Stats;
     public int CurrentHealth;
-    public Skill Skill_1;
-    public Skill Skill_2;
+    public List<Skill> Skills;
+   
 
-    //enemies will also need to save their AI constants. Or maybe, we just save the name or index for when we want to read them fom a cvs file.
+    public PlayerUnitData(Stats stats, int health, List<Skill> skills)
+    {
+        Stats = stats;
+        CurrentHealth = health;
+        Skills = skills;
+    }
+
 }
 // --------------------------------------------------------------------------
 
 [System.Serializable]
 public class PartyData
 {
-    public List<UnitData> PartyUnits = new List<UnitData>();
+    public List<PlayerUnitData> PartyUnits = new List<PlayerUnitData>();
 
 }
 // --------------------------------------------------------------------------
@@ -27,11 +33,14 @@ public class LevelData
     public float Difficulty;
     public int LevelBuildIndex;
     public PlayerUnit RewardedUnit;
-    public LevelData(float diff, int levelIndex, PlayerUnit rewardedUnit)
+
+    public List<int> enemyDataIndices;
+    public LevelData(float diff, int levelIndex, PlayerUnit rewardedUnit, List<int> enemyIndices)
     {
         Difficulty = diff;
         LevelBuildIndex = levelIndex;
         RewardedUnit = rewardedUnit;
+        enemyDataIndices = enemyIndices;
     }
 }
 // --------------------------------------------------------------------------
