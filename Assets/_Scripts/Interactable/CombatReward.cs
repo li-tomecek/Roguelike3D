@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CombatReward : MonoBehaviour, IInteractable
@@ -12,9 +13,6 @@ public class CombatReward : MonoBehaviour, IInteractable
     private const float PERCENT_CHANCE_LEVELUP = 0.5f;
     private const int STAT_UPGRADE_AMOUNT = 2;
     List<Tuple<Skill, Skill>> possibleSkillUgrades;
-
-
-    const int CHOICE_AMT = 2;
 
     public void Awake()
     {
@@ -33,7 +31,7 @@ public class CombatReward : MonoBehaviour, IInteractable
 
     public void SetupCharacterRewards()
     {
-
+        upgrades = new List<Upgrade>();
         //1. Get all possible skill upgrades
         possibleSkillUgrades = new List<Tuple<Skill, Skill>>();
 
@@ -58,7 +56,7 @@ public class CombatReward : MonoBehaviour, IInteractable
 
         //3. Choose the upgrades
         TrySetSkillUpgrades(amount);
-        TrySetLevelUpgrades(amount);
+        TrySetLevelUpgrades(optionPanels.Count - amount);
         
  
         //4. Update the panels with the relevant information
@@ -75,15 +73,20 @@ public class CombatReward : MonoBehaviour, IInteractable
         for (int i = 0; i < amount; i++)
         {
             if (possibleSkillUgrades.Count <= 0)        //if no possible skill upgrade, chose a level upgrade instead
+            {                
                 TrySetLevelUpgrades(1);
+                return;
+            }
             
             int j = UnityEngine.Random.Range(0, possibleSkillUgrades.Count);
-            
+            Debug.Log($"Possible skill ups: {possibleSkillUgrades.Count} ~~ Choice: {j}");
+
             choice = possibleSkillUgrades[j];
             possibleSkillUgrades.RemoveAt(j);           //probably not the most efficient way to do this
 
             SkillUpgrade newUpgrade = new SkillUpgrade(choice);
             upgrades.Add(newUpgrade);
+            Debug.Log($"created skill upgrade {choice.Item1.name} > {choice.Item2.name}");
         }
     }
 
@@ -95,30 +98,37 @@ public class CombatReward : MonoBehaviour, IInteractable
         for (int i = 0; i < amount; i++)
         {
             Stats upgradedStats = LevelManager.Instance.GetRewardedUnit().GetStats();
+            upgradedStats.level++;
 
-            do
+            for (int j = 0; j < 2; j++)
             {
-                statIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof (StatType)).Length);
-            } while (statIndex == lastIndex);
+                do
+                {
+                    statIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(StatType)).Length);
+                } while (statIndex == lastIndex);
 
-            switch (statIndex)
-            {
-                case ((int)StatType.HP):
-                    upgradedStats.maxHealth += STAT_UPGRADE_AMOUNT;
-                    break;
-                case ((int)StatType.ATK):
-                    upgradedStats.attack += STAT_UPGRADE_AMOUNT;
-                    break;
-                case ((int)StatType.DEF):
-                    upgradedStats.defense += STAT_UPGRADE_AMOUNT;
-                    break;
-                case ((int)StatType.AGI):
-                    upgradedStats.agility += STAT_UPGRADE_AMOUNT;
-                    break;
+                lastIndex = statIndex;
 
+                switch (statIndex)
+                {
+                    case ((int)StatType.HP):
+                        upgradedStats.maxHealth += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                    case ((int)StatType.ATK):
+                        upgradedStats.attack += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                    case ((int)StatType.DEF):
+                        upgradedStats.defense += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                    case ((int)StatType.AGI):
+                        upgradedStats.agility += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                } 
             }
-
-            lastIndex = statIndex;
 
             StatUpgrade newUpgrade = new StatUpgrade(Tuple.Create(LevelManager.Instance.GetRewardedUnit().GetStats(), upgradedStats));
             upgrades.Add(newUpgrade);

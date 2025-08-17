@@ -582,7 +582,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96e1592409d21ee4e9d6d3834ebe073f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 1621229107618578647}
+  _healthSlider: {fileID: 0}
+  _nameText: {fileID: 0}
 --- !u!1 &1466633244387798933
 GameObject:
   m_ObjectHideFlags: 0
@@ -2115,15 +2116,35 @@ MonoBehaviour:
     attack: 5
     defense: 3
     agility: 4
+    level: 1
   modifiers:
     maxHealth: 0
     attack: 0
     defense: 0
     agility: 0
+    level: 0
   skills:
   - {fileID: 11400000, guid: 0a7ec89fb0a32fd42b59d8f678619c2f, type: 2}
   - {fileID: 11400000, guid: d4d8448be19dae54291157bd169305a3, type: 2}
   defaultSkill: {fileID: 11400000, guid: 063f6caf890d8f14d8a61c1dcca26c35, type: 2}
+  OnDamageTaken:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBPChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTurnStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTurnEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &5690037525670380364
 Animator:
   serializedVersion: 7

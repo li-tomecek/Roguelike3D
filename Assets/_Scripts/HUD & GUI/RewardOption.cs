@@ -39,11 +39,11 @@ public class RewardOption : MonoBehaviour
         _descriptionText.SetText(skUp.skillUpgrade.Item2.description);
     }
 
-    private void SetupPanelForStatUp(StatUpgrade lvUp)
+    private void SetupPanelForStatUp(StatUpgrade statUp)
     {
 
-        Stats oldStats = lvUp.statUpgrade.Item1;
-        Stats newStats = lvUp.statUpgrade.Item2;
+        Stats oldStats = statUp.statUpgrade.Item1;
+        Stats newStats = statUp.statUpgrade.Item2;
 
         _oldNameText.SetText($"Lvl {oldStats.level}");
         _newNameText.SetText($"Lvl {newStats.level}");
@@ -54,14 +54,27 @@ public class RewardOption : MonoBehaviour
         string defTxt = (oldStats.defense != newStats.defense) ? $" >> {newStats.defense}" : "";
         string agiTxt = (oldStats.agility != newStats.agility) ? $" >> {newStats.agility}" : "";
         
-        builder.AppendFormat($"MaxHP:{oldStats.maxHealth}{0}\nATK:{oldStats.attack}{1}\nDEF:{oldStats.defense}{2}\nAGI:{oldStats.agility}{3}\n", hpTxt, atkTxt, defTxt, agiTxt);
+        builder.AppendFormat($"HP: {oldStats.maxHealth}{hpTxt}\nATK: {oldStats.attack}{atkTxt}\nDEF: {oldStats.defense}{defTxt}\nAGI: {oldStats.agility}{agiTxt}\n");
         
         _costText.SetText(builder);
+        _descriptionText.SetText("");
     }
 
-    public void ChooseThisSkill()
+    public void ChooseThisUpgrade()
     {
         ////LevelManager.Instance.GetRewardedUnit().ReplaceSkill(_associatedSkills.Item2, _associatedSkills.Item1);
         ///LevelManager.Instance.ClaimReward();
+        if (upgrade is SkillUpgrade)
+        {
+            SkillUpgrade skUp = (SkillUpgrade)upgrade;
+            LevelManager.Instance.GetRewardedUnit().ReplaceSkill(skUp.skillUpgrade.Item1, skUp.skillUpgrade.Item2);
+        }
+        else if (upgrade is StatUpgrade)
+        {
+            StatUpgrade stUp = (StatUpgrade)upgrade;
+            LevelManager.Instance.GetRewardedUnit().SetStats(stUp.statUpgrade.Item2);
+        }
+
+        LevelManager.Instance.ClaimReward();
     }
 }
