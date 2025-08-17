@@ -6,10 +6,16 @@ public class PlayerUnitData
 {
     public Stats Stats;
     public int CurrentHealth;
-    public Skill Skill_1;
-    public Skill Skill_2;
+    public List<Skill> Skills;
+   
 
-    //enemies will also need to save their AI constants. Or maybe, we just save the name or index for when we want to read them fom a cvs file.
+    public PlayerUnitData(Stats stats, int health, List<Skill> skills)
+    {
+        Stats = stats;
+        CurrentHealth = health;
+        Skills = skills;
+    }
+
 }
 // --------------------------------------------------------------------------
 

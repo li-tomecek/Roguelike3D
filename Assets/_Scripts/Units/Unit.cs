@@ -156,13 +156,18 @@ public abstract class Unit : MonoBehaviour
     // -------------------------
     #region
     public Stats GetStats() { return stats; }
+    public void SetStats(Stats s) {stats = s; }
     public Stats GetModifiers() { return modifiers; }
     public List<Effect> GetActiveEffects() { return _activeEffects; }
     public virtual TurnManager GetTurnManager() { return turnManager; }
     public Skill GetDefaultSkill() { return defaultSkill; }
     public List<Skill> GetSkills() { return skills; }
+    public void SetSkills(List<Skill> s) {skills = s; }
     public int GetHealth() { return _health; }
-    public void SetHealth(int value) { _health = value; }
+    public void SetHealth(int value) { 
+        _health = value;
+        OnHealthChanged.Invoke((float)_health / stats.maxHealth);
+    }
     public int GetBP() { return _bp; }
     public void IncrementBP() { 
         _bp++; 
