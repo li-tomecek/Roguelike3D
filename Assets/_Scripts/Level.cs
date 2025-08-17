@@ -75,7 +75,7 @@ public class Level : MonoBehaviour
             unit.SetBP(0);
 
             if (unit.GetHealth() < unit.GetStats().maxHealth)
-                unit.TakeDamage((int)(PERCENT_RESTORED_HEALTH * (float)unit.GetStats().maxHealth) * -1);
+                unit.HealDamage((int)(PERCENT_RESTORED_HEALTH * (float)unit.GetStats().maxHealth));
 
         }
 

@@ -33,10 +33,14 @@ public abstract class Unit : MonoBehaviour
     protected TurnManager turnManager;
     protected CharacterController controller;
 
+    public bool isGuarding { get; private set; }
+    public const float GUARD_DAMAGE_REDUCTION = 0.5f;
+
+    //Events
     public UnityEvent OnDamageTaken = new UnityEvent();                     //to update when the unit takes damage. used for animations
     public UnityEvent<float> OnHealthChanged = new UnityEvent<float>();     //to update when the unit's health value has changed
     public UnityEvent<int> OnBPChanged = new UnityEvent<int>();             //to update when the unit uses or gains BP
-    public UnityEvent OnDeath = new UnityEvent();                 //to update when the unit faints/dies in battle
+    public UnityEvent OnDeath = new UnityEvent();                           //to update when the unit faints/dies in battle
     #endregion
     //---------------------------------------------------
     //---------------------------------------------------
@@ -50,17 +54,28 @@ public abstract class Unit : MonoBehaviour
 
     // --- Combat Methods ---
     // ----------------------
-    public void UseDefaultSkill(Unit target)
+    public void HealDamage(int damage)
     {
-        defaultSkill.UseSkill(this, target);
+        _health += damage;
+        _health = Mathf.Min(stats.maxHealth, _health);
+
+        OnHealthChanged.Invoke((float)_health / stats.maxHealth);
     }
     public void TakeDamage(int damage)
     {
+
+        if (isGuarding)
+        {
+            damage = Mathf.CeilToInt(Unit.GUARD_DAMAGE_REDUCTION * (float)damage); //halve damage
+           isGuarding = false;
+        }
+
         _health -= damage;
         _health = _health < 0 ? 0 : _health;
-       
-        //ToDo: make healthbar and animator subscribe to take damage event. Players can have a HUD including a health bar instead of just a slider
-        //healthBar.SetSliderPercent((float)_health / stats.maxHealth);
+
+        CombatInterface.Instance.SetIndicator(damage.ToString(), gameObject.transform);
+        Debug.Log($"{name} took {damage} damage!");
+
 
         if (damage > 0)
         {
@@ -74,7 +89,7 @@ public abstract class Unit : MonoBehaviour
             OnDeath.Invoke();
 
         }
-
+        
         OnHealthChanged.Invoke((float) _health / stats.maxHealth);
     }
     public void ApplyModifier(EffectType type, int value)
@@ -205,5 +220,6 @@ public abstract class Unit : MonoBehaviour
             Debug.LogError($"The skills list is already full");
         }
     }
+    public void SetGuard(bool guarding) { isGuarding = guarding; }
     #endregion
 }

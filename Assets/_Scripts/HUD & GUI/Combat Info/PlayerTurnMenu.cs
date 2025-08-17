@@ -119,7 +119,10 @@ public class PlayerTurnMenu : MonoBehaviour
 
     public void GuardButtonPressed()
     {
-        //Future implementation: unit takes half damage on next attack against them?
+        CloseMenu();
+        CombatInterface.Instance.SetIndicator($"GUARD", _unit.gameObject.transform, new UnityEngine.Color(255f, 90f, 0f, 1f));  //Orange
+        _unit.SetGuard(true);
+        _unit.GetPlayerTurnManager().EndTurn();
     }
 
     public void SkillButtonPressed(int skillIndex)

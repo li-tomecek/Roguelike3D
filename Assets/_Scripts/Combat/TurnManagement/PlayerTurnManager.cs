@@ -19,6 +19,7 @@ public class PlayerTurnManager : TurnManager
     {
         base.StartTurn();
         CombatInterface.Instance.GetTurnMenu().SetupMenu((PlayerUnit)unit);
+        unit.SetGuard(false);       //should put this as part of TurnStartEvent
         ((PlayerUnit)unit).OnTurnStart.Invoke();
     }
 
