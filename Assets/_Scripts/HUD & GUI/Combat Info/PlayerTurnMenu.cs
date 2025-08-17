@@ -36,8 +36,9 @@ public class PlayerTurnMenu : MonoBehaviour
     public void SetupMenu(PlayerUnit unit)
     {
         gameObject.SetActive(true);
-        _actionPanel.SetActive(true);   
-        
+        _actionPanel.SetActive(true);
+        _descriptionPanel.SetActive(false);
+
         //1. Name and BP
         _unit = unit;
         _unitNameText.SetText(unit.name);
@@ -73,6 +74,7 @@ public class PlayerTurnMenu : MonoBehaviour
             _skill2Btn.gameObject.SetActive(false);
         }
 
+        InputController.Instance.CancelEvent.RemoveAllListeners();
         InputController.Instance.CancelEvent.AddListener(BackToActionMenu);
     }
 
@@ -82,7 +84,6 @@ public class PlayerTurnMenu : MonoBehaviour
         _skillsPanel.SetActive(false);
 
         InputController.Instance.CancelEvent.RemoveAllListeners();
-
         gameObject.SetActive(false);
 
     }
@@ -103,8 +104,9 @@ public class PlayerTurnMenu : MonoBehaviour
     public void AttackButtonPressed()
     {
         //select target for default attack
-        _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetDefaultSkill());
         CloseMenu();
+        _unit.GetPlayerTurnManager().ChooseTargetForSkill(_unit.GetDefaultSkill());
+        
     }
     
     public void SkillsButtonPressed()

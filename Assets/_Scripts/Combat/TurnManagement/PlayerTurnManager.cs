@@ -35,11 +35,11 @@ public class PlayerTurnManager : TurnManager
     private void ConfirmTarget()
     {
         CombatInterface.Instance.HideArrow();
-        StartCoroutine(PlayTurnSequence(_activeSkill, _targetPool[_targetIndex]));  
+        StartCoroutine(PlayTurnSequence(_activeSkill, _targetPool[_targetIndex]));
     }
 
     private void CycleTarget(Vector2 input)
-    { 
+    {
         if (input.x < 0 || input.y < 0)
         {
             //selection moves left
@@ -57,6 +57,8 @@ public class PlayerTurnManager : TurnManager
 
     public void ChooseTargetForSkill(Skill skill)
     {
+        InputController.Instance.CancelEvent.AddListener(ReOpenTurnMenu);
+
         _targetIndex = 0;
         _activeSkill = skill;
 
@@ -76,5 +78,14 @@ public class PlayerTurnManager : TurnManager
             InputController.Instance.SubmitEvent.AddListener(ConfirmTarget);
             InputController.Instance.NavigateEvent.AddListener(CycleTarget);
         }
+    }
+
+    private void ReOpenTurnMenu()
+    {
+        Debug.Log($"Repoening menu for {unit.name}; it is {CombatManager.Instance.GetUnitWithCurrentTurn().name}'s turn.");
+        CombatInterface.Instance.HideArrow();
+        InputController.Instance.SubmitEvent.RemoveAllListeners();
+        InputController.Instance.NavigateEvent.RemoveAllListeners();
+        CombatInterface.Instance.GetTurnMenu().SetupMenu((PlayerUnit)unit);
     }
 }
