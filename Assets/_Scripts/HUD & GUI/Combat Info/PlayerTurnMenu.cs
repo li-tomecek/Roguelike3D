@@ -132,6 +132,7 @@ public class PlayerTurnMenu : MonoBehaviour
     public void OnSkillButtonCursorEnter(int skillIndex)
     {
         _descriptionText.text = _unit.GetSkills()[skillIndex].description;
+        InputController.Instance.CancelEvent.AddListener(OnSkillButtonCursorExit);
         _descriptionPanel.SetActive(true);
     }
     
