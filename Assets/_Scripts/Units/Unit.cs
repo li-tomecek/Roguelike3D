@@ -9,6 +9,7 @@ public struct Stats
 {
     public int maxHealth;
     public int attack, defense, agility;
+    public int level;
 }
 
 [RequireComponent(typeof(CharacterController))]
@@ -92,17 +93,17 @@ public abstract class Unit : MonoBehaviour
         
         OnHealthChanged.Invoke((float) _health / stats.maxHealth);
     }
-    public void ApplyModifier(EffectType type, int value)
+    public void ApplyModifier(StatType type, int value)
     {
         switch (type)
         {
-            case EffectType.ATK:
+            case StatType.ATK:
                 modifiers.attack += value;
                 break;
-            case EffectType.DEF:
+            case StatType.DEF:
                 modifiers.defense += value;
                 break;
-            case EffectType.AGI:
+            case StatType.AGI:
                 modifiers.agility += value;
                 break;
 
