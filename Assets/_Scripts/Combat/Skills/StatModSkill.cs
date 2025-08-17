@@ -7,7 +7,7 @@ public class StatModSkill : Skill
     [Header("Combat Information")]
     [SerializeField] int amount;
     [SerializeField] int duration;
-    [SerializeField] EffectType type;
+    [SerializeField] StatType type;
     [SerializeField] bool isDebuff;
 
     [Header("Skill Priority")]

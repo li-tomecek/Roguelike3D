@@ -19,7 +19,7 @@ public class HealSkill : Skill
         heal = Mathf.Min(heal, target.GetStats().maxHealth - target.GetHealth());   //cannot heal for over 100 HP
        
         //apply  healing
-        target.TakeDamage(-heal);
+        target.HealDamage(heal);
 
         CombatInterface.Instance.SetIndicator(heal.ToString(), target.gameObject.transform, UnityEngine.Color.green);
         Debug.Log(target.gameObject.name + " restored " + heal + " damage!");

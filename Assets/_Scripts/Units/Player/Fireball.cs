@@ -28,7 +28,8 @@ public class Fireball : MonoBehaviour
         
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            CombatManager.Instance.BeginBattle(true);
+            if (CombatManager.Instance.InCombat() == false)
+                CombatManager.Instance.BeginBattle(true);
         }
 
         Destroy(gameObject);

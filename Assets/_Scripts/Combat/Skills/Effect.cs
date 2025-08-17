@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public enum EffectType
+public enum StatType
 {
-    ATK, DEF, AGI       //Note: 'Effect' and not "StatModifier' in case I want to add effects like paralysis, stuns, etc.
+    HP, ATK, DEF, AGI 
 }
 
 
 public class Effect
 {
     private int amount;
-    private EffectType type;
+    private StatType type;
     public int duration;
 
-    public Effect(int amount, EffectType type, int duration)
+    public Effect(int amount, StatType type, int duration)
     {
         this.amount = amount;
         this.type = type;

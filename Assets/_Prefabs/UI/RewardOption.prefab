@@ -760,7 +760,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 833207396727421979}
         m_TargetAssemblyTypeName: RewardOption, Assembly-CSharp
-        m_MethodName: ChooseThisSkill
+        m_MethodName: ChooseThisUpgrade
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

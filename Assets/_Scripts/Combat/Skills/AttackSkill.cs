@@ -17,11 +17,7 @@ public class AttackSkill : Skill
     {
         int dmg = CalculateTotalDamage(caster, target);
 
-        //apply damage (or healing)
         target.TakeDamage(dmg);
-
-        CombatInterface.Instance.SetIndicator(dmg.ToString(), target.gameObject.transform);
-        Debug.Log(target.gameObject.name + " took " + dmg + " damage!");
 
         base.UseSkill(caster, target);
     }
@@ -50,7 +46,7 @@ public class AttackSkill : Skill
 
         if (!ignoresDefense)
             dmg = Mathf.Max(dmg - (target.GetStats().defense + target.GetModifiers().defense), 0);
-
+        
         return dmg;
     }
 }

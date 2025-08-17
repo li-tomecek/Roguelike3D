@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CombatReward : MonoBehaviour, IInteractable
 {
-    private List<Tuple<Skill, Skill>> _skillChoices = new List<Tuple<Skill, Skill>>();    //first represents upgrade, second represents the skill to be upgraded
     [SerializeField] private GameObject _rewardMenu;
     private List<RewardOption> optionPanels;
 
-    const int CHOICE_AMT = 2;
+    private List<Upgrade> upgrades;
+    private const float PERCENT_CHANCE_LEVELUP = 0.5f;
+    private const int STAT_UPGRADE_AMOUNT = 2;
+    List<Tuple<Skill, Skill>> possibleSkillUgrades;
 
     public void Awake()
     {
@@ -28,41 +31,132 @@ public class CombatReward : MonoBehaviour, IInteractable
 
     public void SetupCharacterRewards()
     {
-
-        List<Tuple<Skill, Skill>> upgrades = new List<Tuple<Skill, Skill>>();
-
+        upgrades = new List<Upgrade>();
         //1. Get all possible skill upgrades
+        possibleSkillUgrades = new List<Tuple<Skill, Skill>>();
+
         foreach (Skill skill in LevelManager.Instance.GetRewardedUnit().GetSkills())
         {
             foreach (Skill upgrade in skill.GetUpgrades())
             {
-                upgrades.Add(Tuple.Create(upgrade, skill));
+                possibleSkillUgrades.Add(Tuple.Create(skill, upgrade));
             }
         }
 
-        //2. Pull two unique upgrades from the list
+        //2. Decide how many upgrades are going to be skills, and how many will be level-ups
+        int amount;
+        if (possibleSkillUgrades.Count == 0)
+        {
+            amount = 0;
+        }
+        else
+        {
+            amount = 1 + (UnityEngine.Random.Range(0f, 1f) < PERCENT_CHANCE_LEVELUP ? 1 : 0);  //First will always be a skill if possible
+        }
+
+        //3. Choose the upgrades
+        TrySetSkillUpgrades(amount);
+        TrySetLevelUpgrades(optionPanels.Count - amount);
+        
+ 
+        //4. Update the panels with the relevant information
+        for (int i = 0; i < optionPanels.Count; i++)
+        {
+            optionPanels[i].SetupPanelForUpgrade(upgrades[i]);
+        }
+    }
+
+    public void TrySetSkillUpgrades(int amount)
+    {
         Tuple<Skill, Skill> choice;
-        for(int i = 0; i < CHOICE_AMT; i++)
+        for (int i = 0; i < amount; i++)
         {
-            do
+            if (possibleSkillUgrades.Count <= 0)        //if no possible skill upgrade, chose a level upgrade instead
+            {                
+                TrySetLevelUpgrades(1);
+                return;
+            }
+            
+            int j = UnityEngine.Random.Range(0, possibleSkillUgrades.Count);
+
+            choice = possibleSkillUgrades[j];
+            possibleSkillUgrades.RemoveAt(j);           //probably not the most efficient way to do this
+
+            SkillUpgrade newUpgrade = new SkillUpgrade(choice);
+            upgrades.Add(newUpgrade);
+        }
+    }
+
+    public void TrySetLevelUpgrades(int amount)
+    {       
+        int lastIndex = -1;
+        int statIndex;
+        
+        for (int i = 0; i < amount; i++)
+        {
+            Stats upgradedStats = LevelManager.Instance.GetRewardedUnit().GetStats();
+            upgradedStats.level++;
+
+            for (int j = 0; j < 2; j++)
             {
-                choice = upgrades[UnityEngine.Random.Range(0, upgrades.Count)];
-            } while (_skillChoices.Count > 0 && _skillChoices.Contains(choice));
+                do
+                {
+                    statIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(StatType)).Length);
+                } while (statIndex == lastIndex);
 
-            _skillChoices.Add(choice);
+                lastIndex = statIndex;
+
+                switch (statIndex)
+                {
+                    case ((int)StatType.HP):
+                        upgradedStats.maxHealth += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                    case ((int)StatType.ATK):
+                        upgradedStats.attack += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                    case ((int)StatType.DEF):
+                        upgradedStats.defense += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                    case ((int)StatType.AGI):
+                        upgradedStats.agility += STAT_UPGRADE_AMOUNT;
+                        break;
+
+                } 
+            }
+
+            StatUpgrade newUpgrade = new StatUpgrade(Tuple.Create(LevelManager.Instance.GetRewardedUnit().GetStats(), upgradedStats));
+            upgrades.Add(newUpgrade);
         }
-
-        //3. Update the panels with the relevant information
-        for(int i = 0; i < CHOICE_AMT; i++)
-        {
-            optionPanels[i].SetupPanelForSkill(_skillChoices[i]);
-        }
-
     }
 
     public void CloseMenu()
     {
         InputController.Instance.ActivateMovementMap();
         _rewardMenu.SetActive(false);
+    }
+}
+
+
+public abstract class Upgrade{}
+
+public class StatUpgrade : Upgrade
+{
+    public Tuple<Stats, Stats> statUpgrade;
+    public StatUpgrade(Tuple<Stats, Stats> statUpgrade)
+    {
+        this.statUpgrade = statUpgrade;
+    }
+}
+
+public class SkillUpgrade : Upgrade
+{
+    public Tuple<Skill, Skill> skillUpgrade;
+
+    public SkillUpgrade(Tuple<Skill, Skill> skillUpgrade)
+    {
+        this.skillUpgrade = skillUpgrade;
     }
 }
