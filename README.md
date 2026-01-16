@@ -33,7 +33,7 @@ Enemies are separated into four difficulty types: **easy**, **mild**, **moderate
 
 On their turn, the enemy will score each affordable action-target pair (including basic attacks), and then pick one randomly from a pool whose scores are within a certain threshold. This **Max Prioroty Threshold (MPT)** is a value in the range \[0, 1\] that is directly multiplied to the top-scoring pair -- any pair with a score larger or equal to this product is considered as a possible action that turn. For example, an MPT of 0 means that all valid actions are considered, while and MPT of 1 means only the highest scoring action will be considered. An MPT of 0.7 would mean that any action-target pair that is within 30% of the highest-scoring options would be put into the pool.
 
-The priority score of each action is calculated based on its type: _Healing, Attack,_ or _Stat Modifier_. These scores are then directly multiplied by an enemy-specific constant (**C_Healing, C_Attack and C_StatMod** respectively), each also in the range \[0,1\]. This allows different enemy types to further prioritize different types of moves. For example, a Goblin Medic would prioritize using a healing skill on a damaged ally over attacking the player.
+The priority score of each action is calculated based on its type: _Healing, Attack,_ or _Stat Modifier_:
 
 1) _**Healing Skills**_ are scored as a function of the percentage of max health the target has:
 <p align="center">
@@ -54,7 +54,9 @@ Skills that deal more damage are prioritized. There are assignable _minScore_ an
 </p>
 It is best when the minimum and maximum values clamp the score more tightly, so that stat modifier skills are only considered when there is no urgent need to attack or heal. In this example, the minimum and maximum values are 0.2 and 0.6 respectively. <br><br>
 
-A given enemy's **(MPT), C_Healing, C_Attack,** and **C_StatMod** values are specified in a [csv file](Assets/Resources/EnemyInfo.csv), alongside their stats and available skills.
+These scores are then directly multiplied by an enemy-specific constant (**C_Healing, C_Attack and C_StatMod** respectively), each also in the range \[0,1\]. This allows different enemy types to further prioritize different types of moves. For example, a Goblin Medic would prioritize using a healing skill on a damaged ally over attacking the player.<br>
+
+Each enemy's **MPT, C_Healing, C_Attack,** and **C_StatMod** values are specified in a [csv file](Assets/Resources/EnemyInfo.csv), alongside their stats and available skills.
 
 ## Windows Build
 A zipped folder containing the latest windows build can be found [here]().<br>
