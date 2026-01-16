@@ -2,19 +2,28 @@
 
 Developed with Unity (6000.0.31).<br>
 This was a solo term project for a programming course at Bow Valley College, and my first project in unity of this scale.\
-I decided to create a simple turn-based dungeon-crawler, and experiment with enemy AI decision-making.
+I decided to create a simple turn-based dungeon-crawler, and experiment with enemy AI decision-making.\
+As the focus was not on aesthetics, there are many of placeholder assets. The next steps would include properly updating and anchoring the UI, replacing enemy models, and updating and fixing animation bugs.
 
 ## Combat and Gameplay
 The player will control a party of adverturers through a series of rooms. Each room starts with a patrolling enemy: the player will have to hit the enemy with their own fireball attack before getting caught in order to start the combat sequence off with an advantage.
-![Patrolling Enemy](https://github.com/raboull/Director_AI_Game/assets/60552485/2e49166e-f27e-43ec-af2f-98454a4336e6)
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/57f50fd0-7ebb-4253-928e-4217374e0550" alt="Initiate Combat" width = 700>
+</p>
 
 During combat, each unit will manage their own 'Battle Points' or **BP**. These points are used to execute skills, where more powerful skills cost more BP. Units gain one BP at the start of their turn, and may choose to 'guard' or use a 'basic attack' (free actions) in order to accumulate BP. After choosing an action, the player may be prompted to choose a target if applicable.
 
 Enemies may use skills as well! Those available to them will become more powerful as the enemy difficulty increases.
-![Combat HUD](https://github.com/raboull/Director_AI_Game/assets/60552485/2e49166e-f27e-43ec-af2f-98454a4336e6)
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/641eabbf-de6f-4c64-93ed-454ca9cfb141" alt="Combat Sample" width = 700>
+</p>
 Clearing all three enemies will result in a victory for that room, and players may collect their reward and proceed through one of two new doors to the next one. The doors are marked with **Cleric**, **Ranger**, or **Knight**, denoting the party member that will receive a reward on completion of the following room. These rewards take the form of skill upgrades or level ups (increasing two stats). The player will always receive a choice of two random upgrades of this kind, one if which is guaranteed to be a skill upgrade.
-![Reward Menu](https://github.com/raboull/Director_AI_Game/assets/60552485/2e49166e-f27e-43ec-af2f-98454a4336e6)
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/023c2cf8-8d9a-4f5d-868d-e37ec4a87655"  alt="Rewards" width = 700>
+</p>
 
 As this is an “endless” game, the player's goal is to make it through as many rooms as possible. Some fun stats will be presented at the end of each run!
 
@@ -27,26 +36,26 @@ The priority score of each action is calculated based on its type: _Healing, Att
 
 1) _**Healing Skills**_ are scored as a function of the percentage of max health the target has:
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/bd509fb8-fe5b-4c43-8720-88d73aa3e766" alt="Healing Graph" width = "750">
+  <img src="https://github.com/user-attachments/assets/bd509fb8-fe5b-4c43-8720-88d73aa3e766" alt="Healing Graph" width = "650">
 </p>
 It grows linearly as the percentage decreases until it hits the 50% threshold, then grows quadratically so that low-health targets are slightly more prioritized. <br><br>
 
 2) _**Attack Skills**_ are calculated as a function of the target’s percent max health after damage is applied from the attack:
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/ae505c75-22a9-421d-9db0-7faf97d304ed" alt="Attack Graph" width = "750">
+  <img src="https://github.com/user-attachments/assets/ae505c75-22a9-421d-9db0-7faf97d304ed" alt="Attack Graph" width = "650">
 </p>
 Skills that deal more damage are prioritized. There are assignable minScore and hpThreshold values (for each skill instance) that determine what the base score is and at what HP threshold the score plateaus at this value. For the above example, minScore = 0.2 and hpThreshold = 0.7.<br><br>
 
 4) _**Stat Modifying Skills**_ grow linearly with the target’s percent HP, but have an assignable minimum and maximum value:
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/32ac337e-3f3c-4323-9ddb-67bf86ef97db" alt="Stat Mod Graph" width = "750">
+  <img src="https://github.com/user-attachments/assets/32ac337e-3f3c-4323-9ddb-67bf86ef97db" alt="Stat Mod Graph" width = "650">
 </p>
 It is best when the minimum and maximum values clamp the score more tightly, so that stat modifier skills are only considered when there is no urgent need to attack or heal. In this example, the minimum and maximum values are 0.2 and 0.6 respectively. <br><br>
 
 A given enemy's **(MPT), C_Healing, C_Attack,** and **C_StatMod** values are specified in a [csv file](Assets/Resources/EnemyInfo.csv), alongside their stats and available skills.
 
 ## Windows Build
-A zipped folder containing a windows build can be found [here]().<br>
+A zipped folder containing the latest windows build can be found [here]().<br>
 Unzip the folder and launch Roguelike3D.exe to try out the game.
 
 ## Assets and Acknowledgements
