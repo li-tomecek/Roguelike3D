@@ -19,6 +19,7 @@ Enemies may use skills as well! Those available to them will become more powerfu
 <p align="center">
   <img src="https://github.com/user-attachments/assets/641eabbf-de6f-4c64-93ed-454ca9cfb141" alt="Combat Sample" width = 700>
 </p>
+
 Clearing all three enemies will result in a victory for that room, and players may collect their reward and proceed through one of two new doors to the next one. The doors are marked with **Cleric**, **Ranger**, or **Knight**, denoting the party member that will receive a reward on completion of the following room. These rewards take the form of skill upgrades or level ups (increasing two stats). The player will always receive a choice of two random upgrades of this kind, one if which is guaranteed to be a skill upgrade.
 
 <p align="center">
