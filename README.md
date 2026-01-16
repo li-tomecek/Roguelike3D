@@ -13,7 +13,7 @@ During combat, each unit will manage their own 'Battle Points' or **BP**. These 
 Enemies may use skills as well! Those available to them will become more powerful as the enemy difficulty increases.
 ![Combat HUD](https://github.com/raboull/Director_AI_Game/assets/60552485/2e49166e-f27e-43ec-af2f-98454a4336e6)
 
-Clearing all three enemies will result in a victory for that room, and players may collect their reward and proceed through one of two new doors to the next one. The doors are marked with **C** (Cleric), **R** (Ranger), or **K** (Knight), and denote the party member that will receive a reward on completion of the following room. These rewards take the form of skill upgrades or level ups (increasing two stats). The player will always receive a choice of two random upgrades of this kind, one if which is guaranteed to be a skill upgrade.
+Clearing all three enemies will result in a victory for that room, and players may collect their reward and proceed through one of two new doors to the next one. The doors are marked with **Cleric**, **Ranger**, or **Knight**, denoting the party member that will receive a reward on completion of the following room. These rewards take the form of skill upgrades or level ups (increasing two stats). The player will always receive a choice of two random upgrades of this kind, one if which is guaranteed to be a skill upgrade.
 ![Reward Menu](https://github.com/raboull/Director_AI_Game/assets/60552485/2e49166e-f27e-43ec-af2f-98454a4336e6)
 
 As this is an “endless” game, the player's goal is to make it through as many rooms as possible. Some fun stats will be presented at the end of each run!
