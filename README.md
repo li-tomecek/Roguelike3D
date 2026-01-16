@@ -45,7 +45,8 @@ It grows linearly as the percentage decreases until it hits the 50% threshold, t
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ae505c75-22a9-421d-9db0-7faf97d304ed" alt="Attack Graph" width = "650">
 </p>
-Skills that deal more damage are prioritized. There are assignable minScore and hpThreshold values (for each skill instance) that determine what the base score is and at what HP threshold the score plateaus at this value. For the above example, minScore = 0.2 and hpThreshold = 0.7.<br><br>
+
+Skills that deal more damage are prioritized. There are assignable _minScore_ and _hpThreshold_ values (for each skill instance) that determine what the base score is and at what HP threshold the score plateaus at this value. For the above example, _minScore = 0.2_ and _hpThreshold = 0.7._<br><br>
 
 4) _**Stat Modifying Skills**_ grow linearly with the target’s percent HP, but have an assignable minimum and maximum value:
 <p align="center">
